@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/routes/routes.dart';
+import 'package:islami_wallet/theme/colors.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
@@ -20,7 +21,9 @@ class MyApp extends StatelessWidget {
         routeInformationParser: _appRouter.defaultRouteParser(),
         title: 'ISLAMI wallet',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Almarai'),
+        theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.primaryColor,
+            fontFamily: 'Almarai'),
       );
     });
   }

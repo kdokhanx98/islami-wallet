@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:islami_wallet/theme/colors.dart';
 import 'package:sizer/sizer.dart';
 
 class TextWidget extends StatelessWidget {
@@ -17,9 +18,9 @@ class TextWidget extends StatelessWidget {
       {Key? key,
       required this.title,
       this.fontSize,
-      this.textColor = Colors.white,
+      this.textColor = AppColors.gray,
       this.fontWeight,
-      this.textAlign,
+      this.textAlign = TextAlign.center,
       this.height,
       this.decoration,
       this.maxLines,
@@ -33,7 +34,7 @@ class TextWidget extends StatelessWidget {
       title,
       maxLines: maxLines,
       style: TextStyle(
-          fontSize: fontSize ?? 11.sp,
+          fontSize: fontSize ?? 14.sp,
           color: textColor,
           fontWeight: fontWeight,
           decoration: decoration,
