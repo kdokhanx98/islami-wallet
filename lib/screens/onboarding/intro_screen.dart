@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:islami_wallet/theme/colors.dart';
+import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../widgets/rounded_container.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({Key? key}) : super(key: key);
@@ -96,22 +99,55 @@ class _IntroPageState extends State<IntroPage> {
         body: SafeArea(
             child: Padding(
           padding: EdgeInsets.only(top: 8.h),
-          child: IntroductionScreen(
-            controlsPosition: const Position(left: 0, right: 0, bottom: 0),
-            globalBackgroundColor: AppColors.primaryColor,
-            showDoneButton: false,
-            showNextButton: false,
-            showSkipButton: false,
-            scrollPhysics: const ClampingScrollPhysics(),
-            pages: listPagesViewModel,
-            dotsDecorator: DotsDecorator(
-                size: Size.square(2.5.w),
-                activeSize: Size(5.w, 2.5.w),
-                activeColor: AppColors.orangeColor,
-                color: Colors.white,
-                spacing: EdgeInsets.symmetric(horizontal: 2.w),
-                activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0))),
+          child: Stack(
+            children: [
+              IntroductionScreen(
+                controlsPosition: Position(left: 0, right: 0, bottom: 18.h),
+                globalBackgroundColor: AppColors.primaryColor,
+                showDoneButton: false,
+                showNextButton: false,
+                showSkipButton: false,
+                scrollPhysics: const ClampingScrollPhysics(),
+                pages: listPagesViewModel,
+                dotsDecorator: DotsDecorator(
+                    size: Size.square(2.5.w),
+                    activeSize: Size(5.w, 2.5.w),
+                    activeColor: AppColors.orangeColor,
+                    color: Colors.white,
+                    spacing: EdgeInsets.symmetric(horizontal: 2.w),
+                    activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0))),
+              ),
+              Positioned(
+                  left: 5.w,
+                  right: 5.w,
+                  bottom: 8.h,
+                  child: RoundedContainer(
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    radius: 50,
+                    border: Border.all(
+                      color: AppColors.tale,
+                    ),
+                    child: Center(
+                      child: TextWidget(
+                        title: 'Create A New Wallet',
+                        textColor: AppColors.tale,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  )),
+              Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 2.h,
+                  child: Center(
+                    child: TextWidget(
+                      title: 'I Already Have A Wallet',
+                      textColor: AppColors.tale,
+                      fontSize: 14.sp,
+                    ),
+                  )),
+            ],
           ),
         )));
   }
