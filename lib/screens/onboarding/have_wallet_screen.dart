@@ -110,7 +110,7 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                   }
                 },
                 rightIcon: const Icon(
-                  Icons.backspace,
+                  Icons.backspace_outlined,
                   color: Colors.white,
                 ),
                 leftButtonFn: () {
