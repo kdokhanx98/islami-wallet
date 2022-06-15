@@ -28,6 +28,14 @@ class AppRouter extends RootStackRouter {
     PasscodeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const PasscodePage());
+    },
+    ReenterPasscodeRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const ReenterPasscodePage());
+    },
+    CreateNewWalletRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const CreateNewWalletPage());
     }
   };
 
@@ -35,7 +43,9 @@ class AppRouter extends RootStackRouter {
   List<RouteConfig> get routes => [
         RouteConfig(IntroRoute.name, path: '/'),
         RouteConfig(HaveWalletRoute.name, path: '/have-wallet'),
-        RouteConfig(PasscodeRoute.name, path: '/passcode')
+        RouteConfig(PasscodeRoute.name, path: '/passcode'),
+        RouteConfig(ReenterPasscodeRoute.name, path: '/reenter-passcode'),
+        RouteConfig(CreateNewWalletRoute.name, path: '/create-new-wallet')
       ];
 }
 
@@ -61,4 +71,22 @@ class PasscodeRoute extends PageRouteInfo<void> {
   const PasscodeRoute() : super(PasscodeRoute.name, path: '/passcode');
 
   static const String name = 'PasscodeRoute';
+}
+
+/// generated route for
+/// [ReenterPasscodePage]
+class ReenterPasscodeRoute extends PageRouteInfo<void> {
+  const ReenterPasscodeRoute()
+      : super(ReenterPasscodeRoute.name, path: '/reenter-passcode');
+
+  static const String name = 'ReenterPasscodeRoute';
+}
+
+/// generated route for
+/// [CreateNewWalletPage]
+class CreateNewWalletRoute extends PageRouteInfo<void> {
+  const CreateNewWalletRoute()
+      : super(CreateNewWalletRoute.name, path: '/create-new-wallet');
+
+  static const String name = 'CreateNewWalletRoute';
 }
