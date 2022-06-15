@@ -6,6 +6,7 @@ class RoundedContainer extends StatelessWidget {
   final Color? containerColor;
   final double? width;
   final double? height;
+  final BoxBorder? border;
   final EdgeInsetsGeometry? padding;
   final List<BoxShadow>? shadow;
   final DecorationImage? decorationImage;
@@ -19,7 +20,7 @@ class RoundedContainer extends StatelessWidget {
       {Key? key,
       this.radius = 15,
       this.child,
-      this.containerColor = Colors.white,
+      this.containerColor = Colors.transparent,
       this.width,
       this.height,
       this.onTap,
@@ -29,7 +30,8 @@ class RoundedContainer extends StatelessWidget {
       this.padding,
       this.shadow,
       this.decorationImage,
-      this.constraints})
+      this.constraints,
+      this.border})
       : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class RoundedContainer extends StatelessWidget {
         padding: padding,
         constraints: constraints,
         decoration: BoxDecoration(
+            border: border,
             boxShadow: shadow,
             image: decorationImage,
             borderRadius: BorderRadius.circular(radius),
