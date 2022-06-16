@@ -1,10 +1,23 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/widgets/custom_pages_back.dart';
 import 'package:sizer/sizer.dart';
 
-class RecoveryPhrasePage extends StatelessWidget {
+import '../../../theme/colors.dart';
+import '../../../widgets/rounded_container.dart';
+import '../../../widgets/text_widget.dart';
+
+class RecoveryPhrasePage extends StatefulWidget {
   const RecoveryPhrasePage({Key? key}) : super(key: key);
 
+  @override
+  State<RecoveryPhrasePage> createState() => _RecoveryPhrasePageState();
+}
+
+class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
+  bool isPhraseVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +33,175 @@ class RecoveryPhrasePage extends StatelessWidget {
               SizedBox(
                 height: 4.h,
               ),
+              Center(
+                child: TextWidget(
+                  title: 'Account recovery phrase',
+                  fontSize: 18.sp,
+                  textColor: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              const Center(
+                child: TextWidget(
+                  title:
+                      'Select each word in the order it was presented to you',
+                ),
+              ),
+              SizedBox(
+                height: 6.h,
+              ),
+              RoundedContainer(
+                onTap: () => setState(() => isPhraseVisible = true),
+                containerColor: AppColors.gray3,
+                border: !isPhraseVisible
+                    ? Border.all(color: AppColors.gray4)
+                    : null,
+                width: double.infinity,
+                radius: 20,
+                padding: EdgeInsets.all(4.w),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 1.h),
+                      child: GridView.count(
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 2.h,
+                        childAspectRatio: 0.5.w,
+                        mainAxisSpacing: 2.h,
+                        shrinkWrap: true,
+                        children: List.generate(12, (index) {
+                          return RoundedContainer(
+                            containerColor: AppColors.primaryColor,
+                            radius: 15,
+                            child: Center(
+                              child: TextWidget(
+                                title: '${index + 1}. Phrase ',
+                                textColor: Colors.white,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                    if (!isPhraseVisible)
+                      Positioned.fill(
+                          child: RoundedContainer(
+                        child: ClipRRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaX: 5,
+                              sigmaY: 5,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/svg/ic_not_visible.svg'),
+                                SizedBox(
+                                  height: 4.h,
+                                ),
+                                TextWidget(
+                                  title: 'Tap to reveal your seed phrase',
+                                  textColor: Colors.white,
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                SizedBox(
+                                  height: 1.h,
+                                ),
+                                TextWidget(
+                                  title:
+                                      'Make sure no one is watching your screen.',
+                                  textColor: Colors.white,
+                                  fontSize: 12.sp,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              Center(
+                child: TextWidget(
+                  title: 'Copy phrase',
+                  textColor: AppColors.tale,
+                  fontSize: 16.sp,
+                ),
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              RoundedContainer(
+                radius: 20,
+                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
+                containerColor: AppColors.tomato,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        // Note: Styles for TextSpans must be explicitly defined.
+                        // Child text spans will inherit styles from parent
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'DO NOT ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 16.sp)),
+                          TextSpan(
+                            text: 'share your recovery phrase!',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    const TextWidget(
+                      textColor: Colors.white,
+                      textAlign: TextAlign.center,
+                      title:
+                          'If someone has your recovery phrase, they will have full control of your wallet.',
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              RoundedContainer(
+                onTap: () => {},
+                padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                radius: 50,
+                border: Border.all(
+                  color: AppColors.tale,
+                ),
+                child: Center(
+                  child: TextWidget(
+                    title: 'Continue',
+                    textColor: AppColors.tale,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              )
             ],
           ),
         ),
