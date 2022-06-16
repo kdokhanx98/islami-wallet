@@ -9,6 +9,8 @@ import 'package:islami_wallet/screens/onboarding/new_wallet_screens/create_new_w
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/passcode_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/re_enter_passcode_screen.dart';
 
+import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
+
 part 'routes.gr.dart';
 
 @MaterialAutoRouter(
@@ -27,6 +29,10 @@ part 'routes.gr.dart';
         page: CreateNewWalletPage,
         name: 'CreateNewWalletRoute',
         path: '/create-new-wallet'),
+    AutoRoute(
+        page: RecoveryPhrasePage,
+        name: 'RecoveryPhraseRoute',
+        path: '/recovery-phrase'),
     // bottom nav routes
     // AutoRoute(
     //     page: BottomNavigationScreen,
