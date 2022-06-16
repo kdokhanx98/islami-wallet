@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             scaffoldBackgroundColor: AppColors.primaryColor,
+            unselectedWidgetColor: Colors.white, // <-- your color
+
             fontFamily: 'Almarai'),
       );
     });

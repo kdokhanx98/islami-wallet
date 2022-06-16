@@ -14,7 +14,6 @@ part of 'routes.dart';
 
 class AppRouter extends RootStackRouter {
   AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
-
   @override
   final Map<String, PageFactory> pagesMap = {
     IntroRoute.name: (routeData) {
@@ -36,6 +35,10 @@ class AppRouter extends RootStackRouter {
     CreateNewWalletRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const CreateNewWalletPage());
+    },
+    RecoveryPhraseRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const RecoveryPhrasePage());
     }
   };
 
@@ -45,7 +48,8 @@ class AppRouter extends RootStackRouter {
         RouteConfig(HaveWalletRoute.name, path: '/have-wallet'),
         RouteConfig(PasscodeRoute.name, path: '/passcode'),
         RouteConfig(ReenterPasscodeRoute.name, path: '/reenter-passcode'),
-        RouteConfig(CreateNewWalletRoute.name, path: '/create-new-wallet')
+        RouteConfig(CreateNewWalletRoute.name, path: '/create-new-wallet'),
+        RouteConfig(RecoveryPhraseRoute.name, path: '/recovery-phrase')
       ];
 }
 
@@ -89,4 +93,13 @@ class CreateNewWalletRoute extends PageRouteInfo<void> {
       : super(CreateNewWalletRoute.name, path: '/create-new-wallet');
 
   static const String name = 'CreateNewWalletRoute';
+}
+
+/// generated route for
+/// [RecoveryPhrasePage]
+class RecoveryPhraseRoute extends PageRouteInfo<void> {
+  const RecoveryPhraseRoute()
+      : super(RecoveryPhraseRoute.name, path: '/recovery-phrase');
+
+  static const String name = 'RecoveryPhraseRoute';
 }

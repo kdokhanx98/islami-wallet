@@ -14,6 +14,7 @@ class RoundedContainer extends StatelessWidget {
   final void Function(DragUpdateDetails)? onHorizontalDragUpdate;
   final void Function(DragUpdateDetails)? onPanUpdate;
   final void Function(DragEndDetails)? onHorizontalDragEnd;
+  final bool isEnabled;
 
   final BoxConstraints? constraints;
   const RoundedContainer(
@@ -31,14 +32,15 @@ class RoundedContainer extends StatelessWidget {
       this.shadow,
       this.decorationImage,
       this.constraints,
-      this.border})
+      this.border,
+      this.isEnabled = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: onTap,
+      onTap: isEnabled ? onTap : () {},
       onHorizontalDragUpdate: onHorizontalDragUpdate,
       onPanUpdate: onPanUpdate,
       onHorizontalDragEnd: onHorizontalDragEnd,

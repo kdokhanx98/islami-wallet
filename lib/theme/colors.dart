@@ -9,4 +9,5 @@ class AppColors {
   static const gray4 = Color(0xFF444A54);
   static const gray5 = Color(0xFFB6BEC0);
   static const tale = Color(0xFF00D2D4);
+  static const tomato = Color(0xFFC6382C);
 }
