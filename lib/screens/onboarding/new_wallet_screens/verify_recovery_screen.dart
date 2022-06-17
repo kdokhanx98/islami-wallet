@@ -251,7 +251,9 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                     ),
                     child: Center(
                       child: TextWidget(
-                        title: 'Continue',
+                        title: isFirstFilled && isSecondFilled && isThirdFilled
+                            ? 'Complete Recovery'
+                            : 'Continue',
                         textColor: AppColors.tale,
                         fontSize: 14.sp,
                       ),
