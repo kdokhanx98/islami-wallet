@@ -3,6 +3,8 @@
 // @CustomAutoRouter
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:islami_wallet/screens/dashboard/bottom_nav.dart';
+import 'package:islami_wallet/screens/dashboard/home/main_screen.dart';
 import 'package:islami_wallet/screens/onboarding/have_wallet_screen.dart';
 import 'package:islami_wallet/screens/onboarding/intro_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/create_new_wallet_screen.dart';
@@ -39,61 +41,67 @@ part 'routes.gr.dart';
         name: 'VerifyRecoveryRoute',
         path: '/verify-recovery'),
     // bottom nav routes
-    // AutoRoute(
-    //     page: BottomNavigationScreen,
-    //     initial: true,
-    //     name: 'BottomNavigationRoute',
-    //     path: '/bottomNavigationScreen',
-    //     children: [
-    //       AutoRoute(
-    //         path: 'histoy',
-    //         name: 'HistoryRoute',
-    //         page: EmptyRouterPage,
-    //         children: [
-    //           AutoRoute(
-    //             path: '',
-    //             initial: true,
-    //             name: 'HistoryPageRoute',
-    //             page: HisrtoyPage,
-    //           ),
-    //         ],
-    //       ),
-    //       AutoRoute(
-    //         path: 'gallery',
-    //         name: 'GalleryRoute',
-    //         page: GalleryPage,
-    //       ),
-    //       AutoRoute(
-    //         path: 'prfile',
-    //         name: 'ProfileRoute',
-    //         page: ProfilePage,
-    //       ),
-    //       AutoRoute(
-    //         path: 'settings',
-    //         initial: true,
-    //         name: 'SettingsRoute',
-    //         page: SettingsPage,
-    //       ),
-    //       AutoRoute(
-    //           page: HeroEmptyRouterPage,
-    //           path: 'home',
-    //           name: 'HomeRoute',
-    //           children: [
-    //             AutoRoute(
-    //               page: HomePage,
-    //               initial: true,
-    //               path: '',
-    //               name: 'HomePageRoute',
-    //             ),
-    //             CustomRoute(
-    //                 page: CalendarPage,
-    //                 path: 'calendar',
-    //                 name: 'CalendarRoute',
-    //                 durationInMilliseconds: 700,
-    //                 transitionsBuilder: TransitionsBuilders.fadeIn,
-    //                 reverseDurationInMilliseconds: 700),
-    //           ]),
-    //     ]),
+    AutoRoute(
+        page: BottomNavigationPage,
+        initial: true,
+        name: 'BottomNavigationRoute',
+        path: '/bottomNavigationScreen',
+        children: [
+          AutoRoute(
+              path: 'main-page',
+              name: 'MainRoute',
+              page: EmptyRouterPage,
+              children: [
+                AutoRoute(
+                  page: MainPage,
+                  initial: true,
+                  path: '',
+                  name: 'HomePageRoute',
+                ),
+              ]),
+          //     AutoRoute(
+          //       path: '',
+          //       initial: true,
+          //       name: 'HistoryPageRoute',
+          //       page: HisrtoyPage,
+          //     ),
+          //   ],
+          // ),
+          // AutoRoute(
+          //   path: 'gallery',
+          //   name: 'GalleryRoute',
+          //   page: GalleryPage,
+          // ),
+          // AutoRoute(
+          //   path: 'prfile',
+          //   name: 'ProfileRoute',
+          //   page: ProfilePage,
+          // ),
+          // AutoRoute(
+          //   path: 'settings',
+          //   initial: true,
+          //   name: 'SettingsRoute',
+          //   page: SettingsPage,
+          // ),
+          // AutoRoute(
+          //     page: HeroEmptyRouterPage,
+          //     path: 'home',
+          //     name: 'HomeRoute',
+          //     children: [
+          //       AutoRoute(
+          //         page: HomePage,
+          //         initial: true,
+          //         path: '',
+          //         name: 'HomePageRoute',
+          //       ),
+          //       CustomRoute(
+          //           page: CalendarPage,
+          //           path: 'calendar',
+          //           name: 'CalendarRoute',
+          //           durationInMilliseconds: 700,
+          //           transitionsBuilder: TransitionsBuilders.fadeIn,
+          //           reverseDurationInMilliseconds: 700),
+        ]),
   ],
 )
 class $AppRouter {}

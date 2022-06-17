@@ -44,6 +44,18 @@ class AppRouter extends RootStackRouter {
     VerifyRecoveryRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const VerifyRecoveryPage());
+    },
+    BottomNavigationRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const BottomNavigationPage());
+    },
+    MainRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const EmptyRouterPage());
+    },
+    HomePageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const MainPage());
     }
   };
 
@@ -55,7 +67,18 @@ class AppRouter extends RootStackRouter {
         RouteConfig(ReenterPasscodeRoute.name, path: '/reenter-passcode'),
         RouteConfig(CreateNewWalletRoute.name, path: '/create-new-wallet'),
         RouteConfig(RecoveryPhraseRoute.name, path: '/recovery-phrase'),
-        RouteConfig(VerifyRecoveryRoute.name, path: '/verify-recovery')
+        RouteConfig(VerifyRecoveryRoute.name, path: '/verify-recovery'),
+        RouteConfig(BottomNavigationRoute.name,
+            path: '/bottomNavigationScreen',
+            children: [
+              RouteConfig(MainRoute.name,
+                  path: 'main-page',
+                  parent: BottomNavigationRoute.name,
+                  children: [
+                    RouteConfig(HomePageRoute.name,
+                        path: '', parent: MainRoute.name)
+                  ])
+            ])
       ];
 }
 
@@ -117,4 +140,31 @@ class VerifyRecoveryRoute extends PageRouteInfo<void> {
       : super(VerifyRecoveryRoute.name, path: '/verify-recovery');
 
   static const String name = 'VerifyRecoveryRoute';
+}
+
+/// generated route for
+/// [BottomNavigationPage]
+class BottomNavigationRoute extends PageRouteInfo<void> {
+  const BottomNavigationRoute({List<PageRouteInfo>? children})
+      : super(BottomNavigationRoute.name,
+            path: '/bottomNavigationScreen', initialChildren: children);
+
+  static const String name = 'BottomNavigationRoute';
+}
+
+/// generated route for
+/// [EmptyRouterPage]
+class MainRoute extends PageRouteInfo<void> {
+  const MainRoute({List<PageRouteInfo>? children})
+      : super(MainRoute.name, path: 'main-page', initialChildren: children);
+
+  static const String name = 'MainRoute';
+}
+
+/// generated route for
+/// [MainPage]
+class HomePageRoute extends PageRouteInfo<void> {
+  const HomePageRoute() : super(HomePageRoute.name, path: '');
+
+  static const String name = 'HomePageRoute';
 }
