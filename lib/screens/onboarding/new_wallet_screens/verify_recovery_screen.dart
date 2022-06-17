@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/widgets/custom_pages_back.dart';
 import 'package:sizer/sizer.dart';
 
@@ -243,7 +248,117 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                   ),
                   const Spacer(),
                   RoundedContainer(
-                    onTap: () => {},
+                    onTap: () async {
+                      final result = await showModalBottomSheet<String>(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              decoration: const BoxDecoration(
+                                  color: AppColors.primaryColor,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30))),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      RoundedContainer(
+                                        width: 12.w,
+                                        height: 1.w,
+                                        containerColor: AppColors.gray5,
+                                        radius: 20,
+                                      ),
+                                      SizedBox(
+                                        height: 4.h,
+                                      ),
+                                      SvgPicture.asset(
+                                        'assets/svg/ic_success.svg',
+                                      ),
+                                      SizedBox(
+                                        height: 4.h,
+                                      ),
+                                      Center(
+                                        child: TextWidget(
+                                          title: 'Congratulations',
+                                          fontSize: 19.sp,
+                                          textColor: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 2.h,
+                                      ),
+                                      Center(
+                                        child: TextWidget(
+                                          title:
+                                              'You’ve successfully protected your wallet. Remember to keep your recovery phrase safe, it’s your responsibility!',
+                                          fontSize: 15.sp,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 4.h,
+                                      ),
+                                      RichText(
+                                        textAlign: TextAlign.center,
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text:
+                                                    'You can find your recovery phrase in\n',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp)),
+                                            TextSpan(
+                                              text:
+                                                  'Setting > Security & Privacy',
+                                              style: TextStyle(
+                                                fontSize: 15.sp,
+                                                color: AppColors.tale,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 4.h,
+                                      ),
+                                      RoundedContainer(
+                                        onTap: () {
+                                          context.router.pop();
+                                        },
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 1.5.h),
+                                        radius: 50,
+                                        border: Border.all(
+                                          color: AppColors.tale,
+                                        ),
+                                        child: Center(
+                                          child: TextWidget(
+                                            title: 'Done',
+                                            textColor: AppColors.tale,
+                                            fontSize: 14.sp,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 6.h,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                      log('result is $result');
+                      if (result == null) {
+                        context.router.push(const BottomNavigationRoute());
+                      }
+                    },
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,
                     border: Border.all(
