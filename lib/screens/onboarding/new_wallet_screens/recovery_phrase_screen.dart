@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/widgets/custom_pages_back.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,6 +20,20 @@ class RecoveryPhrasePage extends StatefulWidget {
 
 class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
   bool isPhraseVisible = false;
+  var correctPhrase = [
+    'then',
+    'vacant',
+    'girl',
+    'exist',
+    'avoid',
+    'usage',
+    'ride',
+    'alien',
+    'comic',
+    'cross',
+    'upon',
+    'hub'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +51,7 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
               ),
               Center(
                 child: TextWidget(
-                  title: 'Account recovery phrase',
+                  title: 'Account Recovery Phrase',
                   fontSize: 18.sp,
                   textColor: Colors.white,
                 ),
@@ -78,7 +94,7 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
                             radius: 15,
                             child: Center(
                               child: TextWidget(
-                                title: '${index + 1}. Phrase ',
+                                title: '${index + 1}. ${correctPhrase[index]} ',
                                 textColor: Colors.white,
                               ),
                             ),
@@ -188,7 +204,7 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
                 height: 4.h,
               ),
               RoundedContainer(
-                onTap: () => {},
+                onTap: () => context.router.push(const VerifyRecoveryRoute()),
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
                 radius: 50,
                 border: Border.all(
