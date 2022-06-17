@@ -14,6 +14,7 @@ part of 'routes.dart';
 
 class AppRouter extends RootStackRouter {
   AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
+
   @override
   final Map<String, PageFactory> pagesMap = {
     IntroRoute.name: (routeData) {
@@ -39,6 +40,10 @@ class AppRouter extends RootStackRouter {
     RecoveryPhraseRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const RecoveryPhrasePage());
+    },
+    VerifyRecoveryRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const VerifyRecoveryPage());
     }
   };
 
@@ -49,7 +54,8 @@ class AppRouter extends RootStackRouter {
         RouteConfig(PasscodeRoute.name, path: '/passcode'),
         RouteConfig(ReenterPasscodeRoute.name, path: '/reenter-passcode'),
         RouteConfig(CreateNewWalletRoute.name, path: '/create-new-wallet'),
-        RouteConfig(RecoveryPhraseRoute.name, path: '/recovery-phrase')
+        RouteConfig(RecoveryPhraseRoute.name, path: '/recovery-phrase'),
+        RouteConfig(VerifyRecoveryRoute.name, path: '/verify-recovery')
       ];
 }
 
@@ -102,4 +108,13 @@ class RecoveryPhraseRoute extends PageRouteInfo<void> {
       : super(RecoveryPhraseRoute.name, path: '/recovery-phrase');
 
   static const String name = 'RecoveryPhraseRoute';
+}
+
+/// generated route for
+/// [VerifyRecoveryPage]
+class VerifyRecoveryRoute extends PageRouteInfo<void> {
+  const VerifyRecoveryRoute()
+      : super(VerifyRecoveryRoute.name, path: '/verify-recovery');
+
+  static const String name = 'VerifyRecoveryRoute';
 }

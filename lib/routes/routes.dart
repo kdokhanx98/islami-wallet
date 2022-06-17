@@ -8,6 +8,7 @@ import 'package:islami_wallet/screens/onboarding/intro_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/create_new_wallet_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/passcode_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/re_enter_passcode_screen.dart';
+import 'package:islami_wallet/screens/onboarding/new_wallet_screens/verify_recovery_screen.dart';
 
 import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
 
@@ -33,6 +34,10 @@ part 'routes.gr.dart';
         page: RecoveryPhrasePage,
         name: 'RecoveryPhraseRoute',
         path: '/recovery-phrase'),
+    AutoRoute(
+        page: VerifyRecoveryPage,
+        name: 'VerifyRecoveryRoute',
+        path: '/verify-recovery'),
     // bottom nav routes
     // AutoRoute(
     //     page: BottomNavigationScreen,
