@@ -49,6 +49,10 @@ class AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const BottomNavigationPage());
     },
+    QRScanningRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const QRScanningPage());
+    },
     WalletRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const EmptyRouterPage());
@@ -102,7 +106,8 @@ class AppRouter extends RootStackRouter {
                   path: 'settings', parent: BottomNavigationRoute.name),
               RouteConfig(NotificationsRoute.name,
                   path: 'notifications', parent: BottomNavigationRoute.name)
-            ])
+            ]),
+        RouteConfig(QRScanningRoute.name, path: 'qr-scanning-page')
       ];
 }
 
@@ -174,6 +179,15 @@ class BottomNavigationRoute extends PageRouteInfo<void> {
             path: '/bottomNavigationScreen', initialChildren: children);
 
   static const String name = 'BottomNavigationRoute';
+}
+
+/// generated route for
+/// [QRScanningPage]
+class QRScanningRoute extends PageRouteInfo<void> {
+  const QRScanningRoute()
+      : super(QRScanningRoute.name, path: 'qr-scanning-page');
+
+  static const String name = 'QRScanningRoute';
 }
 
 /// generated route for

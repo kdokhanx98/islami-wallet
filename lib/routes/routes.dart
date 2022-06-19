@@ -16,6 +16,7 @@ import 'package:islami_wallet/screens/onboarding/new_wallet_screens/passcode_scr
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/re_enter_passcode_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/verify_recovery_screen.dart';
 
+import '../screens/dashboard/wallet/scanning_screen.dart';
 import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
 
 part 'routes.gr.dart';
@@ -85,6 +86,11 @@ part 'routes.gr.dart';
             name: 'NotificationsRoute',
           ),
         ]),
+    AutoRoute(
+      page: QRScanningPage,
+      path: 'qr-scanning-page',
+      name: 'QRScanningRoute',
+    ),
   ],
 )
 class $AppRouter {}
