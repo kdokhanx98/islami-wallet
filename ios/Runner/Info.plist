@@ -49,5 +49,9 @@
 		<true/>
 		<key>NSFaceIDUsageDescription</key>
 		<string>User your biometric to add an extra layer of security and easier way to access your wallet</string>
+		<key>io.flutter.embedded_views_preview</key>
+		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>ISLAMI wallet needs camera access to scan QR codes</string>
 	</dict>
 </plist>

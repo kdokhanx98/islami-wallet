@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
@@ -85,9 +87,7 @@ class _WalletPageState extends State<WalletPage> {
                   children: [
                     CustomIconWidget(
                       svgName: 'ic_qr_scanner',
-                      onTap: () {
-                        log('qr scanner tapped');
-                      },
+                      onTap: () => context.router.push(const QRScanningRoute()),
                     ),
                     CustomIconWidget(
                       svgName: 'ic_add_assets',
