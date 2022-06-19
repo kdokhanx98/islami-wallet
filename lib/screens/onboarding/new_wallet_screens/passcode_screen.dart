@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:islami_wallet/widgets/custom_pages_back.dart';
+import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/pin.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:sizer/sizer.dart';
@@ -45,7 +45,7 @@ class _PasscodePageState extends State<PasscodePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomPagesBack(),
+            const CustomIconWidget(svgName: 'ic_back'),
             SizedBox(
               height: 4.h,
             ),

@@ -3,7 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
-import 'package:islami_wallet/widgets/custom_pages_back.dart';
+import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../theme/colors.dart';
@@ -75,7 +75,7 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomPagesBack(),
+                  const CustomIconWidget(svgName: 'ic_back'),
                   SizedBox(
                     height: 4.h,
                   ),
@@ -316,7 +316,7 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                                                   'Setting > Security & Privacy',
                                               style: TextStyle(
                                                 fontSize: 15.sp,
-                                                color: AppColors.tale,
+                                                color: AppColors.teal,
                                               ),
                                             ),
                                           ],
@@ -333,12 +333,12 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                                             vertical: 1.5.h),
                                         radius: 50,
                                         border: Border.all(
-                                          color: AppColors.tale,
+                                          color: AppColors.teal,
                                         ),
                                         child: Center(
                                           child: TextWidget(
                                             title: 'Done',
-                                            textColor: AppColors.tale,
+                                            textColor: AppColors.teal,
                                             fontSize: 14.sp,
                                           ),
                                         ),
@@ -359,14 +359,14 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,
                     border: Border.all(
-                      color: AppColors.tale,
+                      color: AppColors.teal,
                     ),
                     child: Center(
                       child: TextWidget(
                         title: isFirstFilled && isSecondFilled && isThirdFilled
                             ? 'Complete Recovery'
                             : 'Continue',
-                        textColor: AppColors.tale,
+                        textColor: AppColors.teal,
                         fontSize: 14.sp,
                       ),
                     ),

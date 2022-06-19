@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/theme/colors.dart';
-import 'package:islami_wallet/widgets/custom_pages_back.dart';
+import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:sizer/sizer.dart';
+import '../../routes/routes.dart';
 import '../../widgets/text_widget.dart';
 
 class HaveWalletPage extends StatefulWidget {
@@ -36,7 +38,7 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomPagesBack(),
+              const CustomIconWidget(svgName: 'ic_back'),
               SizedBox(
                 height: 4.h,
               ),
@@ -79,7 +81,7 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                         const Spacer(),
                         TextWidget(
                           title: 'Paste',
-                          textColor: AppColors.tale,
+                          textColor: AppColors.teal,
                           fontSize: 16.sp,
                         )
                       ],
@@ -93,7 +95,7 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
               Center(
                 child: TextWidget(
                   title: 'Or scan the QR code',
-                  textColor: AppColors.tale,
+                  textColor: AppColors.teal,
                   fontSize: 16.sp,
                 ),
               ),
@@ -125,16 +127,16 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                 height: 2.h,
               ),
               RoundedContainer(
-                onTap: () {},
+                onTap: () => context.router.push(const BottomNavigationRoute()),
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
                 radius: 50,
                 border: Border.all(
-                  color: AppColors.tale,
+                  color: AppColors.teal,
                 ),
                 child: Center(
                   child: TextWidget(
                     title: 'Import Wallet',
-                    textColor: AppColors.tale,
+                    textColor: AppColors.teal,
                     fontSize: 14.sp,
                   ),
                 ),
