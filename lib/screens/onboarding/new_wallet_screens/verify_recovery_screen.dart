@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -354,7 +352,6 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                               ),
                             );
                           });
-                      log('result is $result');
                       if (result == null) {
                         context.router.push(const BottomNavigationRoute());
                       }
