@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
-import 'package:islami_wallet/widgets/custom_pages_back.dart';
+import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../theme/colors.dart';
@@ -45,7 +45,7 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomPagesBack(),
+              const CustomIconWidget(svgName: 'ic_back'),
               SizedBox(
                 height: 4.h,
               ),
@@ -149,7 +149,7 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
               Center(
                 child: TextWidget(
                   title: 'Copy phrase',
-                  textColor: AppColors.tale,
+                  textColor: AppColors.teal,
                   fontSize: 16.sp,
                 ),
               ),
@@ -208,12 +208,12 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
                 radius: 50,
                 border: Border.all(
-                  color: AppColors.tale,
+                  color: AppColors.teal,
                 ),
                 child: Center(
                   child: TextWidget(
                     title: 'Continue',
-                    textColor: AppColors.tale,
+                    textColor: AppColors.teal,
                     fontSize: 14.sp,
                   ),
                 ),

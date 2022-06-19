@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/routes/routes.dart';
-import 'package:islami_wallet/widgets/custom_pages_back.dart';
+import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,7 +29,7 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomPagesBack(),
+            const CustomIconWidget(svgName: 'ic_back'),
             SizedBox(
               height: 4.h,
             ),
@@ -71,7 +71,7 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
             Center(
               child: TextWidget(
                 title: 'Why is it important?',
-                textColor: AppColors.tale,
+                textColor: AppColors.teal,
                 fontSize: 16.sp,
               ),
             ),
@@ -138,12 +138,12 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
               padding: EdgeInsets.symmetric(vertical: 1.5.h),
               radius: 50,
               border: Border.all(
-                color: isChecked ? AppColors.tale : AppColors.gray,
+                color: isChecked ? AppColors.teal : AppColors.gray,
               ),
               child: Center(
                 child: TextWidget(
                   title: 'Get Started',
-                  textColor: isChecked ? AppColors.tale : AppColors.gray,
+                  textColor: isChecked ? AppColors.teal : AppColors.gray,
                   fontSize: 14.sp,
                 ),
               ),

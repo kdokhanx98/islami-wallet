@@ -49,13 +49,29 @@ class AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const BottomNavigationPage());
     },
-    MainRoute.name: (routeData) {
+    WalletRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const EmptyRouterPage());
     },
-    HomePageRoute.name: (routeData) {
+    TransfersRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const MainPage());
+          routeData: routeData, child: const TransfersPage());
+    },
+    ProjectsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const ProjectsPage());
+    },
+    SettingsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SettingsPage());
+    },
+    NotificationsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const NotificationsPage());
+    },
+    WalletPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const WalletPage());
     }
   };
 
@@ -71,13 +87,21 @@ class AppRouter extends RootStackRouter {
         RouteConfig(BottomNavigationRoute.name,
             path: '/bottomNavigationScreen',
             children: [
-              RouteConfig(MainRoute.name,
-                  path: 'main-page',
+              RouteConfig(WalletRoute.name,
+                  path: 'wallet-page',
                   parent: BottomNavigationRoute.name,
                   children: [
-                    RouteConfig(HomePageRoute.name,
-                        path: '', parent: MainRoute.name)
-                  ])
+                    RouteConfig(WalletPageRoute.name,
+                        path: '', parent: WalletRoute.name)
+                  ]),
+              RouteConfig(TransfersRoute.name,
+                  path: 'transfers', parent: BottomNavigationRoute.name),
+              RouteConfig(ProjectsRoute.name,
+                  path: 'projects', parent: BottomNavigationRoute.name),
+              RouteConfig(SettingsRoute.name,
+                  path: 'settings', parent: BottomNavigationRoute.name),
+              RouteConfig(NotificationsRoute.name,
+                  path: 'notifications', parent: BottomNavigationRoute.name)
             ])
       ];
 }
@@ -154,17 +178,50 @@ class BottomNavigationRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [EmptyRouterPage]
-class MainRoute extends PageRouteInfo<void> {
-  const MainRoute({List<PageRouteInfo>? children})
-      : super(MainRoute.name, path: 'main-page', initialChildren: children);
+class WalletRoute extends PageRouteInfo<void> {
+  const WalletRoute({List<PageRouteInfo>? children})
+      : super(WalletRoute.name, path: 'wallet-page', initialChildren: children);
 
-  static const String name = 'MainRoute';
+  static const String name = 'WalletRoute';
 }
 
 /// generated route for
-/// [MainPage]
-class HomePageRoute extends PageRouteInfo<void> {
-  const HomePageRoute() : super(HomePageRoute.name, path: '');
+/// [TransfersPage]
+class TransfersRoute extends PageRouteInfo<void> {
+  const TransfersRoute() : super(TransfersRoute.name, path: 'transfers');
 
-  static const String name = 'HomePageRoute';
+  static const String name = 'TransfersRoute';
+}
+
+/// generated route for
+/// [ProjectsPage]
+class ProjectsRoute extends PageRouteInfo<void> {
+  const ProjectsRoute() : super(ProjectsRoute.name, path: 'projects');
+
+  static const String name = 'ProjectsRoute';
+}
+
+/// generated route for
+/// [SettingsPage]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute() : super(SettingsRoute.name, path: 'settings');
+
+  static const String name = 'SettingsRoute';
+}
+
+/// generated route for
+/// [NotificationsPage]
+class NotificationsRoute extends PageRouteInfo<void> {
+  const NotificationsRoute()
+      : super(NotificationsRoute.name, path: 'notifications');
+
+  static const String name = 'NotificationsRoute';
+}
+
+/// generated route for
+/// [WalletPage]
+class WalletPageRoute extends PageRouteInfo<void> {
+  const WalletPageRoute() : super(WalletPageRoute.name, path: '');
+
+  static const String name = 'WalletPageRoute';
 }

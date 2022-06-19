@@ -14,7 +14,7 @@ class PinWidget extends StatelessWidget {
         children: List.generate(6, (index) {
           var isEnabled = index + 1 <= text.length;
           return RoundedContainer(
-            containerColor: isEnabled ? AppColors.tale : Colors.transparent,
+            containerColor: isEnabled ? AppColors.teal : Colors.transparent,
             padding: EdgeInsets.all(1.5.w),
             border: Border.all(color: AppColors.gray4),
           );

@@ -127,12 +127,12 @@ class _IntroPageState extends State<IntroPage> {
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
                 radius: 50,
                 border: Border.all(
-                  color: AppColors.tale,
+                  color: AppColors.teal,
                 ),
                 child: Center(
                   child: TextWidget(
                     title: 'Create A New Wallet',
-                    textColor: AppColors.tale,
+                    textColor: AppColors.teal,
                     fontSize: 14.sp,
                   ),
                 ),
@@ -147,7 +147,7 @@ class _IntroPageState extends State<IntroPage> {
                   onTap: () => context.router.push(const HaveWalletRoute()),
                   child: TextWidget(
                     title: 'I Already Have A Wallet',
-                    textColor: AppColors.tale,
+                    textColor: AppColors.teal,
                     fontSize: 14.sp,
                   ),
                 ),

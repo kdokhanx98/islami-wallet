@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
-import 'package:islami_wallet/widgets/custom_pages_back.dart';
+import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/pin.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:local_auth/local_auth.dart';
@@ -94,12 +94,12 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
                           padding: EdgeInsets.symmetric(vertical: 1.5.h),
                           radius: 50,
                           border: Border.all(
-                            color: AppColors.tale,
+                            color: AppColors.teal,
                           ),
                           child: Center(
                             child: TextWidget(
                               title: 'Enable',
-                              textColor: AppColors.tale,
+                              textColor: AppColors.teal,
                               fontSize: 14.sp,
                             ),
                           ),
@@ -116,7 +116,7 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
                             },
                             child: TextWidget(
                               title: 'Do It Later',
-                              textColor: AppColors.tale,
+                              textColor: AppColors.teal,
                               fontSize: 14.sp,
                             ),
                           ),
@@ -151,7 +151,7 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomPagesBack(),
+            const CustomIconWidget(svgName: 'ic_back'),
             SizedBox(
               height: 4.h,
             ),

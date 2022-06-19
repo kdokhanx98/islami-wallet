@@ -8,10 +8,16 @@ class AppColors {
   static const gray3 = Color(0xFF2B2D35);
   static const gray4 = Color(0xFF444A54);
   static const gray5 = Color(0xFFB6BEC0);
-  static const tale = Color(0xFF00D2D4);
+  static const gray6 = Color(0xFFB5BABE);
+  static const teal = Color(0xFF00D2D4);
   static const tomato = Color(0xFFC6382C);
   static const green = Color(0xFF41B95C);
+  static const green2 = Color(0xFF53AE57);
   static const darkGreen = Color(0xFF355344);
+  static const darkGreen2 = Color(0xFF0A3E3A);
   static const red = Color(0xFFE74A1D);
+  static const red2 = Color(0xFFD54E25);
   static const darkRed = Color(0xFF5B3839);
+  static const orange = Color(0xFFFAA62B);
+  static const orange2 = Color(0xFFDF8E3A);
 }
