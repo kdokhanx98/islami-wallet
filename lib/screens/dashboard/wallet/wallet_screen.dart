@@ -12,6 +12,8 @@ import 'package:sizer/sizer.dart';
 import '../../../widgets/asset_item_widget.dart';
 import '../../../widgets/custom_icon_widget.dart';
 
+enum SingingCharacter { highBalance, createdDate }
+
 class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
 
@@ -20,6 +22,8 @@ class WalletPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<WalletPage> {
+  SingingCharacter? _character = SingingCharacter.highBalance;
+  bool showAsset = true;
   List<Map<String, dynamic>> dummyData = [
     {
       'title': 'IslamiCoin',
@@ -197,9 +201,18 @@ class _WalletPageState extends State<WalletPage> {
                             fontWeight: FontWeight.bold,
                           ),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               // open filter bottom sheet
-                              log('filter tapped');
+                              showModalBottomSheet<String>(
+                                  isScrollControlled: true,
+                                  useRootNavigator: true,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return FractionallySizedBox(
+                                        heightFactor: 0.7,
+                                        child: filterMethod());
+                                  });
                             },
                             child: const TextWidget(
                               title: 'Filter',
@@ -241,6 +254,187 @@ class _WalletPageState extends State<WalletPage> {
                 ))),
       ],
     ));
+  }
+
+  StatefulBuilder filterMethod() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(
+                  height: 1.h,
+                ),
+                RoundedContainer(
+                  width: 12.w,
+                  height: 1.w,
+                  containerColor: AppColors.gray5,
+                  radius: 20,
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                TextWidget(
+                  title: 'Filter',
+                  textColor: Colors.white,
+                  fontSize: 18.sp,
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                RoundedContainer(
+                  radius: 30,
+                  width: double.infinity,
+                  containerColor: AppColors.primaryColor,
+                  padding: EdgeInsets.all(5.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextWidget(
+                        title: 'Sort By',
+                        fontWeight: FontWeight.bold,
+                        textColor: Colors.white,
+                        fontSize: 16.sp,
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Theme(
+                        data: Theme.of(context).copyWith(
+                          disabledColor: AppColors.gray,
+                          unselectedWidgetColor: AppColors.gray,
+                        ),
+                        child: RadioListTile<SingingCharacter>(
+                          dense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 0),
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          activeColor: AppColors.orange,
+                          title: TextWidget(
+                            textAlign: TextAlign.start,
+                            title: 'High Balance',
+                            fontSize: 15.sp,
+                            textColor: Colors.white,
+                          ),
+                          value: SingingCharacter.highBalance,
+                          groupValue: _character,
+                          onChanged: (SingingCharacter? value) {
+                            setState(() {
+                              _character = value;
+                            });
+                          },
+                        ),
+                      ),
+                      const Divider(
+                        color: AppColors.gray,
+                        thickness: 0.1,
+                      ),
+                      Theme(
+                        data: Theme.of(context).copyWith(
+                          disabledColor: AppColors.gray,
+                          unselectedWidgetColor: AppColors.gray,
+                        ),
+                        child: RadioListTile<SingingCharacter>(
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          dense: true,
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 0),
+                          activeColor: AppColors.orange,
+                          title: TextWidget(
+                            textAlign: TextAlign.start,
+                            title: 'Created Date',
+                            fontSize: 15.sp,
+                            textColor: Colors.white,
+                          ),
+                          value: SingingCharacter.createdDate,
+                          groupValue: _character,
+                          onChanged: (SingingCharacter? value) {
+                            setState(() {
+                              _character = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                RoundedContainer(
+                  radius: 30,
+                  width: double.infinity,
+                  containerColor: AppColors.primaryColor,
+                  padding: EdgeInsets.all(5.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextWidget(
+                        title: 'Show',
+                        fontWeight: FontWeight.bold,
+                        textColor: Colors.white,
+                        fontSize: 16.sp,
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      SwitchListTile.adaptive(
+                          contentPadding: const EdgeInsets.all(0),
+                          dense: true,
+                          title: TextWidget(
+                            textAlign: TextAlign.start,
+                            title: 'Assets with zero value',
+                            fontSize: 15.sp,
+                            textColor: Colors.white,
+                          ),
+                          value: showAsset,
+                          onChanged: (bool value) {
+                            setState(() {
+                              showAsset = value;
+                            });
+                          }),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                RoundedContainer(
+                  onTap: () {
+                    context.router.pop();
+                  },
+                  padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                  radius: 50,
+                  border: Border.all(
+                    color: AppColors.teal,
+                  ),
+                  child: Center(
+                    child: TextWidget(
+                      title: 'Apply',
+                      textColor: AppColors.teal,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 6.h,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget walletAction(

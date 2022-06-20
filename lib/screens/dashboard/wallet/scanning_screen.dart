@@ -41,7 +41,7 @@ class _QRScanningPageState extends State<QRScanningPage> {
       setState(() {
         result = scanData;
       });
-      log('result is $result');
+      log('scan result is ${result!.code}');
     });
   }
 
