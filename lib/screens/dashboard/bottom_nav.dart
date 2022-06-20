@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -30,7 +29,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    log('height of size is ${size.height}');
     return AutoTabsScaffold(
         extendBody: true,
         animationCurve: Curves.decelerate,
