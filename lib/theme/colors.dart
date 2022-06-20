@@ -11,6 +11,7 @@ class AppColors {
   static const gray6 = Color(0xFFB5BABE);
   static const gray7 = Color(0xFFD8D8E3);
   static const gray8 = Color(0xFF54595F);
+  static const gray9 = Color(0xFF707070);
   static const teal = Color(0xFF00D2D4);
   static const tomato = Color(0xFFC6382C);
   static const green = Color(0xFF41B95C);

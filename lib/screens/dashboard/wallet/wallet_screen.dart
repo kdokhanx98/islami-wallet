@@ -22,8 +22,13 @@ class WalletPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<WalletPage> {
+  final _searchTextController = TextEditingController();
   SingingCharacter? _character = SingingCharacter.highBalance;
   bool showAsset = true;
+  bool addIslam = false;
+  bool addEtherum = false;
+  bool addBircoin = false;
+  bool addCaizcoin = false;
   List<Map<String, dynamic>> dummyData = [
     {
       'title': 'IslamiCoin',
@@ -96,7 +101,15 @@ class _WalletPageState extends State<WalletPage> {
                     CustomIconWidget(
                       svgName: 'ic_add_assets',
                       onTap: () {
-                        log('add assets tapped');
+                        showModalBottomSheet<String>(
+                            isScrollControlled: true,
+                            useRootNavigator: true,
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return FractionallySizedBox(
+                                  heightFactor: 0.90, child: addAssetsMethod());
+                            });
                       },
                     ),
                   ],
@@ -428,6 +441,149 @@ class _WalletPageState extends State<WalletPage> {
                 ),
                 SizedBox(
                   height: 6.h,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  StatefulBuilder addAssetsMethod() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(
+                  height: 1.h,
+                ),
+                RoundedContainer(
+                  width: 12.w,
+                  height: 1.w,
+                  containerColor: AppColors.gray5,
+                  radius: 20,
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                TextWidget(
+                  title: 'Add Asset',
+                  textColor: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18.sp,
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                RoundedContainer(
+                  radius: 20,
+                  containerColor: AppColors.gray3,
+                  padding: EdgeInsets.all(4.w),
+                  child: Row(children: [
+                    SvgPicture.asset('assets/svg/ic_search.svg'),
+                    SizedBox(
+                      width: 4.w,
+                    ),
+                    SizedBox(
+                      width: 70.w,
+                      child: TextField(
+                        style: const TextStyle(color: Colors.white),
+                        controller: _searchTextController,
+                        cursorColor: Colors.white,
+                        autocorrect: false,
+                        decoration: const InputDecoration.collapsed(
+                          hintText: 'Search Assets',
+                          hintStyle: TextStyle(
+                              color: AppColors.gray,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+                SizedBox(
+                  height: 6.h,
+                ),
+                SizedBox(
+                  height: 60.h,
+                  child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return SwitchListTile.adaptive(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 2.h),
+                            dense: true,
+                            title: Row(
+                              children: [
+                                Container(
+                                  width: 48,
+                                  height: 48,
+                                  padding: EdgeInsets.all(3.w),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: dummyData[index]
+                                          ['iconContainerColor']),
+                                  child: SvgPicture.asset(
+                                    'assets/svg/${dummyData[index]['svgPathName']}.svg',
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                TextWidget(
+                                  textAlign: TextAlign.start,
+                                  title: dummyData[index]['title'],
+                                  fontSize: 15.sp,
+                                  textColor: Colors.white,
+                                ),
+                              ],
+                            ),
+                            value: () {
+                              switch (index) {
+                                case 0:
+                                  return addIslam;
+                                case 1:
+                                  return addEtherum;
+                                case 2:
+                                  return addBircoin;
+                                case 3:
+                                  return addCaizcoin;
+                                default:
+                                  return false;
+                              }
+                            }(),
+                            onChanged: (bool value) {
+                              setState(() {
+                                switch (index) {
+                                  case 0:
+                                    addIslam = value;
+                                    break;
+                                  case 1:
+                                    addEtherum = value;
+                                    break;
+                                  case 2:
+                                    addBircoin = value;
+                                    break;
+                                  case 3:
+                                    addCaizcoin = value;
+                                    break;
+                                }
+                              });
+                            });
+                      },
+                      itemCount: dummyData.length,
+                      shrinkWrap: true),
                 ),
               ],
             ),
