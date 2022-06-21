@@ -8,6 +8,7 @@ import 'package:islami_wallet/screens/dashboard/notifications/notifications_scre
 import 'package:islami_wallet/screens/dashboard/projects/projects_screen.dart';
 import 'package:islami_wallet/screens/dashboard/settings/settings_screen.dart';
 import 'package:islami_wallet/screens/dashboard/transfers/transfers_screen.dart';
+import 'package:islami_wallet/screens/dashboard/wallet/view_coin_screen.dart';
 import 'package:islami_wallet/screens/dashboard/wallet/wallet_screen.dart';
 import 'package:islami_wallet/screens/onboarding/have_wallet_screen.dart';
 import 'package:islami_wallet/screens/onboarding/intro_screen.dart';
@@ -62,6 +63,11 @@ part 'routes.gr.dart';
                 initial: true,
                 path: '',
                 name: 'WalletPageRoute',
+              ),
+              AutoRoute(
+                page: ViewCoinPage,
+                path: 'view-coin',
+                name: 'ViewCoinRoute',
               ),
             ],
           ),

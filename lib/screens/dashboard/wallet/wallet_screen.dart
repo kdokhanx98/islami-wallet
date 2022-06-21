@@ -129,7 +129,7 @@ class _WalletPageState extends State<WalletPage> {
                 Center(
                   child: TextWidget(
                     title: '\$45.650,000',
-                    fontSize: 30.sp,
+                    fontSize: 35.sp,
                     textColor: Colors.white,
                     fontWeight: FontWeight.w800,
                   ),
@@ -257,6 +257,7 @@ class _WalletPageState extends State<WalletPage> {
                                   dummyData[index]['trailingTitle'] ?? 'N/A',
                               trailingSubtitle:
                                   dummyData[index]['trailingSubtitle'] ?? 'N/A',
+                              index: index,
                             );
                           },
                           itemCount: dummyData.length,
