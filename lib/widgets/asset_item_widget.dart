@@ -1,7 +1,7 @@
-import 'dart:developer';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
@@ -15,6 +15,7 @@ class AssetItemWidget extends StatelessWidget {
   final String trailingTitle;
   final String trailingSubtitle;
   final Color iconContainerColor;
+  final int index;
   const AssetItemWidget(
       {Key? key,
       required this.svgPathName,
@@ -23,7 +24,8 @@ class AssetItemWidget extends StatelessWidget {
       required this.trailingTitle,
       required this.trailingSubtitle,
       required this.subtitlePercentage,
-      required this.iconContainerColor})
+      required this.iconContainerColor,
+      required this.index})
       : super(key: key);
 
   @override
@@ -31,10 +33,7 @@ class AssetItemWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 2.h),
       child: RoundedContainer(
-        onTap: () {
-          // view the coin details
-          log('item with titlie $title was tapped');
-        },
+        onTap: () => context.router.push(ViewCoinRoute(index: index)),
         radius: 20,
         containerColor: AppColors.gray3,
         padding: EdgeInsets.symmetric(vertical: 1.5.h),
