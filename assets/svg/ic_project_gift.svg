@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Group_20229" data-name="Group 20229" transform="translate(-36 -671)">
+    <g id="Icon" transform="translate(31.021 669.145)">
+      <g id="Group_14255" data-name="Group 14255" transform="translate(4.979 1.855)">
+        <path id="Path" d="M20.015,0A20,20,0,1,0,40,20,20,20,0,0,0,20.015,0Z" transform="translate(0 0)" fill="#83909a" opacity="0.114"/>
+      </g>
+    </g>
+    <g id="Group_15091" data-name="Group 15091" transform="translate(44 679)">
+      <path id="Path_35392" data-name="Path 35392" d="M0,0H24V24H0Z" fill="none"/>
+      <rect id="Rectangle_7362" data-name="Rectangle 7362" width="18" height="4" rx="1" transform="translate(3 8)" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_453" data-name="Line 453" y2="13" transform="translate(12 8)" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_35393" data-name="Path 35393" d="M19,12v7a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V12" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_35394" data-name="Path 35394" d="M7.5,8a2.5,2.5,0,0,1,0-5c1.974-.034,3.76,1.949,4.5,5,.74-3.051,2.526-5.034,4.5-5a2.5,2.5,0,0,1,0,5" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

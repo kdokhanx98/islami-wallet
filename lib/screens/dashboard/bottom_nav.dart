@@ -5,9 +5,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
+import 'package:islami_wallet/widgets/settings_item.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../theme/colors.dart';
+import '../../widgets/rounded_container.dart';
+import '../../widgets/text_widget.dart';
 
 class BottomNavigationPage extends StatefulWidget {
   const BottomNavigationPage({Key? key}) : super(key: key);
@@ -52,10 +55,24 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                 height: 100,
                 backgroundColor: AppColors.primaryColor.withOpacity(0.5),
                 onTap: (index) {
-                  setState(() {
-                    bottomNavDefaultIndex = index;
-                  });
-                  tabsRouter.setActiveIndex(bottomNavDefaultIndex);
+                  if (index != 2) {
+                    setState(() {
+                      bottomNavDefaultIndex = index;
+                    });
+
+                    tabsRouter.setActiveIndex(bottomNavDefaultIndex);
+                  }
+                  if (index == 2) {
+                    showModalBottomSheet<String>(
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return FractionallySizedBox(
+                              heightFactor: 0.90, child: islamiProjects());
+                        });
+                  }
                 },
                 itemCount: iconList.length,
                 activeIndex: bottomNavDefaultIndex,
@@ -96,5 +113,123 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
             ),
           );
         });
+  }
+
+  StatefulBuilder islamiProjects() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(
+                  height: 1.h,
+                ),
+                RoundedContainer(
+                  width: 12.w,
+                  height: 1.w,
+                  containerColor: AppColors.gray5,
+                  radius: 20,
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                TextWidget(
+                  title: 'ISLAMIBLOCKCHAIN\nProjects',
+                  textColor: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18.sp,
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                const TextWidget(
+                    title: 'Invest in places that matter to you the most!'),
+                SizedBox(
+                  height: 4.h,
+                ),
+                SizedBox(
+                  height: 65.h,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SettingsItem(
+                          svgIconName: 'ic_project_coin',
+                          title: 'ISLAMICOIN',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 1.5.h,
+                        ),
+                        const SettingsItem(
+                          svgIconName: 'ic_project_media',
+                          title: 'ISLAMedia',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 1.5.h,
+                        ),
+                        const SettingsItem(
+                          svgIconName: 'ic_project_game',
+                          title: 'ISLAMIgame',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 1.5.h,
+                        ),
+                        const SettingsItem(
+                          svgIconName: 'ic_project_mall',
+                          title: 'ISLAMImall',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 1.5.h,
+                        ),
+                        const SettingsItem(
+                          svgIconName: 'ic_project_metaverse',
+                          title: 'ISLAMImetaverse',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 1.5.h,
+                        ),
+                        const SettingsItem(
+                          svgIconName: 'ic_project_blockchain',
+                          title: 'ISLAMIBLOCKCHAIN',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 1.5.h,
+                        ),
+                        const SettingsItem(
+                          svgIconName: 'ic_project_gift',
+                          title: 'BAIT AL MAL',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 1.5.h,
+                        ),
+                        const SettingsItem(
+                          svgIconName: 'ic_project_paper',
+                          title: 'white paper',
+                          containerColor: AppColors.primaryColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
