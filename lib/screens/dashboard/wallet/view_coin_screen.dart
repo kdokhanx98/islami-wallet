@@ -36,6 +36,7 @@ class _WalletPageState extends State<ViewCoinPage> {
       'trailingSubtitle': '\$28.17216',
       'svgPathName': 'ic_islami',
       'iconContainerColor': AppColors.orange,
+      'iconCode': 'ISLAMI',
     },
     {
       'title': 'Ethereum',
@@ -45,6 +46,7 @@ class _WalletPageState extends State<ViewCoinPage> {
       'trailingSubtitle': '\$3094.5876',
       'svgPathName': 'ic_ethereum',
       'iconContainerColor': Colors.black,
+      'iconCode': 'ETH',
     },
     {
       'title': 'Bitcoin',
@@ -54,6 +56,7 @@ class _WalletPageState extends State<ViewCoinPage> {
       'trailingSubtitle': '\$366.26',
       'svgPathName': 'ic_bitcoin',
       'iconContainerColor': AppColors.orange2,
+      'iconCode': 'BTC',
     },
     {
       'title': 'CAIZCOIN',
@@ -63,6 +66,7 @@ class _WalletPageState extends State<ViewCoinPage> {
       'trailingSubtitle': '\$605.82',
       'svgPathName': 'ic_caizcoin',
       'iconContainerColor': AppColors.darkGreen2,
+      'iconCode': 'CAZ',
     },
   ];
   List<Map<String, dynamic>> transactionDummyData = [
