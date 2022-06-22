@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Group_20226" data-name="Group 20226" transform="translate(-36 -449)">
+    <g id="Icon" transform="translate(31.021 447.145)">
+      <g id="Group_14255" data-name="Group 14255" transform="translate(4.979 1.855)">
+        <path id="Path" d="M20.015,0A20,20,0,1,0,40,20,20,20,0,0,0,20.015,0Z" transform="translate(0 0)" fill="#83909a" opacity="0.114"/>
+      </g>
+    </g>
+    <g id="Group_15089" data-name="Group 15089" transform="translate(44 457)">
+      <path id="Path_35385" data-name="Path 35385" d="M0,0H24V24H0Z" fill="none"/>
+      <line id="Line_448" data-name="Line 448" x2="18" transform="translate(3 21)" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_35386" data-name="Path 35386" d="M3,7V8A3,3,0,0,0,9,8V7M9,8a3,3,0,0,0,6,0V7m0,1a3,3,0,0,0,6,0V7H3L5,3H19l2,4" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_449" data-name="Line 449" y1="10.15" transform="translate(5 10.85)" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_450" data-name="Line 450" y1="10.15" transform="translate(19 10.85)" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_35387" data-name="Path 35387" d="M9,21V17a2,2,0,0,1,2-2h2a2,2,0,0,1,2,2v4" fill="none" stroke="#83909a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

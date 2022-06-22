@@ -10,6 +10,8 @@ class SettingsItem extends StatelessWidget {
   final String svgIconName;
   final String title;
   final String subtitle;
+  final Color? containerColor;
+  final Color? iconColor;
   final bool isArrowShown;
   final void Function()? onTap;
   const SettingsItem(
@@ -17,7 +19,10 @@ class SettingsItem extends StatelessWidget {
       required this.svgIconName,
       required this.title,
       this.subtitle = '',
-      this.isArrowShown = true, this.onTap})
+      this.isArrowShown = true,
+      this.onTap,
+      this.containerColor = AppColors.gray3,
+      this.iconColor})
       : super(key: key);
 
   @override
@@ -26,7 +31,7 @@ class SettingsItem extends StatelessWidget {
       onTap: onTap,
       radius: 20,
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-      containerColor: AppColors.gray3,
+      containerColor: containerColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -34,8 +39,9 @@ class SettingsItem extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 'assets/svg/$svgIconName.svg',
-                width: 34,
-                height: 34,
+                width: 40,
+                height: 40,
+                color: iconColor,
               ),
               SizedBox(
                 width: 4.w,

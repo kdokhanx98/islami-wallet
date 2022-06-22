@@ -281,169 +281,171 @@ class _WalletPageState extends State<WalletPage> {
                   topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  height: 1.h,
-                ),
-                RoundedContainer(
-                  width: 12.w,
-                  height: 1.w,
-                  containerColor: AppColors.gray5,
-                  radius: 20,
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                TextWidget(
-                  title: 'Filter',
-                  textColor: Colors.white,
-                  fontSize: 18.sp,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                RoundedContainer(
-                  radius: 30,
-                  width: double.infinity,
-                  containerColor: AppColors.primaryColor,
-                  padding: EdgeInsets.all(5.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextWidget(
-                        title: 'Sort By',
-                        fontWeight: FontWeight.bold,
-                        textColor: Colors.white,
-                        fontSize: 16.sp,
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Theme(
-                        data: Theme.of(context).copyWith(
-                          disabledColor: AppColors.gray,
-                          unselectedWidgetColor: AppColors.gray,
-                        ),
-                        child: RadioListTile<SingingCharacter>(
-                          dense: true,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 0),
-                          controlAffinity: ListTileControlAffinity.trailing,
-                          activeColor: AppColors.orange,
-                          title: TextWidget(
-                            textAlign: TextAlign.start,
-                            title: 'High Balance',
-                            fontSize: 15.sp,
-                            textColor: Colors.white,
-                          ),
-                          value: SingingCharacter.highBalance,
-                          groupValue: _character,
-                          onChanged: (SingingCharacter? value) {
-                            setState(() {
-                              _character = value;
-                            });
-                          },
-                        ),
-                      ),
-                      const Divider(
-                        color: AppColors.gray,
-                        thickness: 0.1,
-                      ),
-                      Theme(
-                        data: Theme.of(context).copyWith(
-                          disabledColor: AppColors.gray,
-                          unselectedWidgetColor: AppColors.gray,
-                        ),
-                        child: RadioListTile<SingingCharacter>(
-                          controlAffinity: ListTileControlAffinity.trailing,
-                          dense: true,
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 0),
-                          activeColor: AppColors.orange,
-                          title: TextWidget(
-                            textAlign: TextAlign.start,
-                            title: 'Created Date',
-                            fontSize: 15.sp,
-                            textColor: Colors.white,
-                          ),
-                          value: SingingCharacter.createdDate,
-                          groupValue: _character,
-                          onChanged: (SingingCharacter? value) {
-                            setState(() {
-                              _character = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
                   ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                RoundedContainer(
-                  radius: 30,
-                  width: double.infinity,
-                  containerColor: AppColors.primaryColor,
-                  padding: EdgeInsets.all(5.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextWidget(
-                        title: 'Show',
-                        fontWeight: FontWeight.bold,
-                        textColor: Colors.white,
-                        fontSize: 16.sp,
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      SwitchListTile.adaptive(
-                          contentPadding: const EdgeInsets.all(0),
-                          dense: true,
-                          title: TextWidget(
-                            textAlign: TextAlign.start,
-                            title: 'Assets with zero value',
-                            fontSize: 15.sp,
-                            textColor: Colors.white,
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  TextWidget(
+                    title: 'Filter',
+                    textColor: Colors.white,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  RoundedContainer(
+                    radius: 30,
+                    width: double.infinity,
+                    containerColor: AppColors.primaryColor,
+                    padding: EdgeInsets.all(5.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextWidget(
+                          title: 'Sort By',
+                          fontWeight: FontWeight.bold,
+                          textColor: Colors.white,
+                          fontSize: 16.sp,
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        Theme(
+                          data: Theme.of(context).copyWith(
+                            disabledColor: AppColors.gray,
+                            unselectedWidgetColor: AppColors.gray,
                           ),
-                          value: showAsset,
-                          onChanged: (bool value) {
-                            setState(() {
-                              showAsset = value;
-                            });
-                          }),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                RoundedContainer(
-                  onTap: () {
-                    context.router.pop();
-                  },
-                  padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                  radius: 50,
-                  border: Border.all(
-                    color: AppColors.teal,
-                  ),
-                  child: Center(
-                    child: TextWidget(
-                      title: 'Apply',
-                      textColor: AppColors.teal,
-                      fontSize: 14.sp,
+                          child: RadioListTile<SingingCharacter>(
+                            dense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 0),
+                            controlAffinity: ListTileControlAffinity.trailing,
+                            activeColor: AppColors.orange,
+                            title: TextWidget(
+                              textAlign: TextAlign.start,
+                              title: 'High Balance',
+                              fontSize: 15.sp,
+                              textColor: Colors.white,
+                            ),
+                            value: SingingCharacter.highBalance,
+                            groupValue: _character,
+                            onChanged: (SingingCharacter? value) {
+                              setState(() {
+                                _character = value;
+                              });
+                            },
+                          ),
+                        ),
+                        const Divider(
+                          color: AppColors.gray,
+                          thickness: 0.1,
+                        ),
+                        Theme(
+                          data: Theme.of(context).copyWith(
+                            disabledColor: AppColors.gray,
+                            unselectedWidgetColor: AppColors.gray,
+                          ),
+                          child: RadioListTile<SingingCharacter>(
+                            controlAffinity: ListTileControlAffinity.trailing,
+                            dense: true,
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 0),
+                            activeColor: AppColors.orange,
+                            title: TextWidget(
+                              textAlign: TextAlign.start,
+                              title: 'Created Date',
+                              fontSize: 15.sp,
+                              textColor: Colors.white,
+                            ),
+                            value: SingingCharacter.createdDate,
+                            groupValue: _character,
+                            onChanged: (SingingCharacter? value) {
+                              setState(() {
+                                _character = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 6.h,
-                ),
-              ],
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  RoundedContainer(
+                    radius: 30,
+                    width: double.infinity,
+                    containerColor: AppColors.primaryColor,
+                    padding: EdgeInsets.all(5.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextWidget(
+                          title: 'Show',
+                          fontWeight: FontWeight.bold,
+                          textColor: Colors.white,
+                          fontSize: 16.sp,
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        SwitchListTile.adaptive(
+                            contentPadding: const EdgeInsets.all(0),
+                            dense: true,
+                            title: TextWidget(
+                              textAlign: TextAlign.start,
+                              title: 'Assets with zero value',
+                              fontSize: 15.sp,
+                              textColor: Colors.white,
+                            ),
+                            value: showAsset,
+                            onChanged: (bool value) {
+                              setState(() {
+                                showAsset = value;
+                              });
+                            }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  RoundedContainer(
+                    onTap: () {
+                      context.router.pop();
+                    },
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    radius: 50,
+                    border: Border.all(
+                      color: AppColors.teal,
+                    ),
+                    child: Center(
+                      child: TextWidget(
+                        title: 'Apply',
+                        textColor: AppColors.teal,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 6.h,
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -462,131 +464,133 @@ class _WalletPageState extends State<WalletPage> {
                   topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  height: 1.h,
-                ),
-                RoundedContainer(
-                  width: 12.w,
-                  height: 1.w,
-                  containerColor: AppColors.gray5,
-                  radius: 20,
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                TextWidget(
-                  title: 'Add Asset',
-                  textColor: Colors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 18.sp,
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                RoundedContainer(
-                  radius: 20,
-                  containerColor: AppColors.gray3,
-                  padding: EdgeInsets.all(4.w),
-                  child: Row(children: [
-                    SvgPicture.asset('assets/svg/ic_search.svg'),
-                    SizedBox(
-                      width: 4.w,
-                    ),
-                    SizedBox(
-                      width: 70.w,
-                      child: TextField(
-                        style: const TextStyle(color: Colors.white),
-                        controller: _searchTextController,
-                        cursorColor: Colors.white,
-                        autocorrect: false,
-                        decoration: const InputDecoration.collapsed(
-                          hintText: 'Search Assets',
-                          hintStyle: TextStyle(
-                              color: AppColors.gray,
-                              fontWeight: FontWeight.w300),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  TextWidget(
+                    title: 'Add Asset',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  RoundedContainer(
+                    radius: 20,
+                    containerColor: AppColors.gray3,
+                    padding: EdgeInsets.all(4.w),
+                    child: Row(children: [
+                      SvgPicture.asset('assets/svg/ic_search.svg'),
+                      SizedBox(
+                        width: 4.w,
+                      ),
+                      SizedBox(
+                        width: 70.w,
+                        child: TextField(
+                          style: const TextStyle(color: Colors.white),
+                          controller: _searchTextController,
+                          cursorColor: Colors.white,
+                          autocorrect: false,
+                          decoration: const InputDecoration.collapsed(
+                            hintText: 'Search Assets',
+                            hintStyle: TextStyle(
+                                color: AppColors.gray,
+                                fontWeight: FontWeight.w300),
+                          ),
                         ),
                       ),
-                    ),
-                  ]),
-                ),
-                SizedBox(
-                  height: 6.h,
-                ),
-                SizedBox(
-                  height: 60.h,
-                  child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return SwitchListTile.adaptive(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 2.h),
-                            dense: true,
-                            title: Row(
-                              children: [
-                                Container(
-                                  width: 48,
-                                  height: 48,
-                                  padding: EdgeInsets.all(3.w),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: dummyData[index]
-                                          ['iconContainerColor']),
-                                  child: SvgPicture.asset(
-                                    'assets/svg/${dummyData[index]['svgPathName']}.svg',
-                                    width: 24,
-                                    height: 24,
+                    ]),
+                  ),
+                  SizedBox(
+                    height: 6.h,
+                  ),
+                  SizedBox(
+                    height: 60.h,
+                    child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return SwitchListTile.adaptive(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 0, vertical: 2.h),
+                              dense: true,
+                              title: Row(
+                                children: [
+                                  Container(
+                                    width: 48,
+                                    height: 48,
+                                    padding: EdgeInsets.all(3.w),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: dummyData[index]
+                                            ['iconContainerColor']),
+                                    child: SvgPicture.asset(
+                                      'assets/svg/${dummyData[index]['svgPathName']}.svg',
+                                      width: 24,
+                                      height: 24,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 8.w,
-                                ),
-                                TextWidget(
-                                  textAlign: TextAlign.start,
-                                  title: dummyData[index]['title'],
-                                  fontSize: 15.sp,
-                                  textColor: Colors.white,
-                                ),
-                              ],
-                            ),
-                            value: () {
-                              switch (index) {
-                                case 0:
-                                  return addIslam;
-                                case 1:
-                                  return addEtherum;
-                                case 2:
-                                  return addBircoin;
-                                case 3:
-                                  return addCaizcoin;
-                                default:
-                                  return false;
-                              }
-                            }(),
-                            onChanged: (bool value) {
-                              setState(() {
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  TextWidget(
+                                    textAlign: TextAlign.start,
+                                    title: dummyData[index]['title'],
+                                    fontSize: 15.sp,
+                                    textColor: Colors.white,
+                                  ),
+                                ],
+                              ),
+                              value: () {
                                 switch (index) {
                                   case 0:
-                                    addIslam = value;
-                                    break;
+                                    return addIslam;
                                   case 1:
-                                    addEtherum = value;
-                                    break;
+                                    return addEtherum;
                                   case 2:
-                                    addBircoin = value;
-                                    break;
+                                    return addBircoin;
                                   case 3:
-                                    addCaizcoin = value;
-                                    break;
+                                    return addCaizcoin;
+                                  default:
+                                    return false;
                                 }
+                              }(),
+                              onChanged: (bool value) {
+                                setState(() {
+                                  switch (index) {
+                                    case 0:
+                                      addIslam = value;
+                                      break;
+                                    case 1:
+                                      addEtherum = value;
+                                      break;
+                                    case 2:
+                                      addBircoin = value;
+                                      break;
+                                    case 3:
+                                      addCaizcoin = value;
+                                      break;
+                                  }
+                                });
                               });
-                            });
-                      },
-                      itemCount: dummyData.length,
-                      shrinkWrap: true),
-                ),
-              ],
+                        },
+                        itemCount: dummyData.length,
+                        shrinkWrap: true),
+                  ),
+                ],
+              ),
             ),
           ),
         );
