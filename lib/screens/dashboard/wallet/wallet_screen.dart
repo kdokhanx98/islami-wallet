@@ -38,6 +38,7 @@ class _WalletPageState extends State<WalletPage> {
       'trailingSubtitle': '\$28.17216',
       'svgPathName': 'ic_islami',
       'iconContainerColor': AppColors.orange,
+      'iconCode': 'ISLAMI',
     },
     {
       'title': 'Ethereum',
@@ -47,6 +48,7 @@ class _WalletPageState extends State<WalletPage> {
       'trailingSubtitle': '\$3094.5876',
       'svgPathName': 'ic_ethereum',
       'iconContainerColor': Colors.black,
+      'iconCode': 'ETH',
     },
     {
       'title': 'Bitcoin',
@@ -56,6 +58,7 @@ class _WalletPageState extends State<WalletPage> {
       'trailingSubtitle': '\$366.26',
       'svgPathName': 'ic_bitcoin',
       'iconContainerColor': AppColors.orange2,
+      'iconCode': 'BTC',
     },
     {
       'title': 'CAIZCOIN',
@@ -65,6 +68,7 @@ class _WalletPageState extends State<WalletPage> {
       'trailingSubtitle': '\$605.82',
       'svgPathName': 'ic_caizcoin',
       'iconContainerColor': AppColors.darkGreen2,
+      'iconCode': 'CAZ',
     },
   ];
   @override
@@ -185,7 +189,16 @@ class _WalletPageState extends State<WalletPage> {
                         svgIconName: 'ic_receive',
                         title: 'Receive',
                         onTap: () {
-                          log('receive clicked');
+                          showModalBottomSheet<String>(
+                              isScrollControlled: true,
+                              useRootNavigator: true,
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return FractionallySizedBox(
+                                    heightFactor: 0.90,
+                                    child: selectAssetsMethod());
+                              });
                         }),
                   ],
                 ),
@@ -585,6 +598,125 @@ class _WalletPageState extends State<WalletPage> {
                                   }
                                 });
                               });
+                        },
+                        itemCount: dummyData.length,
+                        shrinkWrap: true),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  StatefulBuilder selectAssetsMethod() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  TextWidget(
+                    title: 'Select Asset',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  RoundedContainer(
+                    radius: 20,
+                    containerColor: AppColors.primaryColor,
+                    padding: EdgeInsets.all(4.w),
+                    child: Row(children: [
+                      SvgPicture.asset('assets/svg/ic_search.svg'),
+                      SizedBox(
+                        width: 4.w,
+                      ),
+                      SizedBox(
+                        width: 70.w,
+                        child: TextField(
+                          style: const TextStyle(color: Colors.white),
+                          controller: _searchTextController,
+                          cursorColor: Colors.white,
+                          autocorrect: false,
+                          decoration: const InputDecoration.collapsed(
+                            hintText: 'Search Assets',
+                            hintStyle: TextStyle(
+                                color: AppColors.gray,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
+                  SizedBox(
+                    height: 6.h,
+                  ),
+                  SizedBox(
+                    height: 60.h,
+                    child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {},
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 2.h),
+                            dense: true,
+                            title: Row(
+                              children: [
+                                Container(
+                                  width: 48,
+                                  height: 48,
+                                  padding: EdgeInsets.all(3.w),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: dummyData[index]
+                                          ['iconContainerColor']),
+                                  child: SvgPicture.asset(
+                                    'assets/svg/${dummyData[index]['svgPathName']}.svg',
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                TextWidget(
+                                  textAlign: TextAlign.start,
+                                  title: dummyData[index]['title'],
+                                  fontSize: 15.sp,
+                                  textColor: Colors.white,
+                                ),
+                              ],
+                            ),
+                            trailing: TextWidget(
+                              title: (dummyData[index]['iconCode'] ?? 'N/A'),
+                              textColor: Colors.white,
+                            ),
+                          );
                         },
                         itemCount: dummyData.length,
                         shrinkWrap: true),
