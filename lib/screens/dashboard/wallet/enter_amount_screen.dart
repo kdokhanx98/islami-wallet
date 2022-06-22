@@ -122,8 +122,9 @@ class _EnterAmountPageState extends State<EnterAmountPage> {
                   });
                 }
               },
-              leftIcon: const Icon(
+              leftIcon: Icon(
                 Icons.circle,
+                size: 1.w,
                 color: Colors.white,
               ),
             ),
