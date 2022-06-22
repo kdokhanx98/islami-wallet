@@ -176,7 +176,16 @@ class _WalletPageState extends State<WalletPage> {
                         svgIconName: 'ic_send',
                         title: 'Send',
                         onTap: () {
-                          log('send clicked');
+                          showModalBottomSheet<String>(
+                              isScrollControlled: true,
+                              useRootNavigator: true,
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return FractionallySizedBox(
+                                    heightFactor: 0.90,
+                                    child: selectAssetsMethod('send'));
+                              });
                         }),
                     walletAction(
                         svgIconName: 'ic_add',
@@ -197,7 +206,7 @@ class _WalletPageState extends State<WalletPage> {
                               builder: (BuildContext context) {
                                 return FractionallySizedBox(
                                     heightFactor: 0.90,
-                                    child: selectAssetsMethod());
+                                    child: selectAssetsMethod('receive'));
                               });
                         }),
                   ],
@@ -733,7 +742,7 @@ class _WalletPageState extends State<WalletPage> {
     );
   }
 
-  StatefulBuilder selectAssetsMethod() {
+  StatefulBuilder selectAssetsMethod(String method) {
     return StatefulBuilder(
       builder: (BuildContext context,
           StateSetter setState /*You can rename this!*/) {
@@ -804,16 +813,24 @@ class _WalletPageState extends State<WalletPage> {
                         itemBuilder: (context, index) {
                           return ListTile(
                             onTap: () {
-                              context.router
-                                  .pop()
-                                  .then((value) => showModalBottomSheet<String>(
-                                      isScrollControlled: true,
-                                      useRootNavigator: true,
-                                      backgroundColor: Colors.transparent,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return reciveAssetsPopup();
-                                      }));
+                              switch (method) {
+                                case 'receive':
+                                  context.router.pop().then(
+                                      (value) => showModalBottomSheet<String>(
+                                          isScrollControlled: true,
+                                          useRootNavigator: true,
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return reciveAssetsPopup();
+                                          }));
+                                  break;
+                                case 'send':
+                                  context.router.pop().then((value) => context
+                                      .router
+                                      .push(const SendAssetsRoute()));
+                                  break;
+                              }
                             },
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 0, vertical: 2.h),

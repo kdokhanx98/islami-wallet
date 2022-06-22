@@ -61,6 +61,26 @@ class AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const EnterAmountPage());
     },
+    SendEnterAmountRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SendEnterAmountPage());
+    },
+    SendAssetsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SendAssetsPage());
+    },
+    SendAssetsConfirmRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SendAssetsConfirmPage());
+    },
+    NetworkFeeRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const NetworkFeePage());
+    },
+    LockTokensRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const LockTokensPage());
+    },
     WalletRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const EmptyRouterPage());
@@ -125,7 +145,13 @@ class AppRouter extends RootStackRouter {
             ]),
         RouteConfig(QRScanningRoute.name, path: 'qr-scanning-page'),
         RouteConfig(TransferFillRoute.name, path: 'transfer-fill-page'),
-        RouteConfig(EnterAmountRoute.name, path: 'enter-amount-page')
+        RouteConfig(EnterAmountRoute.name, path: 'enter-amount-page'),
+        RouteConfig(SendEnterAmountRoute.name, path: 'send-enter-amount-page'),
+        RouteConfig(SendAssetsRoute.name, path: 'send-assets-page'),
+        RouteConfig(SendAssetsConfirmRoute.name,
+            path: 'send-assets-confirm-page'),
+        RouteConfig(NetworkFeeRoute.name, path: 'network-fee-page'),
+        RouteConfig(LockTokensRoute.name, path: 'lock-tokens-page')
       ];
 }
 
@@ -224,6 +250,51 @@ class EnterAmountRoute extends PageRouteInfo<void> {
       : super(EnterAmountRoute.name, path: 'enter-amount-page');
 
   static const String name = 'EnterAmountRoute';
+}
+
+/// generated route for
+/// [SendEnterAmountPage]
+class SendEnterAmountRoute extends PageRouteInfo<void> {
+  const SendEnterAmountRoute()
+      : super(SendEnterAmountRoute.name, path: 'send-enter-amount-page');
+
+  static const String name = 'SendEnterAmountRoute';
+}
+
+/// generated route for
+/// [SendAssetsPage]
+class SendAssetsRoute extends PageRouteInfo<void> {
+  const SendAssetsRoute()
+      : super(SendAssetsRoute.name, path: 'send-assets-page');
+
+  static const String name = 'SendAssetsRoute';
+}
+
+/// generated route for
+/// [SendAssetsConfirmPage]
+class SendAssetsConfirmRoute extends PageRouteInfo<void> {
+  const SendAssetsConfirmRoute()
+      : super(SendAssetsConfirmRoute.name, path: 'send-assets-confirm-page');
+
+  static const String name = 'SendAssetsConfirmRoute';
+}
+
+/// generated route for
+/// [NetworkFeePage]
+class NetworkFeeRoute extends PageRouteInfo<void> {
+  const NetworkFeeRoute()
+      : super(NetworkFeeRoute.name, path: 'network-fee-page');
+
+  static const String name = 'NetworkFeeRoute';
+}
+
+/// generated route for
+/// [LockTokensPage]
+class LockTokensRoute extends PageRouteInfo<void> {
+  const LockTokensRoute()
+      : super(LockTokensRoute.name, path: 'lock-tokens-page');
+
+  static const String name = 'LockTokensRoute';
 }
 
 /// generated route for

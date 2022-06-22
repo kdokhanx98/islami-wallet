@@ -8,6 +8,7 @@ import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../routes/routes.dart';
 import '../../../widgets/custom_icon_widget.dart';
 import '../../../widgets/tranaction_item_widget.dart';
 
@@ -24,6 +25,8 @@ class ViewCoinPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<ViewCoinPage> {
+  final _searchTextController = TextEditingController();
+
   List<Map<String, dynamic>> dummyData = [
     {
       'title': 'IslamiCoin',
@@ -211,7 +214,7 @@ class _WalletPageState extends State<ViewCoinPage> {
                             svgIconName: 'ic_send',
                             title: 'Send',
                             onTap: () {
-                              log('send clicked');
+                              context.router.push(const SendAssetsRoute());
                             }),
                         walletAction(
                           svgIconName: 'ic_add_teal',
@@ -224,7 +227,16 @@ class _WalletPageState extends State<ViewCoinPage> {
                             svgIconName: 'ic_receive',
                             title: 'Receive',
                             onTap: () {
-                              log('receive clicked');
+                              showModalBottomSheet<String>(
+                                  isScrollControlled: true,
+                                  useRootNavigator: true,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return FractionallySizedBox(
+                                        heightFactor: 0.90,
+                                        child: selectAssetsMethod('receive'));
+                                  });
                             }),
                         walletAction(
                             svgIconName: 'ic_check',
@@ -515,6 +527,264 @@ class _WalletPageState extends State<ViewCoinPage> {
                     child: Center(
                       child: TextWidget(
                         title: 'Buy Now',
+                        textColor: AppColors.teal,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  StatefulBuilder selectAssetsMethod(String method) {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  TextWidget(
+                    title: 'Select Asset',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  RoundedContainer(
+                    radius: 20,
+                    containerColor: AppColors.primaryColor,
+                    padding: EdgeInsets.all(4.w),
+                    child: Row(children: [
+                      SvgPicture.asset('assets/svg/ic_search.svg'),
+                      SizedBox(
+                        width: 4.w,
+                      ),
+                      SizedBox(
+                        width: 70.w,
+                        child: TextField(
+                          style: const TextStyle(color: Colors.white),
+                          controller: _searchTextController,
+                          cursorColor: Colors.white,
+                          autocorrect: false,
+                          decoration: const InputDecoration.collapsed(
+                            hintText: 'Search Assets',
+                            hintStyle: TextStyle(
+                                color: AppColors.gray,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  SizedBox(
+                    height: 60.h,
+                    child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              switch (method) {
+                                case 'receive':
+                                  context.router.pop().then(
+                                      (value) => showModalBottomSheet<String>(
+                                          isScrollControlled: true,
+                                          useRootNavigator: true,
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return reciveAssetsPopup();
+                                          }));
+                                  break;
+                                case 'send':
+                                  log('from send');
+                                  break;
+                              }
+                            },
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 2.h),
+                            dense: true,
+                            title: Row(
+                              children: [
+                                Container(
+                                  width: 48,
+                                  height: 48,
+                                  padding: EdgeInsets.all(3.w),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: dummyData[index]
+                                          ['iconContainerColor']),
+                                  child: SvgPicture.asset(
+                                    'assets/svg/${dummyData[index]['svgPathName']}.svg',
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                TextWidget(
+                                  textAlign: TextAlign.start,
+                                  title: dummyData[index]['title'],
+                                  fontSize: 15.sp,
+                                  textColor: Colors.white,
+                                ),
+                              ],
+                            ),
+                            trailing: TextWidget(
+                              title: (dummyData[index]['iconCode'] ?? 'N/A'),
+                              textColor: Colors.white,
+                            ),
+                          );
+                        },
+                        itemCount: dummyData.length,
+                        shrinkWrap: true),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  StatefulBuilder reciveAssetsPopup() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  TextWidget(
+                    title: 'Receive Assets',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  Image.asset(
+                    'assets/images/qr.png',
+                    width: 200,
+                    height: 200,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  SizedBox(
+                    width: 70.w,
+                    child: const TextWidget(
+                        title:
+                            'Far far away, behind the word mountains, far from the countries'),
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  SizedBox(
+                    width: 70.w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RoundedContainer(
+                          onTap: () {
+                            // copy the wallet.
+                            log('walled was copied');
+                          },
+                          radius: 50,
+                          containerColor: AppColors.primaryColor,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.w, horizontal: 2.w),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const TextWidget(
+                                title: 'https://islami…24jq',
+                                textColor: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              SvgPicture.asset(
+                                'assets/svg/ic_copy.svg',
+                                height: 3.5.h,
+                              )
+                            ],
+                          ),
+                        ),
+                        SvgPicture.asset('assets/svg/ic_share.svg')
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  RoundedContainer(
+                    onTap: () {
+                      context.router.pop().then((value) =>
+                          context.router.push(const EnterAmountRoute()));
+                    },
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    radius: 50,
+                    border: Border.all(
+                      color: AppColors.teal,
+                    ),
+                    child: Center(
+                      child: TextWidget(
+                        title: 'Set Amount',
                         textColor: AppColors.teal,
                         fontSize: 14.sp,
                       ),

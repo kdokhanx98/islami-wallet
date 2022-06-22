@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="Group_20237" data-name="Group 20237" transform="translate(-39.094 -133)">
+    <g id="Icon" transform="translate(32.015 129.045)" opacity="0.118">
+      <g id="Group_14255" data-name="Group 14255" transform="translate(7.079 3.955)">
+        <path id="Path" d="M18.014,0A18,18,0,1,0,36,18,18,18,0,0,0,18.014,0Z" transform="translate(0 0)" fill="#83909a"/>
+      </g>
+    </g>
+    <text id="Buy" transform="translate(47 157)" fill="#83909a" font-size="15" font-family="Helvetica"><tspan x="0" y="0">AN</tspan></text>
+  </g>
+</svg>
