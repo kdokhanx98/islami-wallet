@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
@@ -160,7 +162,8 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                   ),
                   const Spacer(),
                   RoundedContainer(
-                    onTap: () {},
+                    onTap: () =>
+                        context.router.push(const SendAssetsConfirmRoute()),
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,
                     border: Border.all(

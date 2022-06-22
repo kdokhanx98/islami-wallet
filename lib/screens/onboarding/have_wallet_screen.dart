@@ -118,8 +118,9 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                 leftButtonFn: () {
                   log('left button clicked');
                 },
-                leftIcon: const Icon(
-                  Icons.check,
+                leftIcon: Icon(
+                  Icons.circle,
+                  size: 1.w,
                   color: Colors.white,
                 ),
               ),
