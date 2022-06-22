@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
@@ -243,7 +245,8 @@ class SendAssetsPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   RoundedContainer(
-                    onTap: () {},
+                    onTap: () =>
+                        context.router.push(const SendEnterAmountRoute()),
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,
                     border: Border.all(
