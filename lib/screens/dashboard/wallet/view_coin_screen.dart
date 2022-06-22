@@ -112,7 +112,7 @@ class _WalletPageState extends State<ViewCoinPage> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     SizedBox(
-                      height: 6.7.h,
+                      height: 5.3.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

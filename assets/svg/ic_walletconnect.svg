@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="34" height="34" viewBox="0 0 34 34">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#5d9df6"/>
+      <stop offset="1" stop-color="#006fff"/>
+    </radialGradient>
+  </defs>
+  <g id="Group_20215" data-name="Group 20215" transform="translate(-42 -454)">
+    <rect id="Rectangle_7328" data-name="Rectangle 7328" width="34" height="34" rx="17" transform="translate(42 454)" fill="url(#radial-gradient)"/>
+    <path id="Path_35313" data-name="Path 35313" d="M257.807,215.222a8,8,0,0,1,11.116,0l.369.363a.374.374,0,0,1,0,.542l-1.263,1.233a.2.2,0,0,1-.28,0l-.506-.494a5.579,5.579,0,0,0-7.756,0l-.542.53a.2.2,0,0,1-.28,0l-1.263-1.233a.374.374,0,0,1,0-.542Zm13.731,2.55,1.126,1.1a.374.374,0,0,1,0,.542l-5.069,4.95a.4.4,0,0,1-.554,0h0l-3.6-3.515a.1.1,0,0,0-.137,0h0l-3.6,3.515a.4.4,0,0,1-.554,0h0l-5.087-4.95a.374.374,0,0,1,0-.542l1.126-1.1a.4.4,0,0,1,.554,0l3.6,3.515a.1.1,0,0,0,.137,0h0l3.6-3.515a.4.4,0,0,1,.554,0h0l3.6,3.515a.1.1,0,0,0,.137,0l3.6-3.515a.422.422,0,0,1,.572,0Z" transform="translate(-204.365 252.276)" fill="#fff"/>
+  </g>
+</svg>
