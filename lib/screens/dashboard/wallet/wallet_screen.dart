@@ -705,7 +705,8 @@ class _WalletPageState extends State<WalletPage> {
                   ),
                   RoundedContainer(
                     onTap: () {
-                      context.router.pop().then((value) => null);
+                      context.router.pop().then((value) =>
+                          context.router.push(const EnterAmountRoute()));
                     },
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,

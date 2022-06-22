@@ -18,6 +18,7 @@ import 'package:islami_wallet/screens/onboarding/new_wallet_screens/re_enter_pas
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/verify_recovery_screen.dart';
 
 import '../screens/dashboard/transfers/transfer_fill_screen.dart';
+import '../screens/dashboard/wallet/enter_amount_screen.dart';
 import '../screens/dashboard/wallet/scanning_screen.dart';
 import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
 
@@ -102,6 +103,11 @@ part 'routes.gr.dart';
       page: TranferFillPage,
       path: 'transfer-fill-page',
       name: 'TransferFillRoute',
+    ),
+    AutoRoute(
+      page: EnterAmountPage,
+      path: 'enter-amount-page',
+      name: 'EnterAmountRoute',
     ),
   ],
 )

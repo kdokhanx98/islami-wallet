@@ -57,6 +57,10 @@ class AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const TranferFillPage());
     },
+    EnterAmountRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const EnterAmountPage());
+    },
     WalletRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const EmptyRouterPage());
@@ -120,7 +124,8 @@ class AppRouter extends RootStackRouter {
                   path: 'notifications', parent: BottomNavigationRoute.name)
             ]),
         RouteConfig(QRScanningRoute.name, path: 'qr-scanning-page'),
-        RouteConfig(TransferFillRoute.name, path: 'transfer-fill-page')
+        RouteConfig(TransferFillRoute.name, path: 'transfer-fill-page'),
+        RouteConfig(EnterAmountRoute.name, path: 'enter-amount-page')
       ];
 }
 
@@ -210,6 +215,15 @@ class TransferFillRoute extends PageRouteInfo<void> {
       : super(TransferFillRoute.name, path: 'transfer-fill-page');
 
   static const String name = 'TransferFillRoute';
+}
+
+/// generated route for
+/// [EnterAmountPage]
+class EnterAmountRoute extends PageRouteInfo<void> {
+  const EnterAmountRoute()
+      : super(EnterAmountRoute.name, path: 'enter-amount-page');
+
+  static const String name = 'EnterAmountRoute';
 }
 
 /// generated route for
