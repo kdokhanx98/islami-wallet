@@ -611,6 +611,127 @@ class _WalletPageState extends State<WalletPage> {
     );
   }
 
+  StatefulBuilder reciveAssetsPopup() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  TextWidget(
+                    title: 'Receive Assets',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  Image.asset(
+                    'assets/images/qr.png',
+                    width: 200,
+                    height: 200,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  SizedBox(
+                    width: 70.w,
+                    child: const TextWidget(
+                        title:
+                            'Far far away, behind the word mountains, far from the countries'),
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  SizedBox(
+                    width: 70.w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RoundedContainer(
+                          onTap: () {
+                            // copy the wallet.
+                            log('walled was copied');
+                          },
+                          radius: 50,
+                          containerColor: AppColors.primaryColor,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.w, horizontal: 2.w),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const TextWidget(
+                                title: 'https://islami…24jq',
+                                textColor: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              SvgPicture.asset(
+                                'assets/svg/ic_copy.svg',
+                                height: 3.5.h,
+                              )
+                            ],
+                          ),
+                        ),
+                        SvgPicture.asset('assets/svg/ic_share.svg')
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  RoundedContainer(
+                    onTap: () {
+                      context.router.pop().then((value) => null);
+                    },
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    radius: 50,
+                    border: Border.all(
+                      color: AppColors.teal,
+                    ),
+                    child: Center(
+                      child: TextWidget(
+                        title: 'Set Amount',
+                        textColor: AppColors.teal,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   StatefulBuilder selectAssetsMethod() {
     return StatefulBuilder(
       builder: (BuildContext context,
@@ -681,7 +802,18 @@ class _WalletPageState extends State<WalletPage> {
                     child: ListView.builder(
                         itemBuilder: (context, index) {
                           return ListTile(
-                            onTap: () {},
+                            onTap: () {
+                              context.router
+                                  .pop()
+                                  .then((value) => showModalBottomSheet<String>(
+                                      isScrollControlled: true,
+                                      useRootNavigator: true,
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return reciveAssetsPopup();
+                                      }));
+                            },
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 0, vertical: 2.h),
                             dense: true,
