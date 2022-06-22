@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:sizer/sizer.dart';
@@ -29,6 +31,7 @@ class TransfersPage extends StatelessWidget {
                 height: 4.h,
               ),
               RoundedContainer(
+                onTap: () => context.router.push(const TransferFillRoute()),
                 width: double.infinity,
                 containerColor: AppColors.gray3,
                 radius: 20,
@@ -139,7 +142,7 @@ class TransfersPage extends StatelessWidget {
                         child: TextWidget(title: '1 CAZ = 1184.204 ISLAMI')),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
