@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="34" height="34" viewBox="0 0 34 34">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.119" y1="0.067" x2="0.868" y2="0.947" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#613dc7"/>
+      <stop offset="1" stop-color="#df266a"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_20216" data-name="Group 20216" transform="translate(-42 -134)">
+    <rect id="Rectangle_7328" data-name="Rectangle 7328" width="34" height="34" rx="17" transform="translate(42 134)" fill="url(#linear-gradient)"/>
+    <g id="Group_15042" data-name="Group 15042" transform="translate(47 139)">
+      <path id="Path_35316" data-name="Path 35316" d="M0,0H24V24H0Z" fill="none"/>
+      <rect id="Rectangle_7347" data-name="Rectangle 7347" width="16" height="16" rx="4" transform="translate(4 4)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <circle id="Ellipse_17820" data-name="Ellipse 17820" cx="3" cy="3" r="3" transform="translate(9 9)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_433" data-name="Line 433" y2="0.001" transform="translate(16.5 7.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

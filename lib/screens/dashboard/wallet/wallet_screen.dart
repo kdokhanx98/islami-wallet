@@ -89,7 +89,7 @@ class _WalletPageState extends State<WalletPage> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(
-                  height: 6.7.h,
+                  height: 6.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
