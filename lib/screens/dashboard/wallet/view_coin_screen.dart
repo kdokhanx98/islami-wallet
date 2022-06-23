@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polls/flutter_polls.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/screens/dashboard/wallet/polls.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
@@ -259,6 +261,7 @@ class _WalletPageState extends State<ViewCoinPage> {
                                   setState(() => isVoteSubmitEnabled =
                                       !isVoteSubmitEnabled);
                                   // open your opinion matters bottom sheet
+
                                   showModalBottomSheet<String>(
                                       isScrollControlled: true,
                                       useRootNavigator: true,
@@ -624,64 +627,74 @@ class _WalletPageState extends State<ViewCoinPage> {
                         fontSize: 16.sp,
                       )),
                   SizedBox(
-                    height: 4.h,
+                    height: 2.h,
                   ),
-                  RoundedContainer(
-                      onTap: () {
-                        setState(() {
-                          isVoteSubmitEnabled = !isVoteSubmitEnabled;
-                        });
-                      },
-                      width: double.infinity,
-                      radius: 20,
-                      containerColor: AppColors.primaryColor,
-                      padding: EdgeInsets.all(6.w),
-                      child: const TextWidget(
-                        title: 'Yes I\'m sure',
-                        textColor: Colors.white,
-                        textAlign: TextAlign.start,
-                      )),
-                  SizedBox(
-                    height: 1.5.h,
-                  ),
-                  RoundedContainer(
-                      onTap: () {
-                        setState(() {
-                          isVoteSubmitEnabled = !isVoteSubmitEnabled;
-                        });
-                      },
-                      width: double.infinity,
-                      radius: 20,
-                      containerColor: AppColors.primaryColor,
-                      padding: EdgeInsets.all(6.w),
-                      child: const TextWidget(
-                        title: 'Maybe',
-                        textColor: Colors.white,
-                        textAlign: TextAlign.start,
-                      )),
-                  SizedBox(
-                    height: 1.5.h,
-                  ),
-                  RoundedContainer(
-                      onTap: () {
-                        setState(() {
-                          isVoteSubmitEnabled = !isVoteSubmitEnabled;
-                        });
-                      },
-                      width: double.infinity,
-                      radius: 20,
-                      containerColor: AppColors.primaryColor,
-                      padding: EdgeInsets.all(6.w),
-                      child: const TextWidget(
-                        title: 'Nah',
-                        textColor: Colors.white,
-                        textAlign: TextAlign.start,
-                      )),
-                  SizedBox(
-                    height: 1.5.h,
-                  ),
-                  SizedBox(
-                    height: 4.h,
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: polls().length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final poll = polls()[index];
+
+                      return FlutterPolls(
+                        metaWidget: Container(),
+                        heightBetweenOptions: 1.5.h,
+                        pollOptionsBorder:
+                            Border.all(color: AppColors.primaryColor),
+                        pollOptionsHeight: 8.h,
+                        votesText: '',
+                        pollId: poll['id'].toString(),
+                        // hasVoted: hasVoted.value,
+                        // userVotedOptionId: userVotedOptionId.value,
+                        onVoted: (PollOption pollOption, int newTotalVotes) {
+                          // hasVoted.value = true;
+                          setState(
+                            () => isVoteSubmitEnabled = true,
+                          );
+                          // userVotedOptionId.value = pollOption.id;
+                        },
+                        votedBackgroundColor: AppColors.primaryColor,
+                        pollOptionsFillColor: AppColors.primaryColor,
+                        votedProgressColor: AppColors.darkGreen3,
+                        leadingVotedProgessColor: AppColors.darkGreen3,
+                        pollOptionsBorderRadius: BorderRadius.circular(15),
+                        votedPollOptionsRadius: const Radius.circular(15),
+
+                        votedCheckmark: const Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        ),
+                        votesTextStyle: const TextStyle(color: Colors.white),
+
+                        pollEnded: false,
+                        pollTitle: Container(),
+                        pollOptions: poll['options'].map(
+                          (option) {
+                            return PollOption(
+                              id: option['id'],
+                              title: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 4.w, vertical: 1.h),
+                                  child: TextWidget(
+                                    title: option['title'],
+                                    textColor: Colors.white,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              ),
+                              votes: option['votes'],
+                            );
+                          },
+                        ).toList(),
+
+                        votedPercentageTextStyle: const TextStyle(
+                          fontSize: 14,
+                          color: AppColors.gray,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      );
+                    },
                   ),
                   RoundedContainer(
                     isEnabled: isVoteSubmitEnabled,
