@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,13 +17,17 @@ class TranferFillPage extends StatefulWidget {
 }
 
 class _TranferFillPageState extends State<TranferFillPage> {
-  String text = '';
+  String amount = '0';
+  String islamiAmount = '0';
 
   _onKeyboardTap(String value) {
     setState(() {
-      text = text + value;
+      if (amount == '0') {
+        amount = value;
+      } else {
+        amount = amount + value;
+      }
     });
-    log('text $text');
   }
 
   @override
@@ -118,9 +120,14 @@ class _TranferFillPageState extends State<TranferFillPage> {
                                 ),
                               ],
                             ),
-                            const TextWidget(
-                              title: '12',
-                              textColor: Colors.white,
+                            SizedBox(
+                              width: 50.w,
+                              child: TextWidget(
+                                maxLines: 1,
+                                title: amount,
+                                textAlign: TextAlign.end,
+                                textColor: Colors.white,
+                              ),
                             ),
                           ]),
                     ),
@@ -183,8 +190,13 @@ class _TranferFillPageState extends State<TranferFillPage> {
                                 ),
                               ],
                             ),
-                            const TextWidget(
-                              title: '14210.448',
+                            TextWidget(
+                              title: () {
+                                String total = '';
+                                total =
+                                    (int.parse(amount) * 1184.204).toString();
+                                return total;
+                              }(),
                               textColor: Colors.white,
                             ),
                           ]),
@@ -245,16 +257,30 @@ class _TranferFillPageState extends State<TranferFillPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 onKeyboardTap: _onKeyboardTap,
                 textColor: Colors.white,
-                rightButtonFn: () {},
+                rightButtonFn: () {
+                  if (amount.isNotEmpty && amount != '0') {
+                    setState(() {
+                      amount = amount.substring(0, amount.length - 1);
+                      if (amount.isEmpty) {
+                        amount = '0';
+                      }
+                    });
+                  }
+                },
                 rightIcon: const Icon(
                   Icons.backspace_outlined,
                   color: Colors.white,
                 ),
                 leftButtonFn: () {
-                  log('left button clicked');
+                  if (amount.isNotEmpty) {
+                    setState(() {
+                      amount = '$amount.';
+                    });
+                  }
                 },
-                leftIcon: const Icon(
-                  Icons.check,
+                leftIcon: Icon(
+                  Icons.circle,
+                  size: 1.w,
                   color: Colors.white,
                 ),
               ),

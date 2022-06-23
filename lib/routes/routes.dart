@@ -8,6 +8,11 @@ import 'package:islami_wallet/screens/dashboard/notifications/notifications_scre
 import 'package:islami_wallet/screens/dashboard/projects/projects_screen.dart';
 import 'package:islami_wallet/screens/dashboard/settings/settings_screen.dart';
 import 'package:islami_wallet/screens/dashboard/transfers/transfers_screen.dart';
+import 'package:islami_wallet/screens/dashboard/wallet/lock_tokens_screen.dart';
+import 'package:islami_wallet/screens/dashboard/wallet/network_fee_screen.dart';
+import 'package:islami_wallet/screens/dashboard/wallet/send_assets_confirm.dart';
+import 'package:islami_wallet/screens/dashboard/wallet/send_assets_screen.dart';
+import 'package:islami_wallet/screens/dashboard/wallet/send_enter_amount_screen.dart';
 import 'package:islami_wallet/screens/dashboard/wallet/view_coin_screen.dart';
 import 'package:islami_wallet/screens/dashboard/wallet/wallet_screen.dart';
 import 'package:islami_wallet/screens/onboarding/have_wallet_screen.dart';
@@ -108,6 +113,31 @@ part 'routes.gr.dart';
       page: EnterAmountPage,
       path: 'enter-amount-page',
       name: 'EnterAmountRoute',
+    ),
+    AutoRoute(
+      page: SendEnterAmountPage,
+      path: 'send-enter-amount-page',
+      name: 'SendEnterAmountRoute',
+    ),
+    AutoRoute(
+      page: SendAssetsPage,
+      path: 'send-assets-page',
+      name: 'SendAssetsRoute',
+    ),
+    AutoRoute(
+      page: SendAssetsConfirmPage,
+      path: 'send-assets-confirm-page',
+      name: 'SendAssetsConfirmRoute',
+    ),
+    AutoRoute(
+      page: NetworkFeePage,
+      path: 'network-fee-page',
+      name: 'NetworkFeeRoute',
+    ),
+    AutoRoute(
+      page: LockTokensPage,
+      path: 'lock-tokens-page',
+      name: 'LockTokensRoute',
     ),
   ],
 )

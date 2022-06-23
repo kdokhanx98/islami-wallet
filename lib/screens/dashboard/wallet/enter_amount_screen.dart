@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
@@ -119,8 +122,9 @@ class _EnterAmountPageState extends State<EnterAmountPage> {
                   });
                 }
               },
-              leftIcon: const Icon(
+              leftIcon: Icon(
                 Icons.circle,
+                size: 1.w,
                 color: Colors.white,
               ),
             ),
@@ -128,7 +132,16 @@ class _EnterAmountPageState extends State<EnterAmountPage> {
               height: 3.h,
             ),
             RoundedContainer(
-              onTap: () => context.router.pop().then((value) => null),
+              onTap: () {
+                showModalBottomSheet<String>(
+                    isScrollControlled: true,
+                    useRootNavigator: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return sendLinkMethod();
+                    });
+              },
               padding: EdgeInsets.symmetric(vertical: 1.5.h),
               radius: 50,
               border: Border.all(
@@ -145,6 +158,132 @@ class _EnterAmountPageState extends State<EnterAmountPage> {
           ],
         ),
       )),
+    );
+  }
+
+  StatefulBuilder sendLinkMethod() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  SvgPicture.asset('assets/svg/ic_send_link.svg'),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  TextWidget(
+                    title: 'Send Link',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  const TextWidget(
+                    title: 'Your request link is ready to send!',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  SizedBox(
+                    width: 75.w,
+                    child: const TextWidget(
+                        title:
+                            'Send the below link to a friend, and it will ask them to send 1289 ISLAMI'),
+                  ),
+                  SizedBox(
+                    height: 6.h,
+                  ),
+                  SizedBox(
+                    width: 70.w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RoundedContainer(
+                          onTap: () {
+                            // copy the wallet.
+                            log('walled was copied');
+                          },
+                          radius: 50,
+                          containerColor: AppColors.primaryColor,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.w, horizontal: 2.w),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const TextWidget(
+                                title: 'https://islami…24jq',
+                                textColor: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              SvgPicture.asset(
+                                'assets/svg/ic_copy.svg',
+                                height: 3.5.h,
+                              )
+                            ],
+                          ),
+                        ),
+                        SvgPicture.asset('assets/svg/ic_rounded_scan.svg')
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  RoundedContainer(
+                    onTap: () {
+                      context.router
+                          .popUntilRouteWithName('BottomNavigationRoute');
+                    },
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    radius: 50,
+                    border: Border.all(
+                      color: AppColors.teal,
+                    ),
+                    child: Center(
+                      child: TextWidget(
+                        title: 'Send Link',
+                        textColor: AppColors.teal,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
