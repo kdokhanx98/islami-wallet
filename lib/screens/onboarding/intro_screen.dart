@@ -33,7 +33,7 @@ class _IntroPageState extends State<IntroPage> {
         ),
         padding: EdgeInsets.all(15.w),
         child: Image.asset(
-          'assets/gifs/onboarding1.gif',
+          'assets/gifs/logo_animation.gif',
           width: 175,
           height: 150,
         ),
