@@ -26,6 +26,7 @@ class ViewCoinPage extends StatefulWidget {
 
 class _WalletPageState extends State<ViewCoinPage> {
   bool isFirstTime = true;
+  bool isVoteSubmitEnabled = false;
   final _searchTextController = TextEditingController();
 
   List<Map<String, dynamic>> dummyData = [
@@ -254,8 +255,19 @@ class _WalletPageState extends State<ViewCoinPage> {
                                     isFirstTime = !isFirstTime;
                                   });
                                   context.router.push(const LockTokensRoute());
+                                } else {
+                                  setState(() => isVoteSubmitEnabled =
+                                      !isVoteSubmitEnabled);
+                                  // open your opinion matters bottom sheet
+                                  showModalBottomSheet<String>(
+                                      isScrollControlled: true,
+                                      useRootNavigator: true,
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return yourOpinionMethod();
+                                      });
                                 }
-                                // open your opinion matters bottom sheet
                               }),
                         ],
                       ),
@@ -550,6 +562,148 @@ class _WalletPageState extends State<ViewCoinPage> {
                   ),
                   SizedBox(
                     height: 3.h,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  StatefulBuilder yourOpinionMethod() {
+    return StatefulBuilder(
+      builder: (BuildContext context,
+          StateSetter setState /*You can rename this!*/) {
+        return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  RoundedContainer(
+                    width: 12.w,
+                    height: 1.w,
+                    containerColor: AppColors.gray5,
+                    radius: 20,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  TextWidget(
+                    title: 'Your Opinion Matters',
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.sp,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  const Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextWidget(title: '1/3')),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextWidget(
+                        title:
+                            'Do you think ISLAMIcoin will be the next booming currency?',
+                        textAlign: TextAlign.start,
+                        textColor: Colors.white,
+                        fontSize: 16.sp,
+                      )),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  RoundedContainer(
+                      onTap: () {
+                        setState(() {
+                          isVoteSubmitEnabled = !isVoteSubmitEnabled;
+                        });
+                      },
+                      width: double.infinity,
+                      radius: 20,
+                      containerColor: AppColors.primaryColor,
+                      padding: EdgeInsets.all(6.w),
+                      child: const TextWidget(
+                        title: 'Yes I\'m sure',
+                        textColor: Colors.white,
+                        textAlign: TextAlign.start,
+                      )),
+                  SizedBox(
+                    height: 1.5.h,
+                  ),
+                  RoundedContainer(
+                      onTap: () {
+                        setState(() {
+                          isVoteSubmitEnabled = !isVoteSubmitEnabled;
+                        });
+                      },
+                      width: double.infinity,
+                      radius: 20,
+                      containerColor: AppColors.primaryColor,
+                      padding: EdgeInsets.all(6.w),
+                      child: const TextWidget(
+                        title: 'Maybe',
+                        textColor: Colors.white,
+                        textAlign: TextAlign.start,
+                      )),
+                  SizedBox(
+                    height: 1.5.h,
+                  ),
+                  RoundedContainer(
+                      onTap: () {
+                        setState(() {
+                          isVoteSubmitEnabled = !isVoteSubmitEnabled;
+                        });
+                      },
+                      width: double.infinity,
+                      radius: 20,
+                      containerColor: AppColors.primaryColor,
+                      padding: EdgeInsets.all(6.w),
+                      child: const TextWidget(
+                        title: 'Nah',
+                        textColor: Colors.white,
+                        textAlign: TextAlign.start,
+                      )),
+                  SizedBox(
+                    height: 1.5.h,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  RoundedContainer(
+                    isEnabled: isVoteSubmitEnabled,
+                    onTap: () => context.router.pop(),
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    radius: 50,
+                    border: Border.all(
+                      color:
+                          isVoteSubmitEnabled ? AppColors.teal : AppColors.gray,
+                    ),
+                    child: Center(
+                      child: TextWidget(
+                        title: 'Submit',
+                        textColor: isVoteSubmitEnabled
+                            ? AppColors.teal
+                            : AppColors.gray,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4.h,
                   ),
                 ],
               ),
