@@ -25,6 +25,7 @@ class ViewCoinPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<ViewCoinPage> {
+  bool isFirstTime = true;
   final _searchTextController = TextEditingController();
 
   List<Map<String, dynamic>> dummyData = [
@@ -101,135 +102,47 @@ class _WalletPageState extends State<ViewCoinPage> {
     return Scaffold(
         body: Stack(
       children: [
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.gray4,
-                  ),
-                  color: AppColors.gray3,
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30))),
-              child: Padding(
-                padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 4.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(
-                      height: 5.3.h,
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.gray4,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const CustomIconWidget(
-                          svgName: 'ic_back',
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(3.w),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: clickedItem['iconContainerColor']),
-                          child: SvgPicture.asset(
-                            'assets/svg/${clickedItem['svgPathName']}.svg',
-                            width: 8.w,
-                            height: 8.w,
+                    color: AppColors.gray3,
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30))),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 4.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                        height: 5.3.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const CustomIconWidget(
+                            svgName: 'ic_back',
                           ),
-                        ),
-                        CustomIconWidget(
-                          svgName: 'ic_chart_view',
-                          onTap: () {
-                            showModalBottomSheet<String>(
-                                isScrollControlled: true,
-                                useRootNavigator: true,
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return FractionallySizedBox(
-                                      heightFactor: 0.9, child: chartMethod());
-                                });
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Center(
-                      child: TextWidget(
-                        title: clickedItem['title'],
-                        fontSize: 15.sp,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Center(
-                      child: TextWidget(
-                        title: clickedItem['trailingSubtitle'],
-                        fontSize: 35.sp,
-                        textColor: Colors.white,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Center(
-                      child: RichText(
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: clickedItem['trailingTitle'],
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                )),
-                            TextSpan(
-                              text: clickedItem['subtitlePercentage'],
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                color: () {
-                                  if (clickedItem['subtitlePercentage']
-                                      .contains('-')) {
-                                    return AppColors.red2;
-                                  } else {
-                                    return AppColors.green2;
-                                  }
-                                }(),
-                              ),
+                          Container(
+                            padding: EdgeInsets.all(3.w),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: clickedItem['iconContainerColor']),
+                            child: SvgPicture.asset(
+                              'assets/svg/${clickedItem['svgPathName']}.svg',
+                              width: 8.w,
+                              height: 8.w,
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        walletAction(
-                            svgIconName: 'ic_send',
-                            title: 'Send',
-                            onTap: () {
-                              context.router.push(const SendAssetsRoute());
-                            }),
-                        walletAction(
-                          svgIconName: 'ic_add_teal',
-                          title: 'Buy',
-                          onTap: () {
-                            log('buy clicked');
-                          },
-                        ),
-                        walletAction(
-                            svgIconName: 'ic_receive',
-                            title: 'Receive',
+                          ),
+                          CustomIconWidget(
+                            svgName: 'ic_chart_view',
                             onTap: () {
                               showModalBottomSheet<String>(
                                   isScrollControlled: true,
@@ -238,70 +151,169 @@ class _WalletPageState extends State<ViewCoinPage> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return FractionallySizedBox(
-                                        heightFactor: 0.90,
-                                        child: selectAssetsMethod('receive'));
+                                        heightFactor: 0.9,
+                                        child: chartMethod());
                                   });
-                            }),
-                        walletAction(
-                            svgIconName: 'ic_check',
-                            title: 'Vote',
-                            onTap: () {
-                              log('vote clicked');
-                            }),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: SizedBox(
-                    height: 50.h,
-                    child: SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextWidget(
-                                title: 'Today',
-                                textColor: Colors.white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 3.h),
-                          MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: ListView.builder(
-                              physics: const ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return TransactionItemWidget(
-                                  status: transactionDummyData[index]['status'],
-                                  result: transactionDummyData[index]['result'],
-                                );
-                              },
-                              itemCount: transactionDummyData.length,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.h,
+                            },
                           ),
                         ],
                       ),
-                    ))),
-          ],
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Center(
+                        child: TextWidget(
+                          title: clickedItem['title'],
+                          fontSize: 15.sp,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Center(
+                        child: TextWidget(
+                          title: clickedItem['trailingSubtitle'],
+                          fontSize: 35.sp,
+                          textColor: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Center(
+                        child: RichText(
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: clickedItem['trailingTitle'],
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                  )),
+                              TextSpan(
+                                text: clickedItem['subtitlePercentage'],
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: () {
+                                    if (clickedItem['subtitlePercentage']
+                                        .contains('-')) {
+                                      return AppColors.red2;
+                                    } else {
+                                      return AppColors.green2;
+                                    }
+                                  }(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          walletAction(
+                              svgIconName: 'ic_send',
+                              title: 'Send',
+                              onTap: () {
+                                context.router.push(const SendAssetsRoute());
+                              }),
+                          walletAction(
+                            svgIconName: 'ic_add_teal',
+                            title: 'Buy',
+                            onTap: () {
+                              log('buy clicked');
+                            },
+                          ),
+                          walletAction(
+                              svgIconName: 'ic_receive',
+                              title: 'Receive',
+                              onTap: () {
+                                showModalBottomSheet<String>(
+                                    isScrollControlled: true,
+                                    useRootNavigator: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return FractionallySizedBox(
+                                          heightFactor: 0.90,
+                                          child: selectAssetsMethod('receive'));
+                                    });
+                              }),
+                          walletAction(
+                              svgIconName: 'ic_check',
+                              title: 'Vote',
+                              onTap: () {
+                                if (isFirstTime) {
+                                  setState(() {
+                                    isFirstTime = !isFirstTime;
+                                  });
+                                  context.router.push(const LockTokensRoute());
+                                }
+                                // open your opinion matters bottom sheet
+                              }),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: SizedBox(
+                      height: 50.h,
+                      child: SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextWidget(
+                                  title: 'Today',
+                                  textColor: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 3.h),
+                            MediaQuery.removePadding(
+                              context: context,
+                              removeTop: true,
+                              child: ListView.builder(
+                                physics: const ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return TransactionItemWidget(
+                                    status: transactionDummyData[index]
+                                        ['status'],
+                                    result: transactionDummyData[index]
+                                        ['result'],
+                                  );
+                                },
+                                itemCount: transactionDummyData.length,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                          ],
+                        ),
+                      ))),
+            ],
+          ),
         ),
         Positioned(
-            bottom: 15.h,
+            bottom: 13.h,
             left: 20.w,
             right: 20.w,
             child: RoundedContainer(
