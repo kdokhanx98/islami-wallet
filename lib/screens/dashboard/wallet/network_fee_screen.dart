@@ -105,23 +105,25 @@ class _NetworkFeePageState extends State<NetworkFeePage> {
                           textColor: Colors.white,
                           textAlign: TextAlign.end,
                         ),
-                        secondary: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              textAlign: TextAlign.start,
-                              title: 'Slow',
-                              fontSize: 15.sp,
-                              textColor: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
-                            const TextWidget(
-                              title: '10 ISLAMI',
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
+                        secondary: FittedBox(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextWidget(
+                                textAlign: TextAlign.start,
+                                title: 'Slow',
+                                fontSize: 15.sp,
+                                textColor: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 0.5.h,
+                              ),
+                              const TextWidget(
+                                title: '10 ISLAMI',
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
                         ),
                         value: BasicFee.slow,
                         groupValue: _character,
@@ -155,23 +157,25 @@ class _NetworkFeePageState extends State<NetworkFeePage> {
                           textColor: Colors.white,
                           textAlign: TextAlign.end,
                         ),
-                        secondary: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              textAlign: TextAlign.start,
-                              title: 'Average',
-                              fontSize: 15.sp,
-                              textColor: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
-                            const TextWidget(
-                              title: '23 ISLAMI',
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
+                        secondary: FittedBox(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextWidget(
+                                textAlign: TextAlign.start,
+                                title: 'Average',
+                                fontSize: 15.sp,
+                                textColor: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 0.5.h,
+                              ),
+                              const TextWidget(
+                                title: '23 ISLAMI',
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
                         ),
                         value: BasicFee.average,
                         groupValue: _character,
@@ -205,23 +209,25 @@ class _NetworkFeePageState extends State<NetworkFeePage> {
                           textColor: Colors.white,
                           textAlign: TextAlign.end,
                         ),
-                        secondary: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              textAlign: TextAlign.start,
-                              title: 'Fast',
-                              fontSize: 15.sp,
-                              textColor: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
-                            const TextWidget(
-                              title: '50 ISLAMI',
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
+                        secondary: FittedBox(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextWidget(
+                                textAlign: TextAlign.start,
+                                title: 'Fast',
+                                fontSize: 15.sp,
+                                textColor: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 0.5.h,
+                              ),
+                              const TextWidget(
+                                title: '50 ISLAMI',
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
                         ),
                         value: BasicFee.fast,
                         groupValue: _character,
