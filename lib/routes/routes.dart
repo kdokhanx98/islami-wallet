@@ -26,6 +26,7 @@ import '../screens/dashboard/transfers/transfer_fill_screen.dart';
 import '../screens/dashboard/wallet/enter_amount_screen.dart';
 import '../screens/dashboard/wallet/scanning_screen.dart';
 import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
+import '../screens/trust_wallet_demo/demo_screen.dart';
 
 part 'routes.gr.dart';
 
@@ -37,6 +38,7 @@ part 'routes.gr.dart';
     AutoRoute(
         page: HaveWalletPage, name: 'HaveWalletRoute', path: '/have-wallet'),
     AutoRoute(page: PasscodePage, name: 'PasscodeRoute', path: '/passcode'),
+    AutoRoute(page: DemoWalletPage, name: 'DemoWalletRoute', path: '/demo'),
     AutoRoute(
         page: ReenterPasscodePage,
         name: 'ReenterPasscodeRoute',

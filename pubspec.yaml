@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,7 +30,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -40,17 +39,25 @@ dependencies:
   auto_size_text: ^3.0.0
   introduction_screen: ^3.0.2
   numeric_keyboard: ^1.1.0
-  local_auth: ^2.1.0
+  local_auth: ^2.1.0 # allow local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern.
   flutter_svg: ^1.1.0
   dotted_border: ^2.0.0+2
   animated_bottom_navigation_bar: ^1.0.0
   qr_code_scanner: ^1.0.0
   flutter_polls: ^0.0.7
+  trust_wallet_core: ^0.0.5
+  logger: ^1.0.0
+  convert: ^3.0.1
+  fixnum: ^1.0.0
+  ffi: ^1.1.2
+  protobuf: ^2.0.0
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^4.0.0          
+  auto_route_generator: ^4.0.0
   build_runner: ^2.1.11
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -66,7 +73,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -104,7 +110,6 @@ flutter:
 flutter_native_splash:
   background_image: "assets/images/splash.png"
   fullscreen: true
-
 
 # flutter packages pub run flutter_launcher_icons:main
 flutter_icons:

@@ -29,6 +29,10 @@ class AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const PasscodePage());
     },
+    DemoWalletRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const DemoWalletPage());
+    },
     ReenterPasscodeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const ReenterPasscodePage());
@@ -118,6 +122,7 @@ class AppRouter extends RootStackRouter {
         RouteConfig(IntroRoute.name, path: '/'),
         RouteConfig(HaveWalletRoute.name, path: '/have-wallet'),
         RouteConfig(PasscodeRoute.name, path: '/passcode'),
+        RouteConfig(DemoWalletRoute.name, path: '/demo'),
         RouteConfig(ReenterPasscodeRoute.name, path: '/reenter-passcode'),
         RouteConfig(CreateNewWalletRoute.name, path: '/create-new-wallet'),
         RouteConfig(RecoveryPhraseRoute.name, path: '/recovery-phrase'),
@@ -177,6 +182,14 @@ class PasscodeRoute extends PageRouteInfo<void> {
   const PasscodeRoute() : super(PasscodeRoute.name, path: '/passcode');
 
   static const String name = 'PasscodeRoute';
+}
+
+/// generated route for
+/// [DemoWalletPage]
+class DemoWalletRoute extends PageRouteInfo<void> {
+  const DemoWalletRoute() : super(DemoWalletRoute.name, path: '/demo');
+
+  static const String name = 'DemoWalletRoute';
 }
 
 /// generated route for
