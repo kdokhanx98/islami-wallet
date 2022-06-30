@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^1.1.0
   dotted_border: ^2.0.0+2
   animated_bottom_navigation_bar: ^1.0.0
+  qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.0
   flutter_polls: ^0.0.7
   trust_wallet_core: ^0.0.5
@@ -51,6 +52,9 @@ dependencies:
   fixnum: ^1.0.0
   ffi: ^1.1.2
   protobuf: ^2.0.0
+  web3dart: ^2.3.1
+  google_fonts: ^2.1.0
+  shared_preferences: ^2.0.12
 
 dev_dependencies:
   integration_test:
@@ -59,6 +63,8 @@ dev_dependencies:
     sdk: flutter
   auto_route_generator: ^4.0.0
   build_runner: ^2.1.11
+  built_value_generator: ^8.1.4
+  json_serializable: ^6.1.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
