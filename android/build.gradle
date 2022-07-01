@@ -4,17 +4,23 @@ buildscript {
         google()
         mavenCentral()
     }
-
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+    }    
 }
 
 allprojects {
     repositories {
         google()
         mavenCentral()
+        // maven {
+        //     url = uri("https://maven.pkg.github.com/trustwallet/wallet-core")
+        //     credentials {
+        //         username = "jalchr"
+        //         password = "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"
+        //     }
+        // }
     }
 }
 
