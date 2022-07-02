@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:sizer/sizer.dart';
+import 'package:trust_wallet_core/flutter_trust_wallet_core.dart';
 
 import '../../../theme/colors.dart';
 import '../../../widgets/rounded_container.dart';
@@ -21,19 +23,33 @@ class RecoveryPhrasePage extends StatefulWidget {
 class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
   bool isPhraseVisible = false;
   var correctPhrase = [
-    'then',
-    'vacant',
-    'girl',
-    'exist',
-    'avoid',
-    'usage',
-    'ride',
-    'alien',
-    'comic',
-    'cross',
-    'upon',
-    'hub'
+    // 'then',
+    // 'vacant',
+    // 'girl',
+    // 'exist',
+    // 'avoid',
+    // 'usage',
+    // 'ride',
+    // 'alien',
+    // 'comic',
+    // 'cross',
+    // 'upon',
+    // 'hub'
   ];
+
+  late HDWallet wallet;
+
+  @override
+  void initState() {
+    super.initState();
+    String mnemonic = "";
+    // "rent craft script crucial item someone dream federal notice page shrug pipe young hover duty"; // 有测试币的 tron地址
+    // wallet = HDWallet.createWithMnemonic(mnemonic);
+    wallet = HDWallet();
+    mnemonic = wallet.mnemonic();
+    correctPhrase = mnemonic.split(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,12 +162,20 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
               SizedBox(
                 height: 4.h,
               ),
-              Center(
-                child: TextWidget(
+              InkWell(
+                onTap: () async {
+                  await Clipboard.setData(
+                      ClipboardData(text: wallet.mnemonic()));
+
+                  // Scaffold.of(context).showSnackBar(
+                  //     const SnackBar(content: Text('✓   Copied to Clipboard')));
+                },
+                child: Center(
+                    child: TextWidget(
                   title: 'Copy phrase',
                   textColor: AppColors.teal,
                   fontSize: 16.sp,
-                ),
+                )),
               ),
               SizedBox(
                 height: 4.h,
@@ -204,7 +228,8 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
                 height: 4.h,
               ),
               RoundedContainer(
-                onTap: () => context.router.push(const VerifyRecoveryRoute()),
+                onTap: () => context.router
+                    .push(VerifyRecoveryRoute(mnemonic: wallet.mnemonic())),
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
                 radius: 50,
                 border: Border.all(

@@ -36,7 +36,7 @@ dependencies:
   flutter_native_splash: ^2.2.3+1
   auto_route: ^4.0.1
   sizer: ^2.0.15
-  auto_size_text: ^3.0.0
+  auto_size_text: ^3.0.0   # flutter packages pub run build_runner build --delete-conflicting-outputs
   introduction_screen: ^3.0.2
   numeric_keyboard: ^1.1.0
   local_auth: ^2.1.0 # allow local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern.

@@ -46,8 +46,10 @@ class AppRouter extends RootStackRouter {
           routeData: routeData, child: const RecoveryPhrasePage());
     },
     VerifyRecoveryRoute.name: (routeData) {
+      final args = routeData.argsAs<VerifyRecoveryRouteArgs>();
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const VerifyRecoveryPage());
+          routeData: routeData,
+          child: VerifyRecoveryPage(key: args.key, mnemonic: args.mnemonic));
     },
     BottomNavigationRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -221,11 +223,26 @@ class RecoveryPhraseRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [VerifyRecoveryPage]
-class VerifyRecoveryRoute extends PageRouteInfo<void> {
-  const VerifyRecoveryRoute()
-      : super(VerifyRecoveryRoute.name, path: '/verify-recovery');
+class VerifyRecoveryRoute extends PageRouteInfo<VerifyRecoveryRouteArgs> {
+  VerifyRecoveryRoute({Key? key, required String mnemonic})
+      : super(VerifyRecoveryRoute.name,
+            path: '/verify-recovery',
+            args: VerifyRecoveryRouteArgs(key: key, mnemonic: mnemonic));
 
   static const String name = 'VerifyRecoveryRoute';
+}
+
+class VerifyRecoveryRouteArgs {
+  const VerifyRecoveryRouteArgs({this.key, required this.mnemonic});
+
+  final Key? key;
+
+  final String mnemonic;
+
+  @override
+  String toString() {
+    return 'VerifyRecoveryRouteArgs{key: $key, mnemonic: $mnemonic}';
+  }
 }
 
 /// generated route for

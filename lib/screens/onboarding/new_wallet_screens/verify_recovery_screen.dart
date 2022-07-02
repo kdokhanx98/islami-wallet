@@ -11,7 +11,9 @@ import '../../../widgets/rounded_container.dart';
 import '../../../widgets/text_widget.dart';
 
 class VerifyRecoveryPage extends StatefulWidget {
-  const VerifyRecoveryPage({Key? key}) : super(key: key);
+  final String mnemonic;
+  const VerifyRecoveryPage({Key? key, required this.mnemonic})
+      : super(key: key);
 
   @override
   State<VerifyRecoveryPage> createState() => _VerifyRecoveryPageState();
@@ -20,32 +22,32 @@ class VerifyRecoveryPage extends StatefulWidget {
 class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
   var list = List<int>.generate(11, (int index) => index + 1);
   var correctPhrase = [
-    'then',
-    'vacant',
-    'girl',
-    'exist',
-    'avoid',
-    'usage',
-    'ride',
-    'alien',
-    'comic',
-    'cross',
-    'upon',
-    'hub'
+    // 'then',
+    // 'vacant',
+    // 'girl',
+    // 'exist',
+    // 'avoid',
+    // 'usage',
+    // 'ride',
+    // 'alien',
+    // 'comic',
+    // 'cross',
+    // 'upon',
+    // 'hub'
   ];
   var shuffledPhrase = [
-    'alien',
-    'usage',
-    'cross',
-    'upon',
-    'hub',
-    'vacant',
-    'ride',
-    'then',
-    'comic',
-    'girl',
-    'exist',
-    'avoid'
+    // 'alien',
+    // 'usage',
+    // 'cross',
+    // 'upon',
+    // 'hub',
+    // 'vacant',
+    // 'ride',
+    // 'then',
+    // 'comic',
+    // 'girl',
+    // 'exist',
+    // 'avoid'
   ];
   var falseWords = [];
   int count = 0;
@@ -56,10 +58,15 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
   bool isSecondFilled = false;
   bool isThirdFilled = false;
 
+  var correctList = [false, false, false];
+
   @override
   void initState() {
     list.shuffle();
     super.initState();
+    correctPhrase = widget.mnemonic.split(' ');
+    shuffledPhrase = correctPhrase.toList();
+    shuffledPhrase.shuffle();
   }
 
   @override
@@ -128,6 +135,7 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                                 String chosenWord = shuffledPhrase[chosenIndex];
                                 bool isCorrect = chosenWord ==
                                     correctPhrase[list[index] - 1];
+                                correctList[index] = isCorrect;
                                 return RoundedContainer(
                                   width: 23.w,
                                   onTap: () {
@@ -207,32 +215,34 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                           index == secondCLickedIndex ||
                           index == thirdClickedIndex;
                       return RoundedContainer(
-                        onTap: () {
-                          if (count == 3) return;
-                          setState(() {
-                            count++;
-                          });
-                          switch (count) {
-                            case 1:
-                              setState(() {
-                                isFirstFilled = true;
-                                firstClickedIndex = index;
-                              });
-                              break;
-                            case 2:
-                              setState(() {
-                                isSecondFilled = true;
-                                secondCLickedIndex = index;
-                              });
-                              break;
-                            case 3:
-                              setState(() {
-                                isThirdFilled = true;
-                                thirdClickedIndex = index;
-                              });
-                              break;
-                          }
-                        },
+                        onTap: isChosen
+                            ? null
+                            : () {
+                                if (count == 3) return;
+                                setState(() {
+                                  count++;
+                                });
+                                switch (count) {
+                                  case 1:
+                                    setState(() {
+                                      isFirstFilled = true;
+                                      firstClickedIndex = index;
+                                    });
+                                    break;
+                                  case 2:
+                                    setState(() {
+                                      isSecondFilled = true;
+                                      secondCLickedIndex = index;
+                                    });
+                                    break;
+                                  case 3:
+                                    setState(() {
+                                      isThirdFilled = true;
+                                      thirdClickedIndex = index;
+                                    });
+                                    break;
+                                }
+                              },
                         containerColor: AppColors.gray3,
                         radius: 15,
                         child: Center(
@@ -363,7 +373,10 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                     ),
                     child: Center(
                       child: TextWidget(
-                        title: isFirstFilled && isSecondFilled && isThirdFilled
+                        title: isFirstFilled &&
+                                isSecondFilled &&
+                                isThirdFilled &&
+                                correctList.where((e) => e).length == 3
                             ? 'Complete Recovery'
                             : 'Continue',
                         textColor: AppColors.teal,
