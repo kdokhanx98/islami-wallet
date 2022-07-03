@@ -11,12 +11,11 @@ class GetInitialRoute extends AutoRouteGuard {
   @override
   Future<void> onNavigation(
       NavigationResolver resolver, StackRouter router) async {
-    
-    final SharedPreferences _preferences =
+    final SharedPreferences preferences =
         await SharedPreferences.getInstance();
-    var didSetupWallet = _preferences.getBool('didSetupWallet') ?? false;
+    var didSetupWallet = preferences.getBool('didSetupWallet') ?? false;
 
-    if (didSetupWallet) {
+    if (didSetupWallet || resolver.route.path == '/intro') {
       //  router.push(const BottomNavigationRoute());
       resolver.next(true);
     } else {
