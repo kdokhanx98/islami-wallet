@@ -3,7 +3,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
+import 'package:islami_wallet/services/configuration_service.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../theme/colors.dart';
@@ -257,6 +259,14 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                   const Spacer(),
                   RoundedContainer(
                     onTap: () async {
+                      // store locally
+                      final configurationService =
+                          Provider.of<ConfigurationService>(context, listen: false);
+
+                      await configurationService.setMnemonic(widget.mnemonic);
+                      await configurationService.setPrivateKey(null);
+                      await configurationService.setupDone(true);
+
                       final result = await showModalBottomSheet<String>(
                           backgroundColor: Colors.transparent,
                           context: context,

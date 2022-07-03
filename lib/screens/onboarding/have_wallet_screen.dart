@@ -2,12 +2,17 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
+import 'package:islami_wallet/widgets/text_form.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:trust_wallet_core/flutter_trust_wallet_core.dart';
 import '../../routes/routes.dart';
+import '../../services/configuration_service.dart';
 import '../../widgets/text_widget.dart';
 
 class HaveWalletPage extends StatefulWidget {
@@ -19,6 +24,20 @@ class HaveWalletPage extends StatefulWidget {
 
 class _HaveWalletPageState extends State<HaveWalletPage> {
   String text = '';
+  final _mnemonicController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _mnemonicController.text = "";
+  }
+
+  @override
+  void dispose() {
+    _mnemonicController.dispose();
+    super.dispose();
+  }
 
   _onKeyboardTap(String value) {
     setState(() {
@@ -70,20 +89,30 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TextWidget(
-                      title: 'Recovery Phrase',
-                    ),
+                    TextForm(
+                        title: 'Recovery Phrase',
+                        controller: _mnemonicController),
                     SizedBox(
-                      height: 5.h,
+                      height: 2.h,
                     ),
                     Row(
                       children: [
                         const Spacer(),
-                        TextWidget(
-                          title: 'Paste',
-                          textColor: AppColors.teal,
-                          fontSize: 16.sp,
-                        )
+                        InkWell(
+                            onTap: () async {
+                              final clipboard =
+                                  await Clipboard.getData("text/plain");
+                              if (clipboard != null && clipboard.text != null) {
+                                print(clipboard.text.toString());
+                                _mnemonicController.text =
+                                    clipboard.text.toString();
+                              }
+                            },
+                            child: TextWidget(
+                              title: 'Paste',
+                              textColor: AppColors.teal,
+                              fontSize: 16.sp,
+                            ))
                       ],
                     ),
                   ],
@@ -92,13 +121,15 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
               SizedBox(
                 height: 4.h,
               ),
-              Center(
-                child: TextWidget(
-                  title: 'Or scan the QR code',
-                  textColor: AppColors.teal,
-                  fontSize: 16.sp,
-                ),
-              ),
+              InkWell(
+                  onTap: (() => context.router.push(const QRScanningRoute())),
+                  child: Center(
+                    child: TextWidget(
+                      title: 'Or scan the QR code',
+                      textColor: AppColors.teal,
+                      fontSize: 16.sp,
+                    ),
+                  )),
               NumericKeyboard(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 onKeyboardTap: _onKeyboardTap,
@@ -128,7 +159,26 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                 height: 2.h,
               ),
               RoundedContainer(
-                onTap: () => context.router.push(const BottomNavigationRoute()),
+                onTap: () async {
+                  var mnemonic = _mnemonicController.text.trim().toLowerCase();
+                  try {
+                    var wallet = HDWallet.createWithMnemonic(mnemonic);
+                    // store locally
+                    final configurationService =
+                        Provider.of<ConfigurationService>(context, listen: false);
+
+                    await configurationService.setMnemonic(mnemonic);
+                    await configurationService.setPrivateKey(null);
+                    await configurationService.setupDone(true);
+
+                    context.router.push(const BottomNavigationRoute());
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Invalid mnemonic phrase !')),
+                    );
+                  }
+                },
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
                 radius: 50,
                 border: Border.all(

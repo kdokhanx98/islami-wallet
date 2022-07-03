@@ -13,10 +13,18 @@
 part of 'routes.dart';
 
 class AppRouter extends RootStackRouter {
-  AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
+  AppRouter(
+      {GlobalKey<NavigatorState>? navigatorKey, required this.getInitialRoute})
+      : super(navigatorKey);
+
+  final GetInitialRoute getInitialRoute;
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    BottomNavigationRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const BottomNavigationPage());
+    },
     IntroRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const IntroPage());
@@ -50,10 +58,6 @@ class AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData,
           child: VerifyRecoveryPage(key: args.key, mnemonic: args.mnemonic));
-    },
-    BottomNavigationRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const BottomNavigationPage());
     },
     QRScanningRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -121,7 +125,28 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<RouteConfig> get routes => [
-        RouteConfig(IntroRoute.name, path: '/'),
+        RouteConfig(BottomNavigationRoute.name, path: '/', guards: [
+          getInitialRoute
+        ], children: [
+          RouteConfig(WalletRoute.name,
+              path: 'wallet-page',
+              parent: BottomNavigationRoute.name,
+              children: [
+                RouteConfig(WalletPageRoute.name,
+                    path: '', parent: WalletRoute.name),
+                RouteConfig(ViewCoinRoute.name,
+                    path: 'view-coin', parent: WalletRoute.name)
+              ]),
+          RouteConfig(TransfersRoute.name,
+              path: 'transfers', parent: BottomNavigationRoute.name),
+          RouteConfig(ProjectsRoute.name,
+              path: 'projects', parent: BottomNavigationRoute.name),
+          RouteConfig(SettingsRoute.name,
+              path: 'settings', parent: BottomNavigationRoute.name),
+          RouteConfig(NotificationsRoute.name,
+              path: 'notifications', parent: BottomNavigationRoute.name)
+        ]),
+        RouteConfig(IntroRoute.name, path: '/intro', guards: [getInitialRoute]),
         RouteConfig(HaveWalletRoute.name, path: '/have-wallet'),
         RouteConfig(PasscodeRoute.name, path: '/passcode'),
         RouteConfig(DemoWalletRoute.name, path: '/demo'),
@@ -129,27 +154,6 @@ class AppRouter extends RootStackRouter {
         RouteConfig(CreateNewWalletRoute.name, path: '/create-new-wallet'),
         RouteConfig(RecoveryPhraseRoute.name, path: '/recovery-phrase'),
         RouteConfig(VerifyRecoveryRoute.name, path: '/verify-recovery'),
-        RouteConfig(BottomNavigationRoute.name,
-            path: '/bottomNavigationScreen',
-            children: [
-              RouteConfig(WalletRoute.name,
-                  path: 'wallet-page',
-                  parent: BottomNavigationRoute.name,
-                  children: [
-                    RouteConfig(WalletPageRoute.name,
-                        path: '', parent: WalletRoute.name),
-                    RouteConfig(ViewCoinRoute.name,
-                        path: 'view-coin', parent: WalletRoute.name)
-                  ]),
-              RouteConfig(TransfersRoute.name,
-                  path: 'transfers', parent: BottomNavigationRoute.name),
-              RouteConfig(ProjectsRoute.name,
-                  path: 'projects', parent: BottomNavigationRoute.name),
-              RouteConfig(SettingsRoute.name,
-                  path: 'settings', parent: BottomNavigationRoute.name),
-              RouteConfig(NotificationsRoute.name,
-                  path: 'notifications', parent: BottomNavigationRoute.name)
-            ]),
         RouteConfig(QRScanningRoute.name, path: 'qr-scanning-page'),
         RouteConfig(TransferFillRoute.name, path: 'transfer-fill-page'),
         RouteConfig(EnterAmountRoute.name, path: 'enter-amount-page'),
@@ -163,9 +167,18 @@ class AppRouter extends RootStackRouter {
 }
 
 /// generated route for
+/// [BottomNavigationPage]
+class BottomNavigationRoute extends PageRouteInfo<void> {
+  const BottomNavigationRoute({List<PageRouteInfo>? children})
+      : super(BottomNavigationRoute.name, path: '/', initialChildren: children);
+
+  static const String name = 'BottomNavigationRoute';
+}
+
+/// generated route for
 /// [IntroPage]
 class IntroRoute extends PageRouteInfo<void> {
-  const IntroRoute() : super(IntroRoute.name, path: '/');
+  const IntroRoute() : super(IntroRoute.name, path: '/intro');
 
   static const String name = 'IntroRoute';
 }
@@ -243,16 +256,6 @@ class VerifyRecoveryRouteArgs {
   String toString() {
     return 'VerifyRecoveryRouteArgs{key: $key, mnemonic: $mnemonic}';
   }
-}
-
-/// generated route for
-/// [BottomNavigationPage]
-class BottomNavigationRoute extends PageRouteInfo<void> {
-  const BottomNavigationRoute({List<PageRouteInfo>? children})
-      : super(BottomNavigationRoute.name,
-            path: '/bottomNavigationScreen', initialChildren: children);
-
-  static const String name = 'BottomNavigationRoute';
 }
 
 /// generated route for

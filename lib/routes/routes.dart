@@ -27,40 +27,20 @@ import '../screens/dashboard/wallet/enter_amount_screen.dart';
 import '../screens/dashboard/wallet/scanning_screen.dart';
 import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
 import '../screens/trust_wallet_demo/demo_screen.dart';
+import 'get_initial_route_guard.dart';
 
 part 'routes.gr.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: [
-    // login routes
-    AutoRoute(page: IntroPage, initial: true, name: 'IntroRoute', path: '/'),
-    AutoRoute(
-        page: HaveWalletPage, name: 'HaveWalletRoute', path: '/have-wallet'),
-    AutoRoute(page: PasscodePage, name: 'PasscodeRoute', path: '/passcode'),
-    AutoRoute(page: DemoWalletPage, name: 'DemoWalletRoute', path: '/demo'),
-    AutoRoute(
-        page: ReenterPasscodePage,
-        name: 'ReenterPasscodeRoute',
-        path: '/reenter-passcode'),
-    AutoRoute(
-        page: CreateNewWalletPage,
-        name: 'CreateNewWalletRoute',
-        path: '/create-new-wallet'),
-    AutoRoute(
-        page: RecoveryPhrasePage,
-        name: 'RecoveryPhraseRoute',
-        path: '/recovery-phrase'),
-    AutoRoute(
-        page: VerifyRecoveryPage,
-        name: 'VerifyRecoveryRoute',
-        path: '/verify-recovery'),
     // bottom nav routes
     AutoRoute(
         page: BottomNavigationPage,
         initial: true,
+        guards: [GetInitialRoute],
         name: 'BottomNavigationRoute',
-        path: '/bottomNavigationScreen',
+        path: '/',
         children: [
           AutoRoute(
             path: 'wallet-page',
@@ -101,6 +81,32 @@ part 'routes.gr.dart';
             name: 'NotificationsRoute',
           ),
         ]),
+    // login routes
+    AutoRoute(
+        page: IntroPage,
+        guards: [GetInitialRoute],
+        name: 'IntroRoute',
+        path: '/intro'),
+    AutoRoute(
+        page: HaveWalletPage, name: 'HaveWalletRoute', path: '/have-wallet'),
+    AutoRoute(page: PasscodePage, name: 'PasscodeRoute', path: '/passcode'),
+    AutoRoute(page: DemoWalletPage, name: 'DemoWalletRoute', path: '/demo'),
+    AutoRoute(
+        page: ReenterPasscodePage,
+        name: 'ReenterPasscodeRoute',
+        path: '/reenter-passcode'),
+    AutoRoute(
+        page: CreateNewWalletPage,
+        name: 'CreateNewWalletRoute',
+        path: '/create-new-wallet'),
+    AutoRoute(
+        page: RecoveryPhrasePage,
+        name: 'RecoveryPhraseRoute',
+        path: '/recovery-phrase'),
+    AutoRoute(
+        page: VerifyRecoveryPage,
+        name: 'VerifyRecoveryRoute',
+        path: '/verify-recovery'),
     AutoRoute(
       page: QRScanningPage,
       path: 'qr-scanning-page',

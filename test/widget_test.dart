@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:islami_wallet/main.dart';
+import 'package:provider/single_child_widget.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    List<SingleChildWidget> stores = <SingleChildWidget>[];
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(stores));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

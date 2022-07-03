@@ -77,7 +77,8 @@ class _WalletPageState extends State<WalletPage> {
         body: Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        Container(
+        Expanded(
+            child: Container(
           decoration: BoxDecoration(
               border: Border.all(
                 color: AppColors.gray4,
@@ -214,7 +215,7 @@ class _WalletPageState extends State<WalletPage> {
               ],
             ),
           ),
-        ),
+        )),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: SizedBox(

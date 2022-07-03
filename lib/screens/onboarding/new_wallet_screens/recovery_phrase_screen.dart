@@ -167,8 +167,8 @@ class _RecoveryPhrasePageState extends State<RecoveryPhrasePage> {
                   await Clipboard.setData(
                       ClipboardData(text: wallet.mnemonic()));
 
-                  // Scaffold.of(context).showSnackBar(
-                  //     const SnackBar(content: Text('✓   Copied to Clipboard')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('✓   Copied to Clipboard')));
                 },
                 child: Center(
                     child: TextWidget(

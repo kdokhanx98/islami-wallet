@@ -4,8 +4,10 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../services/configuration_service.dart';
 import '../../widgets/rounded_container.dart';
 
 class IntroPage extends StatefulWidget {
@@ -17,6 +19,7 @@ class IntroPage extends StatefulWidget {
 
 class _IntroPageState extends State<IntroPage> {
   List<PageViewModel> listPagesViewModel = [];
+
   @override
   void initState() {
     super.initState();
