@@ -88,14 +88,12 @@ class _WalletPageState extends State<WalletPage> {
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30))),
           child: Padding(
-            padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 4.h),
+            padding:
+                EdgeInsets.only(top: 4.w, left: 5.w, right: 5.w, bottom: 0.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+              // mainAxisSize: MainAxisSize.max,
               children: [
-                SizedBox(
-                  height: 6.h,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -142,34 +140,34 @@ class _WalletPageState extends State<WalletPage> {
                 SizedBox(
                   height: 2.h,
                 ),
-                Center(
-                  child: RoundedContainer(
-                    onTap: () {
-                      // copy the wallet.
-                      log('walled was copied');
-                    },
-                    radius: 50,
-                    containerColor: AppColors.primaryColor,
-                    padding: EdgeInsets.only(top: 1.w, bottom: 1.w, right: 2.w),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const TextWidget(
-                          title: '15rGLE…hsMKYP',
-                          textColor: Colors.white,
-                        ),
-                        SvgPicture.asset(
-                          'assets/svg/ic_copy.svg',
-                          height: 3.5.h,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
+                // Center(
+                //   child: RoundedContainer(
+                //     onTap: () {
+                //       // copy the wallet.
+                //       log('walled was copied');
+                //     },
+                //     radius: 50,
+                //     containerColor: AppColors.primaryColor,
+                //     padding: EdgeInsets.only(top: 1.w, bottom: 1.w, right: 2.w),
+                //     child: Row(
+                //       mainAxisSize: MainAxisSize.min,
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         const TextWidget(
+                //           title: '15rGLE…hsMKYP',
+                //           textColor: Colors.white,
+                //         ),
+                //         SvgPicture.asset(
+                //           'assets/svg/ic_copy.svg',
+                //           height: 3.5.h,
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 4.h,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -219,7 +217,7 @@ class _WalletPageState extends State<WalletPage> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: SizedBox(
-                height: 50.h,
+                height: 60.h,
                 child: SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
                   child: Column(
