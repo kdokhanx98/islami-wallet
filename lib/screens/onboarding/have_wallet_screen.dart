@@ -10,7 +10,7 @@ import 'package:islami_wallet/widgets/text_form.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import '../../routes/routes.dart';
 import '../../services/configuration_service.dart';
 import '../../widgets/text_widget.dart';

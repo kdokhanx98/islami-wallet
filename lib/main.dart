@@ -4,7 +4,7 @@ import 'package:islami_wallet/theme/colors.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 
 import 'routes/get_initial_route_guard.dart';
 import 'services/services_provider.dart';

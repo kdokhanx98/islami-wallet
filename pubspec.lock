@@ -317,6 +317,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_trust_wallet_core:
+    dependency: "direct main"
+    description:
+      path: "packages/flutter_trust_wallet_core"
+      relative: true
+    source: path
+    version: "0.0.2"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -890,13 +897,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  trust_wallet_core:
-    dependency: "direct main"
-    description:
-      name: trust_wallet_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.5"
   typed_data:
     dependency: transitive
     description:

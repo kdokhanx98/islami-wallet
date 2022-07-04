@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:flutter/material.dart';
-import 'package:trust_wallet_core/flutter_trust_wallet_core.dart';
-import 'package:trust_wallet_core/protobuf/Tron.pb.dart' as Tron;
-import 'package:trust_wallet_core/trust_wallet_core_ffi.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/protobuf/Tron.pb.dart' as Tron;
+import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'base_example.dart';
 
 class TronExample extends BaseExample {

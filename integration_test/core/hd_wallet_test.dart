@@ -1,9 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:convert/convert.dart';
 
 void main() {
-
   group('hdWallet.getAddressForCoin test', () {
     test('cointype for BTC', () {
       final hDWallet = HDWallet.createWithMnemonic(

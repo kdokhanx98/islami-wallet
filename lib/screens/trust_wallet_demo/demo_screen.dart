@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 
 import 'bitcoin_address_example.dart';
 import 'bitcoin_transaction_example.dart';

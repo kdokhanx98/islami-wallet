@@ -1,12 +1,14 @@
 import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
-import 'package:trust_wallet_core/flutter_trust_wallet_core.dart' as walletCore;
-import 'package:trust_wallet_core/trust_wallet_core_ffi.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart'
+    as walletCore;
+import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 
 class WIF {
   /// https://secretscan.org/PrivateKeyWif
-  static String encode(String privateKeyHex, int coinType, {bool compress = true}) {
+  static String encode(String privateKeyHex, int coinType,
+      {bool compress = true}) {
     switch (coinType) {
       case TWCoinType.TWCoinTypeBitcoin:
       case TWCoinType.TWCoinTypeBitcoinCash:
@@ -24,17 +26,18 @@ class WIF {
       privateKeyHex += "01";
     }
 
-    final hash1 =walletCore.Hash.hashSHA256(Uint8List.fromList(hex.decode(privateKeyHex)));
+    final hash1 = walletCore.Hash.hashSHA256(
+        Uint8List.fromList(hex.decode(privateKeyHex)));
     final hash2 = walletCore.Hash.hashSHA256(Uint8List.fromList(hash1));
     privateKeyHex = privateKeyHex + hex.encode(hash2).substring(0, 8);
-    final result = walletCore.Base58.base58EncodeNoCheck(Uint8List.fromList(hex.decode(privateKeyHex)));
+    final result = walletCore.Base58.base58EncodeNoCheck(
+        Uint8List.fromList(hex.decode(privateKeyHex)));
     return result;
   }
 
   static String? decode(String wif, {bool compress = true}) {
-
     final output = walletCore.Base58.base58DecodeNoCheck(wif);
-    if(output == null) {
+    if (output == null) {
       return null;
     }
     String result = hex.encode(output);
