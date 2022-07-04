@@ -8,6 +8,7 @@ import 'package:islami_wallet/widgets/pin.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../../widgets/text_widget.dart';
 
@@ -21,13 +22,16 @@ class ReenterPasscodePage extends StatefulWidget {
 class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
   String text = '';
   final LocalAuthentication auth = LocalAuthentication();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   _onKeyboardTap(String value) async {
+    final SharedPreferences prefs = await _prefs;
+    String? passCode = prefs.getString('passCode');
     if (text.length < 6) {
       setState(() {
         text = text + value;
       });
-      if (text.length == 6) {
+      if (text == passCode) {
         final bool canAuthenticateWithBiometrics =
             await auth.canCheckBiometrics;
         final bool canAuthenticate =
@@ -139,7 +143,15 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
         }
         context.router.push(const CreateNewWalletRoute());
       }
+      if (text.length == 6 && text != passCode) {
+        falsePasscode();
+      }
     }
+  }
+
+  void falsePasscode() {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Wrong Passcode')));
   }
 
   @override
