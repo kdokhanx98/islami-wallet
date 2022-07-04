@@ -1,7 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/widgets/settings_item.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../routes/routes.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -114,6 +117,16 @@ class SettingsPage extends StatelessWidget {
                 title: 'Version',
                 subtitle: '1.1',
                 isArrowShown: false,
+              ),
+              SizedBox(
+                height: 1.5.h,
+              ),
+              SettingsItem(
+                svgIconName: 'ic_fail',
+                title: 'Demo Wallet',
+                // subtitle: '1.1',
+                isArrowShown: false,
+                onTap: () => context.router.push(const DemoWalletRoute()),
               ),
               SizedBox(
                 height: 4.h,

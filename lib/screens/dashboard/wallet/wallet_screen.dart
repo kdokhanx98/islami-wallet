@@ -73,8 +73,9 @@ class _WalletPageState extends State<WalletPage> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
+    return SafeArea(
+        child: Scaffold(
+            body: Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
@@ -89,7 +90,7 @@ class _WalletPageState extends State<WalletPage> {
                   bottomRight: Radius.circular(30))),
           child: Padding(
             padding:
-                EdgeInsets.only(top: 4.w, left: 5.w, right: 5.w, bottom: 0.h),
+                EdgeInsets.only(top: 2.w, left: 5.w, right: 5.w, bottom: 0.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               // mainAxisSize: MainAxisSize.max,
@@ -118,7 +119,7 @@ class _WalletPageState extends State<WalletPage> {
                   ],
                 ),
                 SizedBox(
-                  height: 2.h,
+                  height: 1.h,
                 ),
                 Center(
                   child: TextWidget(
@@ -127,7 +128,7 @@ class _WalletPageState extends State<WalletPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 2.h,
+                  height: 1.h,
                 ),
                 Center(
                   child: TextWidget(
@@ -138,7 +139,7 @@ class _WalletPageState extends State<WalletPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 2.h,
+                  height: 1.h,
                 ),
                 // Center(
                 //   child: RoundedContainer(
@@ -217,7 +218,7 @@ class _WalletPageState extends State<WalletPage> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: SizedBox(
-                height: 60.h,
+                height: 50.h,
                 child: SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
                   child: Column(
@@ -288,7 +289,7 @@ class _WalletPageState extends State<WalletPage> {
                   ),
                 ))),
       ],
-    ));
+    )));
   }
 
   StatefulBuilder filterMethod() {

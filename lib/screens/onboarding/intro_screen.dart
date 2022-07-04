@@ -155,21 +155,6 @@ class _IntroPageState extends State<IntroPage> {
                   ),
                 ),
               )),
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0.h,
-              child: Center(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => context.router.push(const DemoWalletRoute()),
-                  child: TextWidget(
-                    title: 'Demo Wallet',
-                    textColor: AppColors.tomato,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              )),
         ],
       ),
     )));
