@@ -34,7 +34,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_native_splash: ^2.2.3+1
-  auto_route: ^4.0.1 # flutter packages pub run build_runner build --delete-conflicting-outputs
+  auto_route: ^4.2.0  # flutter packages pub run build_runner build --delete-conflicting-outputs
   sizer: ^2.0.15
   auto_size_text: ^3.0.0   
   introduction_screen: ^3.0.2
@@ -59,13 +59,15 @@ dependencies:
   shared_preferences: ^2.0.12
   provider: ^6.0.1
   wnetworking: ^0.4.3
+  fl_chart: ^0.50.6
+  k_chart: ^0.6.1
 
 dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^4.0.0
+  auto_route_generator: ^4.2.0 
   build_runner: ^2.1.11
   built_value_generator: ^8.1.4
   json_serializable: ^6.1.4

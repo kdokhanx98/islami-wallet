@@ -28,11 +28,14 @@ class SettingsPage extends StatelessWidget {
               SizedBox(
                 height: 4.h,
               ),
-              const SettingsItem(
-                svgIconName: 'ic_settings_wallet',
-                title: 'Wallets',
-                subtitle: 'Wallet Name',
-              ),
+              SettingsItem(
+                  svgIconName: 'ic_settings_wallet',
+                  title: 'Wallets',
+                  subtitle: 'Wallet Name',
+                  onTap: () {
+                    // print('going to wallets !');
+                    context.router.push(const WalletListRoute());
+                  }),
               SizedBox(height: 4.h),
               const SettingsItem(
                 svgIconName: 'ic_security',

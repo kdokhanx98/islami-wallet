@@ -25,6 +25,7 @@ import 'package:islami_wallet/screens/onboarding/new_wallet_screens/verify_recov
 import '../screens/dashboard/transfers/transfer_fill_screen.dart';
 import '../screens/dashboard/wallet/enter_amount_screen.dart';
 import '../screens/dashboard/wallet/scanning_screen.dart';
+import '../screens/dashboard/wallet/wallet_list_screen.dart';
 import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
 import '../screens/trust_wallet_demo/demo_screen.dart';
 import 'get_initial_route_guard.dart';
@@ -71,10 +72,23 @@ part 'routes.gr.dart';
             name: 'ProjectsRoute',
           ),
           AutoRoute(
-            page: SettingsPage,
-            path: 'settings',
-            name: 'SettingsRoute',
-          ),
+              page: EmptyRouterPage, // SettingsPage,
+              path: 'settings',
+              name: 'SettingsRoute',
+              children: [
+                AutoRoute(
+                  page: SettingsPage,
+                  initial: true,
+                  path: '',
+                  name: 'SettingsPageRoute',
+                ),
+                AutoRoute(
+                  page: WalletListPage,
+                  // initial: true,
+                  path: 'wallets',
+                  name: 'WalletListRoute',
+                ),
+              ]),
           AutoRoute(
             page: NotificationsPage,
             path: 'notifications',
@@ -149,4 +163,6 @@ part 'routes.gr.dart';
     ),
   ],
 )
-class $AppRouter {}
+class AppRouter extends _$AppRouter {
+  AppRouter({required super.getInitialRoute});
+}

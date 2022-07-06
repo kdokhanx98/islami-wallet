@@ -12,8 +12,8 @@
 
 part of 'routes.dart';
 
-class AppRouter extends RootStackRouter {
-  AppRouter(
+class _$AppRouter extends RootStackRouter {
+  _$AppRouter(
       {GlobalKey<NavigatorState>? navigatorKey, required this.getInitialRoute})
       : super(navigatorKey);
 
@@ -105,7 +105,7 @@ class AppRouter extends RootStackRouter {
     },
     SettingsRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const SettingsPage());
+          routeData: routeData, child: const EmptyRouterPage());
     },
     NotificationsRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -120,6 +120,14 @@ class AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData,
           child: ViewCoinPage(key: args.key, index: args.index));
+    },
+    SettingsPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SettingsPage());
+    },
+    WalletListRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const WalletListPage());
     }
   };
 
@@ -142,7 +150,14 @@ class AppRouter extends RootStackRouter {
           RouteConfig(ProjectsRoute.name,
               path: 'projects', parent: BottomNavigationRoute.name),
           RouteConfig(SettingsRoute.name,
-              path: 'settings', parent: BottomNavigationRoute.name),
+              path: 'settings',
+              parent: BottomNavigationRoute.name,
+              children: [
+                RouteConfig(SettingsPageRoute.name,
+                    path: '', parent: SettingsRoute.name),
+                RouteConfig(WalletListRoute.name,
+                    path: 'wallets', parent: SettingsRoute.name)
+              ]),
           RouteConfig(NotificationsRoute.name,
               path: 'notifications', parent: BottomNavigationRoute.name)
         ]),
@@ -356,9 +371,10 @@ class ProjectsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SettingsPage]
+/// [EmptyRouterPage]
 class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute() : super(SettingsRoute.name, path: 'settings');
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(SettingsRoute.name, path: 'settings', initialChildren: children);
 
   static const String name = 'SettingsRoute';
 }
@@ -401,4 +417,20 @@ class ViewCoinRouteArgs {
   String toString() {
     return 'ViewCoinRouteArgs{key: $key, index: $index}';
   }
+}
+
+/// generated route for
+/// [SettingsPage]
+class SettingsPageRoute extends PageRouteInfo<void> {
+  const SettingsPageRoute() : super(SettingsPageRoute.name, path: '');
+
+  static const String name = 'SettingsPageRoute';
+}
+
+/// generated route for
+/// [WalletListPage]
+class WalletListRoute extends PageRouteInfo<void> {
+  const WalletListRoute() : super(WalletListRoute.name, path: 'wallets');
+
+  static const String name = 'WalletListRoute';
 }

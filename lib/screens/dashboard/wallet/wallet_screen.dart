@@ -588,7 +588,8 @@ class _WalletPageState extends State<WalletPage> {
                                   ),
                                   TextWidget(
                                     textAlign: TextAlign.start,
-                                    title: coins[index].name,// dummyData[index]['title'],
+                                    title: coins[index]
+                                        .name, // dummyData[index]['title'],
                                     fontSize: 15.sp,
                                     textColor: Colors.white,
                                   ),
