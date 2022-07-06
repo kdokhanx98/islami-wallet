@@ -58,6 +58,7 @@ dependencies:
   google_fonts: ^2.1.0
   shared_preferences: ^2.0.12
   provider: ^6.0.1
+  wnetworking: ^0.4.3
 
 dev_dependencies:
   integration_test:
@@ -93,6 +94,7 @@ flutter:
     - assets/gifs/
     - assets/svg/
     - IslamiCoin.json
+    - coinList.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

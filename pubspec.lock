@@ -974,6 +974,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.6.1"
+  wnetworking:
+    dependency: "direct main"
+    description:
+      name: wnetworking
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.3"
   xdg_directories:
     dependency: transitive
     description:
@@ -988,6 +995,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
+  xml2json:
+    dependency: transitive
+    description:
+      name: xml2json
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.3.3"
   yaml:
     dependency: transitive
     description:

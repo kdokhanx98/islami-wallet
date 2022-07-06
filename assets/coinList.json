@@ -1,0 +1,377 @@
+[
+    {
+        "name": "ISLAMICOIN",
+        "symbol": "ISLAMI",
+        "type": "POLYGON",
+        "decimals": 7,
+        "description": "ISLAMICOIN A Cryptocurrency For The Global Muslim Community",
+        "website": "https://islamicoin.finance",
+        "explorer": "https://polygonscan.com/token/0x9c891326fd8b1a713974f73bb604677e1e63396d",
+        "status": "active",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/assets/0x9c891326Fd8b1a713974f73bb604677E1E63396D/logo.png",
+        "id": "0x9c891326Fd8b1a713974f73bb604677E1E63396D",
+        "links": [
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/islamicoin"
+            },
+            {
+                "name": "github",
+                "url": "https://github.com/islamiblockchain"
+            },
+            {
+                "name": "telegram",
+                "url": "https://t.me/islamicoin1"
+            },
+            {
+                "name": "telegram_news",
+                "url": "https://t.me/islamicoinchat"
+            },
+            {
+                "name": "facebook",
+                "url": "https://facebook.com/islamicoin"
+            },
+            {
+                "name": "source_code",
+                "url": "https://github.com/ISLAMIBLOCKCHAIN/ISLAMICOIN/blob/main/contracts/ISLAMICOIN.sol"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://secureservercdn.net/160.153.137.40/mmc.19a.myftpupload.com/wp-content/uploads/2021/09/islamicoinE.pdf"
+            },
+            {
+                "name": "youtube",
+                "url": "https://youtube.com/channel/UCPdg9Cx2g9DyTR_xD5S_lXA"
+            },
+            {
+                "name": "medium",
+                "url": "https://medium.com/@islamicoin"
+            }
+        ]
+    },
+    {
+        "name": "Polygon",
+        "website": "https://polygon.technology/",
+        "short_description": "Polygon (Matic) strives to solve the scalability and usability issues, while not compromising on decentralization and leveraging the existing developer community and ecosystem",
+        "description": "Polygon (Matic) strives to solve the scalability and usability issues, while not compromising on decentralization and leveraging the existing developer community and ecosystem",
+        "explorer": "https://polygonscan.com/",
+        "research": "https://docs.matic.network/",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
+        "type": "coin",
+        "symbol": "MATIC",
+        "decimals": 18,
+        "status": "active",
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/maticnetwork/"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/0xPolygon"
+            },
+            {
+                "name": "reddit",
+                "url": "https://reddit.com/r/maticnetwork/"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://github.com/maticnetwork/whitepaper"
+            }
+        ]
+    },
+    {
+        "name": "USD Coin (PoS)",
+        "website": "https://centre.io/usdc",
+        "description": "USDC is a fully collateralized US dollar stablecoin, an Ethereum powered coin and is the brainchild of CENTRE, an open source project bootstrapped by contributions from Circle and Coinbase.",
+        "explorer": "https://polygonscan.com/token/0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/assets/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174/logo.png",
+        "type": "POLYGON",
+        "symbol": "USDC",
+        "decimals": 6,
+        "status": "active",
+        "id": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/centrehq"
+            },
+            {
+                "name": "medium",
+                "url": "https://medium.com/centre-blog"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://centre.io/pdfs/centre-whitepaper.pdf"
+            },
+            {
+                "name": "coinmarketcap",
+                "url": "https://coinmarketcap.com/currencies/usd-coin/"
+            },
+            {
+                "name": "coingecko",
+                "url": "https://coingecko.com/en/coins/usd-coin/"
+            }
+        ]
+    },
+    {
+        "name": "(PoS) Tether USD",
+        "website": "https://tether.to",
+        "description": "Tether (USDT) is a cryptocurrency with a value meant to mirror the value of the U.S. dollar.",
+        "explorer": "https://polygonscan.com/token/0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/assets/0xc2132D05D31c914a87C6611C10748AEb04B58e8F/logo.png",
+        "type": "POLYGON",
+        "symbol": "USDT",
+        "decimals": 6,
+        "status": "active",
+        "id": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+        "links": [
+            {
+                "name": "facebook",
+                "url": "https://facebook.com/tether.to/"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/Tether_to/"
+            },
+            {
+                "name": "coinmarketcap",
+                "url": "https://coinmarketcap.com/ru/currencies/tether/"
+            }
+        ]
+    },
+    {
+        "name": "Wrapped MATIC",
+        "type": "POLYGON",
+        "symbol": "WMATIC",
+        "decimals": 18,
+        "website": "https://polygon.technology",
+        "description": "Wrapped MATIC",
+        "explorer": "https://polygonscan.com/token/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/assets/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270/logo.png",
+        "status": "active",
+        "id": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "links": [
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/0xPolygon"
+            },
+            {
+                "name": "telegram",
+                "url": "https://t.me/polygonofficial"
+            },
+            {
+                "name": "github",
+                "url": "https://github.com/maticnetwork/"
+            }
+        ]
+    },
+    {
+        "name": "Bitcoin",
+        "website": "https://bitcoin.org",
+        "description": "Bitcoin is a cryptocurrency and worldwide payment system. It is the first decentralized digital currency, as the system works without a central bank or single administrator.",
+        "explorer": "https://blockchain.info",
+        "research": "https://research.binance.com/en/projects/bitcoin",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+        "symbol": "BTC",
+        "type": "coin",
+        "decimals": 8,
+        "status": "active",
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/bitcoin"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/Bitcoin"
+            },
+            {
+                "name": "reddit",
+                "url": "https://reddit.com/r/Bitcoin"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://bitcoin.org/bitcoin.pdf"
+            }
+        ]
+    },
+    {
+        "name": "Solana",
+        "website": "https://solana.com/",
+        "description": "Solana is the worlds most performant blockchain in the world at 710k transactions per second. 710k TPS is achieved by encoding the passage of time as data.",
+        "explorer": "https://explorer.solana.com/",
+        "research": "https://research.binance.com/en/projects/solana",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png",
+        "symbol": "SOL",
+        "type": "coin",
+        "decimals": 9,
+        "status": "active",
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/solana-labs"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/solana"
+            },
+            {
+                "name": "reddit",
+                "url": "https://reddit.com/r/solana"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://github.com/solana-labs/whitepaper"
+            }
+        ]
+    },
+    {
+        "name": "Cosmos",
+        "website": "https://cosmos.network/",
+        "description": "Cosmos is a secure & scalable blockchain ecosystem where thousands of dApps interoperate to create the foundation for a new token economy.",
+        "explorer": "https://www.mintscan.io/",
+        "research": "https://research.binance.com/en/projects/cosmos-network",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/cosmos/info/logo.png",
+        "symbol": "ATOM",
+        "type": "coin",
+        "decimals": 6,
+        "status": "active",
+        "tags": [
+            "staking-native"
+        ],
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/cosmos"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/cosmos"
+            },
+            {
+                "name": "reddit",
+                "url": "https://reddit.com/r/cosmosnetwork"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://cosmos.network/resources/whitepaper"
+            }
+        ]
+    },
+    {
+        "name": "Ethereum",
+        "website": "https://ethereum.org/",
+        "description": "Open source platform to write and distribute decentralized applications.",
+        "explorer": "https://etherscan.io/",
+        "research": "https://research.binance.com/en/projects/ethereum",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
+        "symbol": "ETH",
+        "type": "coin",
+        "decimals": 18,
+        "status": "active",
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/ethereum"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/ethereum"
+            },
+            {
+                "name": "reddit",
+                "url": "https://reddit.com/r/ethereum"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://github.com/ethereum/wiki/wiki/White-Paper"
+            }
+        ]
+    },
+    {
+        "name": "Polkadot",
+        "website": "https://polkadot.network",
+        "description": "Polkadot is a blockchain project that aims to connect blockchains, to enable the transfer of value and logic across chains. DOT is the native coin of the network.",
+        "explorer": "http://polkascan.io",
+        "research": "https://research.binance.com/en/projects/polkadot",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polkadot/info/logo.png",
+        "symbol": "DOT",
+        "type": "coin",
+        "decimals": 10,
+        "status": "active",
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/w3f"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/polkadotnetwork"
+            },
+            {
+                "name": "reddit",
+                "url": "https://reddit.com/r/dot"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://polkadot.network/PolkaDotPaper.pdf"
+            }
+        ]
+    },
+    {
+        "name": "Avalanche X-Chain",
+        "website": "http://avax.network",
+        "description": "Avalanche is an open-source platform for launching highly decentralized applications, new financial primitives, and new interoperable blockchains. This is the X-Chain, the default asset blockchain on Avalanche and enables the creation of new assets, exchanging between assets, and cross-subnet transfers.",
+        "explorer": "https://explorer.avax.network",
+        "research": "https://research.binance.com/en/projects/avalanche",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/avalanchex/info/logo.png",
+        "symbol": "AVAX",
+        "type": "coin",
+        "decimals": 9,
+        "status": "active",
+        "tags": [
+            "defi"
+        ],
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/ava-labs"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://www.avalabs.org/whitepapers"
+            }
+        ]
+    },
+    {
+        "name": "Dogecoin",
+        "website": "http://dogecoin.com",
+        "description": "Dogecoin is an open source peer-to-peer digital currency, favored by Shiba Inus worldwide. Introduced as a joke currency on 6 December 2013, Dogecoin quickly developed its own online community.",
+        "explorer": "https://blockchair.com/dogecoin",
+        "research": "https://research.binance.com/en/projects/dogecoin",
+        "logo": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/doge/info/logo.png",
+        "symbol": "DOGE",
+        "type": "coin",
+        "decimals": 8,
+        "status": "active",
+        "links": [
+            {
+                "name": "github",
+                "url": "https://github.com/dogecoin/dogecoin"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/dogecoin"
+            },
+            {
+                "name": "reddit",
+                "url": "https://reddit.com/r/dogecoin"
+            },
+            {
+                "name": "whitepaper",
+                "url": "https://github.com/dogecoin/dogecoin/blob/master/README.md"
+            }
+        ]
+    }
+]

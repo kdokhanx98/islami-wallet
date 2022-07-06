@@ -4,11 +4,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
+import 'package:islami_wallet/services/coins_service.dart';
 import 'package:islami_wallet/theme/colors.dart';
+import 'package:islami_wallet/widgets/coin_image.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../models/coin.dart';
 import '../../../widgets/asset_item_widget.dart';
 import '../../../widgets/custom_icon_widget.dart';
 
@@ -29,6 +32,7 @@ class _WalletPageState extends State<WalletPage> {
   bool addEtherum = false;
   bool addBircoin = false;
   bool addCaizcoin = false;
+
   List<Map<String, dynamic>> dummyData = [
     {
       'title': 'IslamiCoin',
@@ -71,6 +75,19 @@ class _WalletPageState extends State<WalletPage> {
       'iconCode': 'CAZ',
     },
   ];
+  List<Coin> coins = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadCoins();
+  }
+
+  loadCoins() async {
+    coins = await CoinsService.load();
+    print(coins);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -554,22 +571,24 @@ class _WalletPageState extends State<WalletPage> {
                                     width: 48,
                                     height: 48,
                                     padding: EdgeInsets.all(3.w),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: dummyData[index]
-                                            ['iconContainerColor']),
-                                    child: SvgPicture.asset(
-                                      'assets/svg/${dummyData[index]['svgPathName']}.svg',
-                                      width: 24,
-                                      height: 24,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      // color: dummyData[index]
+                                      //     ['iconContainerColor']
                                     ),
+                                    child: CoinImage(image: coins[index].logo),
+                                    // SvgPicture.asset(
+                                    //   'assets/svg/${dummyData[index]['svgPathName']}.svg',
+                                    //   width: 24,
+                                    //   height: 24,
+                                    // ),
                                   ),
                                   SizedBox(
                                     width: 8.w,
                                   ),
                                   TextWidget(
                                     textAlign: TextAlign.start,
-                                    title: dummyData[index]['title'],
+                                    title: coins[index].name,// dummyData[index]['title'],
                                     fontSize: 15.sp,
                                     textColor: Colors.white,
                                   ),
