@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/pin.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../routes/routes.dart';
@@ -19,6 +20,7 @@ class PasscodePage extends StatefulWidget {
 
 class _PasscodePageState extends State<PasscodePage> {
   String text = '';
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   _onKeyboardTap(String value) async {
     if (text.length < 6) {
@@ -26,6 +28,8 @@ class _PasscodePageState extends State<PasscodePage> {
         text = text + value;
       });
       if (text.length == 6) {
+        final SharedPreferences prefs = await _prefs;
+        prefs.setString('passCode', text);
         final result = await context.router.push(const ReenterPasscodeRoute());
         if (result == null) {
           setState(() {
