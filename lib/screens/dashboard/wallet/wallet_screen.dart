@@ -627,7 +627,7 @@ class _WalletPageState extends State<WalletPage> {
                                 });
                               });
                         },
-                        itemCount: dummyData.length,
+                        itemCount: coins.length,
                         shrinkWrap: true),
                   ),
                 ],
