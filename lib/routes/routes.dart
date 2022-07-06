@@ -22,9 +22,11 @@ import 'package:islami_wallet/screens/onboarding/new_wallet_screens/passcode_scr
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/re_enter_passcode_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/verify_recovery_screen.dart';
 
+import '../models/wallet_info.dart';
 import '../screens/dashboard/transfers/transfer_fill_screen.dart';
 import '../screens/dashboard/wallet/enter_amount_screen.dart';
 import '../screens/dashboard/wallet/scanning_screen.dart';
+import '../screens/dashboard/wallet/wallet_details_screen.dart';
 import '../screens/dashboard/wallet/wallet_list_screen.dart';
 import '../screens/onboarding/new_wallet_screens/recovery_phrase_screen.dart';
 import '../screens/trust_wallet_demo/demo_screen.dart';
@@ -87,6 +89,12 @@ part 'routes.gr.dart';
                   // initial: true,
                   path: 'wallets',
                   name: 'WalletListRoute',
+                ),
+                AutoRoute<WalletInfo>(
+                  page: WalletDetailsPage,
+                  // initial: true,
+                  path: 'wallet-details',
+                  name: 'WalletDetailsRoute',
                 ),
               ]),
           AutoRoute(

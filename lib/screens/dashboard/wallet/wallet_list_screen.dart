@@ -19,6 +19,7 @@ class WalletListPage extends StatefulWidget {
 
 class _WalletListPageState extends State<WalletListPage> {
   List<WalletInfo> wallets = [];
+  bool loading = true;
 
   @override
   void initState() {
@@ -29,7 +30,7 @@ class _WalletListPageState extends State<WalletListPage> {
   load() async {
     wallets = await loadWallets();
     setState(() {
-      // redraw
+      loading = false;
     });
   }
 
@@ -91,26 +92,30 @@ class _WalletListPageState extends State<WalletListPage> {
               ),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: SingleChildScrollView(
-                    physics: const ClampingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        MediaQuery.removePadding(
-                          context: context,
-                          removeTop: true,
-                          child: ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return buildWallet(
-                                  context, index, wallets[index]);
-                            },
-                            itemCount: wallets.length,
+                  child: loading
+                      ? const CircularProgressIndicator.adaptive(
+                          backgroundColor: AppColors.teal,
+                        )
+                      : SingleChildScrollView(
+                          physics: const ClampingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              MediaQuery.removePadding(
+                                context: context,
+                                removeTop: true,
+                                child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return buildWallet(
+                                        context, index, wallets[index]);
+                                  },
+                                  itemCount: wallets.length,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  )),
+                        )),
             ],
           ),
         ),
@@ -122,7 +127,11 @@ class _WalletListPageState extends State<WalletListPage> {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 2.w),
         child: RoundedContainer(
-            // onTap: () => context.router.push(const TransferFillRoute()),
+            onTap: () {
+              print(
+                  'set as default wallet and navigate to wallet screen and show coins and balances ');
+              // context.router.push(const TransferFillRoute());
+            },
             width: double.infinity,
             containerColor: AppColors.gray4,
             radius: 20,
@@ -155,7 +164,7 @@ class _WalletListPageState extends State<WalletListPage> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                        text: "Wallet subtitle ",
+                        text: "Multi-chain Wallet",
                         style: TextStyle(
                           color: AppColors.gray,
                           fontSize: 12.sp,
@@ -180,20 +189,15 @@ class _WalletListPageState extends State<WalletListPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Icon(Icons.info_outline_rounded, color: AppColors.gray),
-                  // TextWidget(
-                  //   title: trailingTitle,
-                  //   textColor: Colors.white,
-                  //   fontWeight: FontWeight.bold,
-                  //   maxLines: 1,
-                  // ),
-                  // SizedBox(
-                  //   height: 1.h,
-                  // ),
-                  // TextWidget(
-                  //   maxLines: 1,
-                  //   title: trailingSubtitle,
-                  // ),
+                  IconButton(
+                    onPressed: () {
+                      // print(
+                      //     'Goto wallet details screen, show name and secret phrase !');
+                      context.router.push(WalletDetailsRoute(wallet: wallet));
+                    },
+                    icon: const Icon(Icons.info_outline_rounded,
+                        color: AppColors.gray),
+                  )
                 ],
               ),
             )));

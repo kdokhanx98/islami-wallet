@@ -128,6 +128,12 @@ class _$AppRouter extends RootStackRouter {
     WalletListRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const WalletListPage());
+    },
+    WalletDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<WalletDetailsRouteArgs>();
+      return MaterialPageX<WalletInfo>(
+          routeData: routeData,
+          child: WalletDetailsPage(args.wallet, key: args.key));
     }
   };
 
@@ -156,7 +162,9 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(SettingsPageRoute.name,
                     path: '', parent: SettingsRoute.name),
                 RouteConfig(WalletListRoute.name,
-                    path: 'wallets', parent: SettingsRoute.name)
+                    path: 'wallets', parent: SettingsRoute.name),
+                RouteConfig(WalletDetailsRoute.name,
+                    path: 'wallet-details', parent: SettingsRoute.name)
               ]),
           RouteConfig(NotificationsRoute.name,
               path: 'notifications', parent: BottomNavigationRoute.name)
@@ -433,4 +441,28 @@ class WalletListRoute extends PageRouteInfo<void> {
   const WalletListRoute() : super(WalletListRoute.name, path: 'wallets');
 
   static const String name = 'WalletListRoute';
+}
+
+/// generated route for
+/// [WalletDetailsPage]
+class WalletDetailsRoute extends PageRouteInfo<WalletDetailsRouteArgs> {
+  WalletDetailsRoute({required WalletInfo wallet, Key? key})
+      : super(WalletDetailsRoute.name,
+            path: 'wallet-details',
+            args: WalletDetailsRouteArgs(wallet: wallet, key: key));
+
+  static const String name = 'WalletDetailsRoute';
+}
+
+class WalletDetailsRouteArgs {
+  const WalletDetailsRouteArgs({required this.wallet, this.key});
+
+  final WalletInfo wallet;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'WalletDetailsRouteArgs{wallet: $wallet, key: $key}';
+  }
 }
