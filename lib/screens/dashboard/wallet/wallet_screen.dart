@@ -147,8 +147,7 @@ class _WalletPageState extends State<WalletPage> {
                 ),
                 Center(
                   child: TextWidget(
-                    title: 'Current Balance - ' +
-                        (wallet == null ? '' : wallet!.name),
+                    title: 'Current Balance - ${wallet == null ? '' : wallet!.name}',
                     fontSize: 15.sp,
                   ),
                 ),
@@ -157,7 +156,7 @@ class _WalletPageState extends State<WalletPage> {
                 ),
                 Center(
                   child: TextWidget(
-                    title: '\$45.650,000',
+                    title: '\$0.00',
                     fontSize: 35.sp,
                     textColor: Colors.white,
                     fontWeight: FontWeight.w800,
