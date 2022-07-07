@@ -4,9 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../models/wallet_info.dart';
+import '../../../services/wallets_service.dart';
 import '../../../widgets/custom_icon_widget.dart';
 import '../../../widgets/text_widget.dart';
 
@@ -20,10 +22,12 @@ class WalletListPage extends StatefulWidget {
 class _WalletListPageState extends State<WalletListPage> {
   List<WalletInfo> wallets = [];
   bool loading = true;
+  late WalletsService service;
 
   @override
   void initState() {
     super.initState();
+    service = Provider.of<WalletsService>(context, listen: false);
     load();
   }
 
@@ -61,12 +65,11 @@ class _WalletListPageState extends State<WalletListPage> {
                 children: [
                   const CustomIconWidget(
                     svgName: 'ic_back',
-                    // onTap: () => context.router.push(const QRScanningRoute()),
                   ),
                   CustomIconWidget(
                     svgName: 'ic_add',
                     onTap: () {
-                      context.router.push(const CreateNewWalletRoute());
+                      context.router.push(const IntroRoute());
                       // showModalBottomSheet<String>(
                       //     isScrollControlled: true,
                       //     useRootNavigator: true,
@@ -131,8 +134,11 @@ class _WalletListPageState extends State<WalletListPage> {
         confirmDismiss: confirmDismiss,
         // Provide a function that tells the app
         // what to do after an item has been swiped away.
-        onDismissed: (direction) {
+        onDismissed: (direction) async {
           // Remove the item from the data source.
+          var deleted = wallets[index];
+          await service.delete(deleted);
+
           setState(() {
             wallets.removeAt(index);
           });
@@ -153,10 +159,15 @@ class _WalletListPageState extends State<WalletListPage> {
         child: Padding(
             padding: EdgeInsets.symmetric(vertical: 2.w),
             child: RoundedContainer(
-                onTap: () {
-                  print(
-                      'set as default wallet and navigate to wallet screen and show coins and balances ');
-                  // context.router.push(const TransferFillRoute());
+                onTap: () async {
+                  wallets.forEach((x) {
+                    x.isDefault = false;
+                  });
+                  await service.setCurrent(wallets[index]);
+                  // setState(() {});
+                  // print(
+                  //     'set as default wallet and navigate to wallet screen and show coins and balances ');
+                  context.router.push(const BottomNavigationRoute());
                 },
                 width: double.infinity,
                 containerColor: AppColors.gray4,
@@ -232,17 +243,20 @@ class _WalletListPageState extends State<WalletListPage> {
   }
 
   Future<List<WalletInfo>> loadWallets() async {
-    return Future.delayed(const Duration(seconds: 1), () {
-      var list = <WalletInfo>[];
-      list.add(WalletInfo("Main",
-          "off shallow where math tooth test shallow jaguar ecology excess chronic code",
-          isDefault: true));
-      list.add(WalletInfo("Isalmi Wallet",
-          "pitch behave share group aim observe assault glove gap wink mosquito faith"));
-      list.add(WalletInfo("BTK 1", "mnemonic phrase 3"));
+    // return Future.delayed(const Duration(seconds: 1), () {
+    //   var list = <WalletInfo>[];
+    //   list.add(WalletInfo("Main",
+    //       "off shallow where math tooth test shallow jaguar ecology excess chronic code",
+    //       isDefault: true));
+    //   list.add(WalletInfo("Isalmi Wallet",
+    //       "pitch behave share group aim observe assault glove gap wink mosquito faith"));
+    //   list.add(WalletInfo("BTK 1", "mnemonic phrase 3"));
 
-      return list;
-    });
+    //   return list;
+
+    var myWallets = await service.load();
+
+    return myWallets.all;
   }
 
   Future<bool?> confirmDismiss(DismissDirection direction) async {
@@ -251,9 +265,10 @@ class _WalletListPageState extends State<WalletListPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Confirm"),
-          content: const Text("Are you sure you wish to delete this item?"),
+          content: const Text("Are you sure you wish to delete this wallet?"),
           actions: <Widget>[
             FlatButton(
+                color: AppColors.red,
                 onPressed: () => Navigator.of(context).pop(true),
                 child: const Text("DELETE")),
             FlatButton(

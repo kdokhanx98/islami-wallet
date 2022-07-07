@@ -3,15 +3,18 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/models/wallet_info.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/services/coins_service.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/coin_image.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../models/coin.dart';
+import '../../../services/wallets_service.dart';
 import '../../../widgets/asset_item_widget.dart';
 import '../../../widgets/custom_icon_widget.dart';
 
@@ -76,16 +79,20 @@ class _WalletPageState extends State<WalletPage> {
     },
   ];
   List<Coin> coins = [];
+  late WalletsService service;
+  WalletInfo? wallet;
 
   @override
   void initState() {
     super.initState();
+    service = Provider.of<WalletsService>(context, listen: false);
     loadCoins();
+    loadCurrentWallet();
   }
 
   loadCoins() async {
     coins = await CoinsService.load();
-    print(coins);
+    // print(coins);
   }
 
   @override
@@ -140,7 +147,8 @@ class _WalletPageState extends State<WalletPage> {
                 ),
                 Center(
                   child: TextWidget(
-                    title: 'Current Balance',
+                    title: 'Current Balance - ' +
+                        (wallet == null ? '' : wallet!.name),
                     fontSize: 15.sp,
                   ),
                 ),
@@ -932,5 +940,13 @@ class _WalletPageState extends State<WalletPage> {
         ],
       ),
     );
+  }
+
+  Future<void> loadCurrentWallet() async {
+    var myWallets = await service.load();
+
+    setState(() {
+      wallet = myWallets.current;
+    });
   }
 }

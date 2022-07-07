@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:islami_wallet/models/wallet_info.dart';
+import 'package:islami_wallet/services/wallets_service.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
@@ -104,7 +106,7 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                               final clipboard =
                                   await Clipboard.getData("text/plain");
                               if (clipboard != null && clipboard.text != null) {
-                                print(clipboard.text.toString());
+                                // print(clipboard.text.toString());
                                 _mnemonicController.text =
                                     clipboard.text.toString();
                               }
@@ -165,13 +167,18 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                   try {
                     var wallet = HDWallet.createWithMnemonic(mnemonic);
                     // store locally
-                    final configurationService =
-                        Provider.of<ConfigurationService>(context,
-                            listen: false);
-
-                    await configurationService.setMnemonic(mnemonic);
-                    await configurationService.setPrivateKey(null);
-                    await configurationService.setupDone(true);
+                    final service =
+                        Provider.of<WalletsService>(context, listen: false);
+                    var myWallets = await service.load();
+                    
+                    if (myWallets.exists(wallet.mnemonic())) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Wallet already exists !')),
+                      );
+                    } else {
+                      await service.createWithMnemonic(wallet.mnemonic());
+                    }
 
                     context.router.push(const BottomNavigationRoute());
                   } catch (e) {

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/configuration_service.dart';
+import '../services/wallets_service.dart';
 import 'routes.dart';
 
 /// An auto_route guard object that routes the user to our landing page if
@@ -11,8 +12,7 @@ class GetInitialRoute extends AutoRouteGuard {
   @override
   Future<void> onNavigation(
       NavigationResolver resolver, StackRouter router) async {
-    final SharedPreferences preferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
     var didSetupWallet = preferences.getBool('didSetupWallet') ?? false;
 
     if (didSetupWallet || resolver.route.path == '/intro') {

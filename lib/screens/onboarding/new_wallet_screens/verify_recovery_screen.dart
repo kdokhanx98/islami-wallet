@@ -8,6 +8,7 @@ import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../services/wallets_service.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/rounded_container.dart';
 import '../../../widgets/text_widget.dart';
@@ -260,13 +261,26 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                   RoundedContainer(
                     onTap: () async {
                       // store locally
-                      final configurationService =
-                          Provider.of<ConfigurationService>(context,
-                              listen: false);
+                      // final configurationService =
+                      //     Provider.of<ConfigurationService>(context,
+                      //         listen: false);
 
-                      await configurationService.setMnemonic(widget.mnemonic);
-                      await configurationService.setPrivateKey(null);
-                      await configurationService.setupDone(true);
+                      // await configurationService.setMnemonic(widget.mnemonic);
+                      // await configurationService.setPrivateKey(null);
+                      // await configurationService.setupDone(true);
+
+                      final service =
+                          Provider.of<WalletsService>(context, listen: false);
+                      var myWallets = await service.load();
+
+                      if (myWallets.exists(widget.mnemonic)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Wallet already exists !')),
+                        );
+                      } else {
+                        await service.createWithMnemonic(widget.mnemonic);
+                      }
 
                       final result = await showModalBottomSheet<String>(
                           backgroundColor: Colors.transparent,

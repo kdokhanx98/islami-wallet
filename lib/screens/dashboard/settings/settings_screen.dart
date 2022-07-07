@@ -1,13 +1,36 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:islami_wallet/models/wallet_info.dart';
 import 'package:islami_wallet/widgets/settings_item.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../routes/routes.dart';
+import '../../../services/wallets_service.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  WalletInfo? wallet;
+
+  @override
+  void initState() {
+    super.initState();
+    getWallet();
+  }
+
+  getWallet() async {
+    final service = Provider.of<WalletsService>(context, listen: false);
+    var wallets = await service.load();
+    setState(() {
+      wallet = wallets.current;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +54,7 @@ class SettingsPage extends StatelessWidget {
               SettingsItem(
                   svgIconName: 'ic_settings_wallet',
                   title: 'Wallets',
-                  subtitle: '<Wallet Name>',
+                  subtitle: wallet == null ? '' : wallet!.name,
                   onTap: () {
                     // print('going to wallets !');
                     context.router.push(const WalletListRoute());
