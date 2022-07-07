@@ -9,7 +9,7 @@ class TextForm extends StatelessWidget {
   final Color? textColor;
   final Color? hintColor;
   final FontWeight? fontWeight;
-  // final int? maxLines;
+  final int? maxLines;
   final TextAlign? textAlign;
   final TextDecoration? decoration;
   final double? height;
@@ -27,7 +27,7 @@ class TextForm extends StatelessWidget {
     this.textAlign = TextAlign.center,
     this.height,
     this.decoration,
-    // this.maxLines,
+    this.maxLines,
     this.overFlow,
     this.fontfamily,
     this.controller,
@@ -37,7 +37,7 @@ class TextForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      maxLines: 3,
+      maxLines: maxLines,
       cursorColor: AppColors.teal,
       cursorWidth: 1,
       decoration: InputDecoration(
@@ -45,6 +45,7 @@ class TextForm extends StatelessWidget {
         hintStyle: TextStyle(
           color: hintColor,
         ),
+        contentPadding: EdgeInsets.all(20.0),
         // border: const OutlineInputBorder(),
         border: InputBorder.none,
       ),

@@ -145,6 +145,11 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
       }
       if (text.length == 6 && text != passCode) {
         falsePasscode();
+        Future.delayed(const Duration(seconds: 3), () {
+          setState(() {
+            text = '';
+          });
+        });
       }
     }
   }

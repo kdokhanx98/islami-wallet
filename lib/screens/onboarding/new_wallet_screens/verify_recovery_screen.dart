@@ -261,7 +261,8 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                     onTap: () async {
                       // store locally
                       final configurationService =
-                          Provider.of<ConfigurationService>(context, listen: false);
+                          Provider.of<ConfigurationService>(context,
+                              listen: false);
 
                       await configurationService.setMnemonic(widget.mnemonic);
                       await configurationService.setPrivateKey(null);
@@ -332,8 +333,7 @@ class _VerifyRecoveryPageState extends State<VerifyRecoveryPage> {
                                                     color: Colors.white,
                                                     fontSize: 15.sp)),
                                             TextSpan(
-                                              text:
-                                                  'Setting > Security & Privacy',
+                                              text: 'Settings > Wallets',
                                               style: TextStyle(
                                                 fontSize: 15.sp,
                                                 color: AppColors.teal,

@@ -91,7 +91,8 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                   children: [
                     TextForm(
                         title: 'Recovery Phrase',
-                        controller: _mnemonicController),
+                        controller: _mnemonicController,
+                        maxLines: 3),
                     SizedBox(
                       height: 2.h,
                     ),
@@ -165,7 +166,8 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                     var wallet = HDWallet.createWithMnemonic(mnemonic);
                     // store locally
                     final configurationService =
-                        Provider.of<ConfigurationService>(context, listen: false);
+                        Provider.of<ConfigurationService>(context,
+                            listen: false);
 
                     await configurationService.setMnemonic(mnemonic);
                     await configurationService.setPrivateKey(null);

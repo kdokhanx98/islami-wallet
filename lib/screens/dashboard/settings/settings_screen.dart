@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
               SettingsItem(
                   svgIconName: 'ic_settings_wallet',
                   title: 'Wallets',
-                  subtitle: 'Wallet Name',
+                  subtitle: '<Wallet Name>',
                   onTap: () {
                     // print('going to wallets !');
                     context.router.push(const WalletListRoute());

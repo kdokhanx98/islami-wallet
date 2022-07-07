@@ -1,15 +1,37 @@
-import 'package:auto_route/auto_route.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:islami_wallet/theme/colors.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../models/wallet_info.dart';
 import '../../../widgets/custom_icon_widget.dart';
+import '../../../widgets/rounded_container.dart';
+import '../../../widgets/text_form.dart';
 import '../../../widgets/text_widget.dart';
 
-class WalletDetailsPage extends StatelessWidget {
+class WalletDetailsPage extends StatefulWidget {
   const WalletDetailsPage(this.wallet, {Key? key}) : super(key: key);
 
   final WalletInfo wallet;
+  @override
+  State<WalletDetailsPage> createState() => _WalletDetailsPageState();
+}
+
+class _WalletDetailsPageState extends State<WalletDetailsPage> {
+  final _nameController = TextEditingController();
+  bool isPhraseVisible = false;
+
+  List<String> words = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = widget.wallet.name;
+    words = widget.wallet.mnemonic.split(' ');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,42 +50,143 @@ class WalletDetailsPage extends StatelessWidget {
                             svgName: 'ic_back',
                             // onTap: () => context.router.push(const QRScanningRoute()),
                           ),
-                          // CustomIconWidget(
-                          //   svgName: 'ic_add',
-                          //   onTap: () {
-                          //     context.router.push(const CreateNewWalletRoute());
-                          //     // showModalBottomSheet<String>(
-                          //     //     isScrollControlled: true,
-                          //     //     useRootNavigator: true,
-                          //     //     backgroundColor: Colors.transparent,
-                          //     //     context: context,
-                          //     //     builder: (BuildContext context) {
-                          //     //       return FractionallySizedBox(
-                          //     //           heightFactor: 0.90, child: addAssetsMethod());
-                          //     //     });
-                          //   },
+                          TextWidget(
+                            title: 'Wallet',
+                            // title: 'Swap',
+                            textColor: Colors.white,
+                            fontSize: 16.sp,
+                          ),
+                          InkWell(
+                            onTap: saveWallet,
+                            child: TextWidget(
+                              title: 'Save',
+                              // title: 'Swap',
+                              textColor: AppColors.teal,
+                              fontSize: 16.sp,
+                            ),
+                          )
                         ]),
-
                     SizedBox(height: 4.h),
-                    TextWidget(
-                      title: wallet.name,
-                      // title: 'Swap',
-                      textColor: Colors.white,
-                      fontSize: 19.sp,
+                    RoundedContainer(
+                      containerColor: AppColors.gray3,
+                      border: Border.all(color: AppColors.gray4),
+                      width: double.infinity,
+                      radius: 15,
+                      // padding: EdgeInsets.all(1.w),
+                      child: TextForm(
+                          title: 'Name',
+                          controller: _nameController,
+                          textAlign: TextAlign.left),
                     ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    words.isEmpty
+                        ? Container()
+                        : RoundedContainer(
+                            onTap: () => setState(() => isPhraseVisible = true),
+                            containerColor: AppColors.gray3,
+                            border: !isPhraseVisible
+                                ? Border.all(color: AppColors.gray4)
+                                : null,
+                            width: double.infinity,
+                            radius: 20,
+                            padding: EdgeInsets.all(4.w),
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 1.h),
+                                  child: GridView.count(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 2.h,
+                                    childAspectRatio: 0.5.w,
+                                    mainAxisSpacing: 2.h,
+                                    shrinkWrap: true,
+                                    children:
+                                        List.generate(words.length, (index) {
+                                      return RoundedContainer(
+                                        containerColor: AppColors.primaryColor,
+                                        radius: 15,
+                                        child: Center(
+                                          child: TextWidget(
+                                            title:
+                                                '${index + 1}. ${words[index]} ',
+                                            textColor: Colors.white,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                                ),
+                                if (!isPhraseVisible)
+                                  Positioned.fill(
+                                      child: RoundedContainer(
+                                    child: ClipRRect(
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                          sigmaX: 5,
+                                          sigmaY: 5,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                                'assets/svg/ic_not_visible.svg'),
+                                            SizedBox(
+                                              height: 4.h,
+                                            ),
+                                            TextWidget(
+                                              title:
+                                                  'Tap to reveal your seed phrase',
+                                              textColor: Colors.white,
+                                              fontSize: 17.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            SizedBox(
+                                              height: 1.h,
+                                            ),
+                                            TextWidget(
+                                              title:
+                                                  'Make sure no one is watching your screen.',
+                                              textColor: Colors.white,
+                                              fontSize: 12.sp,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                              ],
+                            ),
+                          ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        await Clipboard.setData(
+                            ClipboardData(text: widget.wallet.mnemonic));
 
-                    //         Column(
-                    //   children: [
-                    //     TextWidget(
-                    //       title: wallet.name,
-                    //       textAlign: TextAlign.start,
-                    //       maxLines: 1,
-                    //       textColor: Colors.white,
-                    //     ),
-                    //     TextWidget(title: ' show name and secret phrase !')
-                    //   ],
-                    // )
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('✓   Copied to Clipboard')));
+                      },
+                      child: Center(
+                          child: TextWidget(
+                        title: 'Copy phrase',
+                        textColor: AppColors.teal,
+                        fontSize: 16.sp,
+                      )),
+                    ),
                   ],
                 ))));
+  }
+
+  void saveWallet() {
+    print('wallet Saved !');
   }
 }
