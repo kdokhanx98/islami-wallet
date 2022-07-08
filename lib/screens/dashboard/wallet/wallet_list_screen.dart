@@ -228,7 +228,7 @@ class _WalletListPageState extends State<WalletListPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // print(
                           //     'Goto wallet details screen, show name and secret phrase !');
                           context.router

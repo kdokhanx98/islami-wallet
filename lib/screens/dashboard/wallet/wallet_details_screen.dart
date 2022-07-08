@@ -1,12 +1,15 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/theme/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../models/wallet_info.dart';
+import '../../../services/wallets_service.dart';
 import '../../../widgets/custom_icon_widget.dart';
 import '../../../widgets/rounded_container.dart';
 import '../../../widgets/text_form.dart';
@@ -23,12 +26,13 @@ class WalletDetailsPage extends StatefulWidget {
 class _WalletDetailsPageState extends State<WalletDetailsPage> {
   final _nameController = TextEditingController();
   bool isPhraseVisible = false;
-
+  late WalletsService service;
   List<String> words = [];
 
   @override
   void initState() {
     super.initState();
+    service = Provider.of<WalletsService>(context, listen: false);
     _nameController.text = widget.wallet.name;
     words = widget.wallet.mnemonic.split(' ');
   }
@@ -46,9 +50,9 @@ class _WalletDetailsPageState extends State<WalletDetailsPage> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const CustomIconWidget(
+                         const CustomIconWidget(
                             svgName: 'ic_back',
-                            // onTap: () => context.router.push(const QRScanningRoute()),
+                            // onTap: () => context.router.pop<bool>(true),
                           ),
                           TextWidget(
                             title: 'Wallet',
@@ -186,7 +190,18 @@ class _WalletDetailsPageState extends State<WalletDetailsPage> {
                 ))));
   }
 
-  void saveWallet() {
-    print('wallet Saved !');
+  Future<void> saveWallet() async {
+    // print('wallet Saved !');
+
+    if (widget.wallet.name != _nameController.text) {
+      var myWallets = await service.load();
+      var wallet = myWallets.all
+          .singleWhere((x) => x.mnemonic == widget.wallet.mnemonic);
+      wallet.name = _nameController.text;
+      if (wallet.isDefault) {
+        myWallets.current!.name = _nameController.text;
+      }
+      await service.save(myWallets);
+    }
   }
 }
