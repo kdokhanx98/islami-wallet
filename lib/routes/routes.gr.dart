@@ -134,6 +134,18 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<WalletInfo>(
           routeData: routeData,
           child: WalletDetailsPage(args.wallet, key: args.key));
+    },
+    SecurityPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SecurityPage());
+    },
+    NotificationSettingsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const NotificationSettingsPage());
+    },
+    PreferencesRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const PreferencesPage());
     }
   };
 
@@ -164,7 +176,14 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(WalletListRoute.name,
                     path: 'wallets', parent: SettingsRoute.name),
                 RouteConfig(WalletDetailsRoute.name,
-                    path: 'wallet-details', parent: SettingsRoute.name)
+                    path: 'wallet-details', parent: SettingsRoute.name),
+                RouteConfig(SecurityPageRoute.name,
+                    path: 'security-page', parent: SettingsRoute.name),
+                RouteConfig(NotificationSettingsRoute.name,
+                    path: 'notificationSettings-page',
+                    parent: SettingsRoute.name),
+                RouteConfig(PreferencesRoute.name,
+                    path: 'preferences-page', parent: SettingsRoute.name)
               ]),
           RouteConfig(NotificationsRoute.name,
               path: 'notifications', parent: BottomNavigationRoute.name)
@@ -465,4 +484,32 @@ class WalletDetailsRouteArgs {
   String toString() {
     return 'WalletDetailsRouteArgs{wallet: $wallet, key: $key}';
   }
+}
+
+/// generated route for
+/// [SecurityPage]
+class SecurityPageRoute extends PageRouteInfo<void> {
+  const SecurityPageRoute()
+      : super(SecurityPageRoute.name, path: 'security-page');
+
+  static const String name = 'SecurityPageRoute';
+}
+
+/// generated route for
+/// [NotificationSettingsPage]
+class NotificationSettingsRoute extends PageRouteInfo<void> {
+  const NotificationSettingsRoute()
+      : super(NotificationSettingsRoute.name,
+            path: 'notificationSettings-page');
+
+  static const String name = 'NotificationSettingsRoute';
+}
+
+/// generated route for
+/// [PreferencesPage]
+class PreferencesRoute extends PageRouteInfo<void> {
+  const PreferencesRoute()
+      : super(PreferencesRoute.name, path: 'preferences-page');
+
+  static const String name = 'PreferencesRoute';
 }

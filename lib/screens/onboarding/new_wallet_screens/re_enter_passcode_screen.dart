@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/routes/routes.dart';
@@ -36,7 +37,9 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
             await auth.canCheckBiometrics;
         final bool canAuthenticate =
             canAuthenticateWithBiometrics || await auth.isDeviceSupported();
-        if (canAuthenticate) {
+        final List<BiometricType> availableBiometrics =
+            await auth.getAvailableBiometrics();
+        if (canAuthenticate && availableBiometrics.isNotEmpty) {
           final result = await showModalBottomSheet<String>(
               backgroundColor: Colors.transparent,
               context: context,
@@ -64,21 +67,86 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
                         SizedBox(
                           height: 4.h,
                         ),
-                        Image.asset(
-                          'assets/images/touch_id.png',
-                          width: 20.w,
-                          height: 20.w,
-                        ),
-                        SizedBox(
-                          height: 4.h,
-                        ),
-                        Center(
-                          child: TextWidget(
-                            title: 'Log in with Touch ID',
-                            fontSize: 18.sp,
-                            textColor: Colors.white,
+                        if (Platform.isAndroid) ...[
+                          Image.asset(
+                            'assets/images/create_wallet_fingerprint.png',
+                            width: 20.w,
+                            height: 20.w,
                           ),
-                        ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Center(
+                            child: TextWidget(
+                              title: 'Secure your Wallet',
+                              fontSize: 18.sp,
+                              textColor: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          // RoundedContainer(
+                          //   onTap: () async {
+                          //     await auth.authenticate(
+                          //         localizedReason:
+                          //             'Please authenticate to show account balance',
+                          //         options: const AuthenticationOptions(
+                          //             biometricOnly: true));
+                          //     context.router.pop('enable');
+                          //   },
+                          //   padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                          //   radius: 50,
+                          //   border: Border.all(
+                          //     color: AppColors.teal,
+                          //   ),
+                          //   child: Center(
+                          //     child: TextWidget(
+                          //       title: 'Enable',
+                          //       textColor: AppColors.teal,
+                          //       fontSize: 14.sp,
+                          //     ),
+                          //   ),
+                          // ),
+                        ] else if (availableBiometrics
+                                .contains(BiometricType.weak) ||
+                            availableBiometrics
+                                .contains(BiometricType.face)) ...[
+                          Image.asset(
+                            'assets/images/face_id.png',
+                            width: 20.w,
+                            height: 20.w,
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Center(
+                            child: TextWidget(
+                              title: 'Log in with face ID',
+                              fontSize: 18.sp,
+                              textColor: Colors.white,
+                            ),
+                          ),
+                        ] else if (availableBiometrics
+                                .contains(BiometricType.strong) ||
+                            availableBiometrics
+                                .contains(BiometricType.fingerprint)) ...[
+                          Image.asset(
+                            'assets/images/touch_id.png',
+                            width: 20.w,
+                            height: 20.w,
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Center(
+                            child: TextWidget(
+                              title: 'Log in with touch ID',
+                              fontSize: 18.sp,
+                              textColor: Colors.white,
+                            ),
+                          ),
+                        ],
                         SizedBox(
                           height: 2.h,
                         ),
@@ -92,7 +160,12 @@ class _ReenterPasscodePageState extends State<ReenterPasscodePage> {
                           height: 4.h,
                         ),
                         RoundedContainer(
-                          onTap: () {
+                          onTap: () async {
+                            await auth.authenticate(
+                                localizedReason:
+                                    'Please authenticate to show account balance',
+                                options: const AuthenticationOptions(
+                                    biometricOnly: true));
                             context.router.pop('enable');
                           },
                           padding: EdgeInsets.symmetric(vertical: 1.5.h),

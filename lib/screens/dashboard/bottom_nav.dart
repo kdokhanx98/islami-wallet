@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/widgets/settings_item.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../theme/colors.dart';
 import '../../widgets/rounded_container.dart';
@@ -21,6 +22,12 @@ class BottomNavigationPage extends StatefulWidget {
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
   int bottomNavDefaultIndex = 0;
+
+  void _launchUrl(url) async {
+    if (!await launchUrl(Uri(path: url, scheme: 'https'))) {
+      throw 'Could not launch $url';
+    }
+  }
 
   final iconList = <String>[
     'ic_wallet',
@@ -160,67 +167,85 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        const SettingsItem(
-                          svgIconName: 'ic_project_coin',
-                          title: 'ISLAMICOIN',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_coin',
+                            title: 'ISLAMICOIN',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl('islamicoin.finance/');
+                            }),
                         SizedBox(
                           height: 1.5.h,
                         ),
-                        const SettingsItem(
-                          svgIconName: 'ic_project_media',
-                          title: 'ISLAMedia',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_media',
+                            title: 'ISLAMedia',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl('islamedia.tv/');
+                            }),
                         SizedBox(
                           height: 1.5.h,
                         ),
-                        const SettingsItem(
-                          svgIconName: 'ic_project_game',
-                          title: 'ISLAMIgame',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_game',
+                            title: 'ISLAMIgame',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl('islamicoin.app');
+                            }),
                         SizedBox(
                           height: 1.5.h,
                         ),
-                        const SettingsItem(
-                          svgIconName: 'ic_project_mall',
-                          title: 'ISLAMImall',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_mall',
+                            title: 'ISLAMImall',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl('islamimall.com');
+                            }),
                         SizedBox(
                           height: 1.5.h,
                         ),
-                        const SettingsItem(
-                          svgIconName: 'ic_project_metaverse',
-                          title: 'ISLAMImetaverse',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_metaverse',
+                            title: 'ISLAMImetaverse',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl('islamiblockchain.com');
+                            }),
                         SizedBox(
                           height: 1.5.h,
                         ),
-                        const SettingsItem(
-                          svgIconName: 'ic_project_blockchain',
-                          title: 'ISLAMIBLOCKCHAIN',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_blockchain',
+                            title: 'ISLAMIBLOCKCHAIN',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl('islamiblockchain.com');
+                            }),
                         SizedBox(
                           height: 1.5.h,
                         ),
-                        const SettingsItem(
-                          svgIconName: 'ic_project_gift',
-                          title: 'BAIT AL MAL',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_gift',
+                            title: 'BAIT AL MAL',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl(
+                                  'polygonscan.com/address/0xc315a5ce1e6330db2836bd3ed1fa7228c068ce20');
+                            }),
                         SizedBox(
                           height: 1.5.h,
                         ),
-                        const SettingsItem(
-                          svgIconName: 'ic_project_paper',
-                          title: 'white paper',
-                          containerColor: AppColors.primaryColor,
-                        ),
+                        SettingsItem(
+                            svgIconName: 'ic_project_paper',
+                            title: 'white paper',
+                            containerColor: AppColors.primaryColor,
+                            onTap: () {
+                              _launchUrl(
+                                  'islamicoin.finance/docs/islamicoinE.pdf');
+                            }),
                       ],
                     ),
                   ),
