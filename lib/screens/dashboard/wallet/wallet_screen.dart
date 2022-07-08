@@ -355,7 +355,8 @@ class _WalletPageState extends State<WalletPage> {
                                     title: wallet!.coins![index].name,
                                     // dummyData[index]['title'] ?? 'N/A',
                                     subtitle: wallet!.coins![index].price
-                                        .toStringAsFixed(2),
+                                        .toStringAsFixed(wallet!.coins![index]
+                                            .getResolution()),
                                     // dummyData[index]['subtitle'] ?? 'N/A',
                                     subtitlePercentage: wallet!
                                         .coins![index].priceChangePercentage24h

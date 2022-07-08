@@ -73,4 +73,17 @@ class WalletCoin {
 
     return wc;
   }
+
+  int getResolution() {
+     if (price <= 100 && price > 1) {
+      return 2;
+    } else if (price <= 0.1 && price > 0.01) {
+      return 4;
+    } else if (price <= 0.01 && price > 0.0001) {
+      return 6;
+    } else if (price <= 0.0001) {
+      return decimals ?? 10;
+    }
+    return 1;
+  }
 }
