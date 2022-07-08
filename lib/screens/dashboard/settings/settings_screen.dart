@@ -122,10 +122,10 @@ class __SettingsPageState extends State<SettingsPage> {
               SizedBox(
                 height: 4.h,
               ),
-              const SettingsItem(
-                svgIconName: 'ic_walletconnect',
-                title: 'Walletconnect',
-              ),
+              // const SettingsItem(
+              //   svgIconName: 'ic_walletconnect',
+              //   title: 'Walletconnect',
+              // ),
               SizedBox(
                 height: 4.h,
               ),
