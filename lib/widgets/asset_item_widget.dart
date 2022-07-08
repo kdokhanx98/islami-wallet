@@ -45,7 +45,7 @@ class AssetItemWidget extends StatelessWidget {
         child: ListTile(
           horizontalTitleGap: 1.6.w,
           leading: Container(
-            padding: EdgeInsets.all(3.w),
+            padding: EdgeInsets.all(0.w),
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: iconContainerColor),
             child: itemImage != null
@@ -65,7 +65,7 @@ class AssetItemWidget extends StatelessWidget {
           ),
           subtitle: RichText(
             textAlign: TextAlign.start,
-            maxLines: 1,
+            // maxLines: 1,
             text: TextSpan(
               children: [
                 TextSpan(

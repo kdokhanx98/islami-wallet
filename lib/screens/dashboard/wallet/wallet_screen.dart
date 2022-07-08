@@ -12,6 +12,7 @@ import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:intl/intl.dart';
 
 import '../../../models/coin.dart';
 import '../../../models/wallet_coin.dart';
@@ -86,13 +87,17 @@ class _WalletPageState extends State<WalletPage> {
   String walletName = '';
 
   bool isLoading = true;
+  late NumberFormat formatter;
 
   @override
   void initState() {
     super.initState();
     service = Provider.of<WalletsService>(context, listen: false);
+    formatter = new NumberFormat("#,##0.00", "en_US");
+
     loadCoins();
     loadCurrentWallet();
+    syncWalletPrices();
   }
 
   loadCoins() async {
@@ -142,6 +147,7 @@ class _WalletPageState extends State<WalletPage> {
                               return FractionallySizedBox(
                                   heightFactor: 0.90, child: addAssetsMethod());
                             }).whenComplete(() {
+                          syncWalletPrices();
                           setState(() {
                             // redraw
                           });
@@ -325,6 +331,7 @@ class _WalletPageState extends State<WalletPage> {
                                                 heightFactor: 0.90,
                                                 child: addAssetsMethod());
                                           }).whenComplete(() {
+                                        syncWalletPrices();
                                         setState(() {
                                           // redraw
                                         });
@@ -354,9 +361,8 @@ class _WalletPageState extends State<WalletPage> {
                                         AppColors.gray3,
                                     title: wallet!.coins![index].name,
                                     // dummyData[index]['title'] ?? 'N/A',
-                                    subtitle: wallet!.coins![index].price
-                                        .toStringAsFixed(wallet!.coins![index]
-                                            .getResolution()),
+                                    subtitle:
+                                        '\$${formatPrice(wallet!.coins![index])}',
                                     // dummyData[index]['subtitle'] ?? 'N/A',
                                     subtitlePercentage: wallet!
                                         .coins![index].priceChangePercentage24h
@@ -365,7 +371,7 @@ class _WalletPageState extends State<WalletPage> {
                                     //         ['subtitlePercentage'] ??
                                     //     'N/A',
                                     trailingTitle:
-                                        '${wallet!.coins![index].tokens} ${wallet!.coins![index].symbol}',
+                                        '${formatter.format(wallet!.coins![index].tokens)} ${wallet!.coins![index].symbol}',
                                     // dummyData[index]['trailingTitle'] ?? 'N/A',
                                     trailingSubtitle:
                                         getBalance(wallet!.coins![index]),
@@ -1022,6 +1028,15 @@ class _WalletPageState extends State<WalletPage> {
   Future<void> loadCurrentWallet() async {
     var myWallets = await service.load();
     wallet = myWallets.current;
+    setState(() {
+      walletName = wallet == null ? '' : wallet!.name;
+      isLoading = false;
+    });
+  }
+
+  Future<void> syncWalletPrices() async {
+    var myWallets = await service.load();
+    wallet = myWallets.current;
     var symbols = wallet!.coins == null
         ? ""
         : wallet!.coins!.map((e) => e.symbol.toUpperCase()).join(",");
@@ -1034,9 +1049,7 @@ class _WalletPageState extends State<WalletPage> {
         c.priceChangePercentage24h = cmc.priceChangePercentage24h;
       }
     }
-    // await Future.delayed(const Duration(seconds: 5));
     setState(() {
-      walletName = wallet == null ? '' : wallet!.name;
       isLoading = false;
     });
   }
@@ -1065,6 +1078,14 @@ class _WalletPageState extends State<WalletPage> {
   }
 
   String getBalance(WalletCoin walletCoin) {
-    return '\$0.0';
+    return '\$ ${formatter.format(0)}';
+  }
+
+  String formatPrice(WalletCoin coin) {
+    if (coin.price > 1000) {
+      return formatter.format(coin.price);
+    } else {
+      return coin.price.toStringAsFixed(coin.getResolution());
+    }
   }
 }
