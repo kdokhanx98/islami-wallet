@@ -7,7 +7,10 @@ import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:sizer/sizer.dart';
 
+import 'coin_image.dart';
+
 class AssetItemWidget extends StatelessWidget {
+  final String? itemImage;
   final String svgPathName;
   final String title;
   final String subtitle;
@@ -16,8 +19,10 @@ class AssetItemWidget extends StatelessWidget {
   final String trailingSubtitle;
   final Color iconContainerColor;
   final int index;
+
   const AssetItemWidget(
       {Key? key,
+      this.itemImage,
       required this.svgPathName,
       required this.title,
       required this.subtitle,
@@ -43,9 +48,11 @@ class AssetItemWidget extends StatelessWidget {
             padding: EdgeInsets.all(3.w),
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: iconContainerColor),
-            child: SvgPicture.asset(
-              'assets/svg/$svgPathName.svg',
-            ),
+            child: itemImage != null
+                ? CoinImage(image: itemImage)
+                : SvgPicture.asset(
+                    'assets/svg/$svgPathName.svg',
+                  ),
           ),
           title: Padding(
             padding: EdgeInsets.only(bottom: 1.h),

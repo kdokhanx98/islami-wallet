@@ -11,6 +11,8 @@ class Constants {
   static const String API_KEY =
       "YWxdvpJgFYISZxWftQPXHbuyEmUJKBaOXwRZkC0F6MCMj2CeflZnvPWr1VITlv7h";
 
+  static const String API_KEY_COIN_MARKET_CAP =
+      'ee5a380c-672e-4044-8f19-813359b53c24';
 // // ignore: public_member_api_docs
 //   static const baseUrl = 'https://rest.coinapi.io/v1/assets/icons/100';
 // // ignore: public_member_api_docs

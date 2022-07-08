@@ -15,6 +15,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../models/coin.dart';
 import '../../../models/wallet_coin.dart';
+import '../../../services/coinmarketcap_service.dart';
 import '../../../services/wallets_service.dart';
 import '../../../widgets/asset_item_widget.dart';
 import '../../../widgets/custom_icon_widget.dart';
@@ -37,52 +38,54 @@ class _WalletPageState extends State<WalletPage> {
   bool addBircoin = false;
   bool addCaizcoin = false;
 
-  List<Map<String, dynamic>> dummyData = [
-    {
-      'title': 'IslamiCoin',
-      'subtitle': '\$0.002336',
-      'subtitlePercentage': '(-14.38%)',
-      'trailingTitle': '12060 ISLAMI',
-      'trailingSubtitle': '\$28.17216',
-      'svgPathName': 'ic_islami',
-      'iconContainerColor': AppColors.orange,
-      'iconCode': 'ISLAMI',
-    },
-    {
-      'title': 'Ethereum',
-      'subtitle': '\$1,983.71',
-      'subtitlePercentage': '(-0.70%)',
-      'trailingTitle': '1.56 ETH',
-      'trailingSubtitle': '\$3094.5876',
-      'svgPathName': 'ic_ethereum',
-      'iconContainerColor': Colors.black,
-      'iconCode': 'ETH',
-    },
-    {
-      'title': 'Bitcoin',
-      'subtitle': '\$29,777.21',
-      'subtitlePercentage': '(+1.37%)',
-      'trailingTitle': '0.0123 BTC',
-      'trailingSubtitle': '\$366.26',
-      'svgPathName': 'ic_bitcoin',
-      'iconContainerColor': AppColors.orange2,
-      'iconCode': 'BTC',
-    },
-    {
-      'title': 'CAIZCOIN',
-      'subtitle': '\$2.7663',
-      'subtitlePercentage': '(-3.03%)',
-      'trailingTitle': '219 CAZ',
-      'trailingSubtitle': '\$605.82',
-      'svgPathName': 'ic_caizcoin',
-      'iconContainerColor': AppColors.darkGreen2,
-      'iconCode': 'CAZ',
-    },
-  ];
+  // List<Map<String, dynamic>> dummyData = [
+  //   {
+  //     'title': 'IslamiCoin',
+  //     'subtitle': '\$0.002336',
+  //     'subtitlePercentage': '(-14.38%)',
+  //     'trailingTitle': '12060 ISLAMI',
+  //     'trailingSubtitle': '\$28.17216',
+  //     'svgPathName': 'ic_islami',
+  //     'iconContainerColor': AppColors.orange,
+  //     'iconCode': 'ISLAMI',
+  //   },
+  //   {
+  //     'title': 'Ethereum',
+  //     'subtitle': '\$1,983.71',
+  //     'subtitlePercentage': '(-0.70%)',
+  //     'trailingTitle': '1.56 ETH',
+  //     'trailingSubtitle': '\$3094.5876',
+  //     'svgPathName': 'ic_ethereum',
+  //     'iconContainerColor': Colors.black,
+  //     'iconCode': 'ETH',
+  //   },
+  //   {
+  //     'title': 'Bitcoin',
+  //     'subtitle': '\$29,777.21',
+  //     'subtitlePercentage': '(+1.37%)',
+  //     'trailingTitle': '0.0123 BTC',
+  //     'trailingSubtitle': '\$366.26',
+  //     'svgPathName': 'ic_bitcoin',
+  //     'iconContainerColor': AppColors.orange2,
+  //     'iconCode': 'BTC',
+  //   },
+  //   {
+  //     'title': 'CAIZCOIN',
+  //     'subtitle': '\$2.7663',
+  //     'subtitlePercentage': '(-3.03%)',
+  //     'trailingTitle': '219 CAZ',
+  //     'trailingSubtitle': '\$605.82',
+  //     'svgPathName': 'ic_caizcoin',
+  //     'iconContainerColor': AppColors.darkGreen2,
+  //     'iconCode': 'CAZ',
+  //   },
+  // ];
   List<Coin> coins = [];
   late WalletsService service;
   WalletInfo? wallet;
   String walletName = '';
+
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -104,8 +107,7 @@ class _WalletPageState extends State<WalletPage> {
             body: Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        Expanded(
-            child: Container(
+        Container(
           decoration: BoxDecoration(
               border: Border.all(
                 color: AppColors.gray4,
@@ -242,61 +244,47 @@ class _WalletPageState extends State<WalletPage> {
                         }),
                   ],
                 ),
+                SizedBox(
+                  height: 2.h,
+                ),
               ],
             ),
           ),
-        )),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: SizedBox(
-                height: 50.h,
-                child: SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        isLoading
+            ? Expanded(
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator.adaptive(
+                    backgroundColor: AppColors.teal,
+                  )
+                ],
+              ))
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                child: SizedBox(
+                    height: 48.h,
+                    child: SingleChildScrollView(
+                      // physics: const ClampingScrollPhysics(),
+                      child: Column(
                         children: [
-                          TextWidget(
-                            title: 'My Assets',
-                            textColor: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(
+                            height: 3.h,
                           ),
-                          GestureDetector(
-                            onTap: () async {
-                              // open filter bottom sheet
-                              showModalBottomSheet<String>(
-                                  isScrollControlled: true,
-                                  useRootNavigator: true,
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return FractionallySizedBox(
-                                        heightFactor: 0.7,
-                                        child: filterMethod());
-                                  });
-                            },
-                            child: const TextWidget(
-                              title: 'Filter',
-                              textColor: AppColors.teal,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 3.h),
-                      if (wallet == null)
-                        const CircularProgressIndicator.adaptive()
-                      else if (wallet!.coins == null || wallet!.coins!.isEmpty)
-                        Column(
-                          children: [
-                            const TextWidget(
-                                title: "Please select coins to display here."),
-                            TextButton(
-                                onPressed: () {
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextWidget(
+                                title: 'My Assets',
+                                textColor: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  // open filter bottom sheet
                                   showModalBottomSheet<String>(
                                       isScrollControlled: true,
                                       useRootNavigator: true,
@@ -304,61 +292,93 @@ class _WalletPageState extends State<WalletPage> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return FractionallySizedBox(
-                                            heightFactor: 0.90,
-                                            child: addAssetsMethod());
-                                      }).whenComplete(() {
-                                    setState(() {
-                                      // redraw
-                                    });
-                                  });
+                                            heightFactor: 0.7,
+                                            child: filterMethod());
+                                      });
                                 },
-                                child: const Text(
-                                  'Start Here !',
-                                  style: TextStyle(color: AppColors.teal),
-                                ))
-                          ],
-                        )
-                      else
-                        MediaQuery.removePadding(
-                          context: context,
-                          removeTop: true,
-                          child: ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return AssetItemWidget(
-                                svgPathName:
-                                    dummyData[index]['svgPathName'] ?? 'N/A',
-                                iconContainerColor: dummyData[index]
-                                        ['iconContainerColor'] ??
-                                    Colors.black,
-                                title: wallet!.coins![index].name,
-                                // dummyData[index]['title'] ?? 'N/A',
-                                subtitle: wallet!.coins![index].price
-                                    .toStringAsFixed(2),
-                                // dummyData[index]['subtitle'] ?? 'N/A',
-                                subtitlePercentage: wallet!
-                                    .coins![index].priceChangePercentage24h
-                                    .toStringAsFixed(2),
-                                //  dummyData[index]
-                                //         ['subtitlePercentage'] ??
-                                //     'N/A',
-                                trailingTitle:
-                                    '${wallet!.coins![index].tokens} ${wallet!.coins![index].symbol}',
-                                // dummyData[index]['trailingTitle'] ?? 'N/A',
-                                trailingSubtitle:
-                                    getBalance(wallet!.coins![index]),
-                                // dummyData[index]['trailingSubtitle'] ?? 'N/A',
-                                index: index,
-                              );
-                            },
-                            itemCount:
-                                wallet!.coins!.length, // dummyData.length,
+                                child: const TextWidget(
+                                  title: 'Filter',
+                                  textColor: AppColors.teal,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                    ],
-                  ),
-                ))),
+                          SizedBox(height: 3.h),
+                          if (wallet == null)
+                            const CircularProgressIndicator.adaptive()
+                          else if (wallet!.coins == null ||
+                              wallet!.coins!.isEmpty)
+                            Column(
+                              children: [
+                                const TextWidget(
+                                    title:
+                                        "Please select coins to display here."),
+                                TextButton(
+                                    onPressed: () {
+                                      showModalBottomSheet<String>(
+                                          isScrollControlled: true,
+                                          useRootNavigator: true,
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return FractionallySizedBox(
+                                                heightFactor: 0.90,
+                                                child: addAssetsMethod());
+                                          }).whenComplete(() {
+                                        setState(() {
+                                          // redraw
+                                        });
+                                      });
+                                    },
+                                    child: const Text(
+                                      'Start Here !',
+                                      style: TextStyle(color: AppColors.teal),
+                                    ))
+                              ],
+                            )
+                          else
+                            MediaQuery.removePadding(
+                              context: context,
+                              removeTop: true,
+                              child: ListView.builder(
+                                physics: const ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return AssetItemWidget(
+                                    itemImage: wallet!.coins![index].logo,
+                                    svgPathName: 'N/A',
+                                    // dummyData[index]['svgPathName'] ?? 'N/A',
+                                    iconContainerColor:
+                                        // dummyData[index]
+                                        //         ['iconContainerColor'] ??
+                                        AppColors.gray3,
+                                    title: wallet!.coins![index].name,
+                                    // dummyData[index]['title'] ?? 'N/A',
+                                    subtitle: wallet!.coins![index].price
+                                        .toStringAsFixed(2),
+                                    // dummyData[index]['subtitle'] ?? 'N/A',
+                                    subtitlePercentage: wallet!
+                                        .coins![index].priceChangePercentage24h
+                                        .toStringAsFixed(2),
+                                    //  dummyData[index]
+                                    //         ['subtitlePercentage'] ??
+                                    //     'N/A',
+                                    trailingTitle:
+                                        '${wallet!.coins![index].tokens} ${wallet!.coins![index].symbol}',
+                                    // dummyData[index]['trailingTitle'] ?? 'N/A',
+                                    trailingSubtitle:
+                                        getBalance(wallet!.coins![index]),
+                                    // dummyData[index]['trailingSubtitle'] ?? 'N/A',
+                                    index: index,
+                                  );
+                                },
+                                itemCount:
+                                    wallet!.coins!.length, // dummyData.length,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ))),
       ],
     )));
   }
@@ -919,34 +939,40 @@ class _WalletPageState extends State<WalletPage> {
                                   width: 48,
                                   height: 48,
                                   padding: EdgeInsets.all(3.w),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: dummyData[index]
-                                          ['iconContainerColor']),
-                                  child: SvgPicture.asset(
-                                    'assets/svg/${dummyData[index]['svgPathName']}.svg',
-                                    width: 24,
-                                    height: 24,
-                                  ),
+                                      color: AppColors.gray3
+                                      // dummyData[index]
+                                      //     ['iconContainerColor']
+                                      ),
+                                  child: CoinImage(
+                                      image: wallet!.coins![index].logo),
+                                  // SvgPicture.asset(
+                                  //   'assets/svg/${dummyData[index]['svgPathName']}.svg',
+                                  //   width: 24,
+                                  //   height: 24,
+                                  // ),
                                 ),
                                 SizedBox(
                                   width: 8.w,
                                 ),
                                 TextWidget(
                                   textAlign: TextAlign.start,
-                                  title: dummyData[index]['title'],
+                                  title: wallet!.coins![index]
+                                      .name, // dummyData[index]['title'],
                                   fontSize: 15.sp,
                                   textColor: Colors.white,
                                 ),
                               ],
                             ),
                             trailing: TextWidget(
-                              title: (dummyData[index]['iconCode'] ?? 'N/A'),
+                              title: wallet!.coins![index]
+                                  .symbol, // (dummyData[index]['iconCode'] ?? 'N/A'),
                               textColor: Colors.white,
                             ),
                           );
                         },
-                        itemCount: dummyData.length,
+                        itemCount: wallet!.coins!.length, //dummyData.length,
                         shrinkWrap: true),
                   ),
                 ],
@@ -994,10 +1020,23 @@ class _WalletPageState extends State<WalletPage> {
 
   Future<void> loadCurrentWallet() async {
     var myWallets = await service.load();
-
+    wallet = myWallets.current;
+    var symbols = wallet!.coins == null
+        ? ""
+        : wallet!.coins!.map((e) => e.symbol.toUpperCase()).join(",");
+    var coinMarketCapCoins = await CoinMarketCap.getCoins(symbols: symbols);
+    if (wallet!.coins != null) {
+      for (var c in wallet!.coins!) {
+        var cmc = coinMarketCapCoins.firstWhere(
+            (e) => e.symbol.toLowerCase() == c.symbol.toLowerCase());
+        c.price = cmc.price;
+        c.priceChangePercentage24h = cmc.priceChangePercentage24h;
+      }
+    }
+    // await Future.delayed(const Duration(seconds: 5));
     setState(() {
-      wallet = myWallets.current;
       walletName = wallet == null ? '' : wallet!.name;
+      isLoading = false;
     });
   }
 
