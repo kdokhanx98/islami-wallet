@@ -203,16 +203,16 @@ class __SettingsPageState extends State<SettingsPage> {
                 subtitle: _packageInfo.version,
                 isArrowShown: false,
               ),
-              SizedBox(
-                height: 1.5.h,
-              ),
-              SettingsItem(
-                svgIconName: 'ic_fail',
-                title: 'Demo Wallet',
-                // subtitle: '1.1',
-                isArrowShown: false,
-                onTap: () => context.router.push(const DemoWalletRoute()),
-              ),
+              // SizedBox(
+              //   height: 1.5.h,
+              // ),
+              // SettingsItem(
+              //   svgIconName: 'ic_fail',
+              //   title: 'Demo Wallet',
+              //   // subtitle: '1.1',
+              //   isArrowShown: false,
+              //   onTap: () => context.router.push(const DemoWalletRoute()),
+              // ),
               SizedBox(
                 height: 4.h,
               ),
