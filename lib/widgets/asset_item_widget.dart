@@ -68,7 +68,7 @@ class AssetItemWidget extends StatelessWidget {
                       fontSize: 12.sp,
                     )),
                 TextSpan(
-                  text: subtitlePercentage,
+                  text: ' ($subtitlePercentage)',
                   style: TextStyle(
                     fontSize: 11.sp,
                     color: () {

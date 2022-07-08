@@ -79,4 +79,15 @@ class WalletsService {
 
     await save(myWallets);
   }
+
+  Future<void> updateWallet(WalletInfo wallet) async {
+    var myWallets = await load();
+
+    var match = myWallets.all.firstWhere((e) => e.mnemonic == wallet.mnemonic);
+
+    match.coins = wallet.coins;
+    myWallets.current!.coins = wallet.coins;
+
+    await save(myWallets);
+  }
 }

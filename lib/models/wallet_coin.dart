@@ -1,4 +1,5 @@
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
+import 'package:islami_wallet/models/coin.dart';
 
 class WalletCoin {
   late String symbol;
@@ -8,10 +9,11 @@ class WalletCoin {
   int? decimals;
   String? coinId;
   String? logo;
-  double? price;
-  double? priceChangePercentage24h;
-  double? moveAmount;
-  double? movePercent;
+  double tokens = 0.0;
+  double price = 0.0;
+  double priceChangePercentage24h = 0.0;
+  double moveAmount = 0.0;
+  double movePercent = 0.0;
   List<FlSpot>? sparkline;
 
   WalletCoin(this.symbol, this.name,
@@ -20,10 +22,11 @@ class WalletCoin {
       this.decimals,
       this.coinId,
       this.logo,
-      this.price,
-      this.priceChangePercentage24h,
-      this.moveAmount,
-      this.movePercent,
+      this.tokens = 0.0,
+      this.price = 0.0,
+      this.priceChangePercentage24h = 0.0,
+      this.moveAmount = 0.0,
+      this.movePercent = 0.0,
       this.sparkline});
 
   WalletCoin.fromJson(Map<String, dynamic> json) {
@@ -34,6 +37,11 @@ class WalletCoin {
     decimals = json["decimals"];
     coinId = json["coinId"];
     logo = json["logo"];
+    tokens = json["tokens"] ?? 0.0;
+    price = json["price"] ?? 0.0;
+    priceChangePercentage24h = json["priceChangePercentage24h"] ?? 0.0;
+    moveAmount = json["moveAmount"] ?? 0.0;
+    movePercent = json["movePercent"] ?? 0.0;
   }
 
   Map<String, dynamic> toJson() => {
@@ -44,5 +52,25 @@ class WalletCoin {
         "contractAddress": contractAddress,
         "decimals": decimals,
         "logo": logo,
+        "tokens": tokens,
+        "price": price,
+        "priceChangePercentage24h": priceChangePercentage24h,
+        "moveAmount": moveAmount,
+        "movePercent": movePercent,
       };
+
+  static WalletCoin map(Coin coin) {
+    var wc = WalletCoin(coin.symbol, coin.name);
+    wc.logo = coin.logo;
+    wc.decimals = coin.decimals;
+    wc.contractAddress = coin.id;
+    wc.network = coin.type;
+    wc.tokens = 0.0;
+    wc.price = 0.0;
+    wc.priceChangePercentage24h = 0.0;
+    wc.moveAmount = 0.0;
+    wc.movePercent = 0.0;
+
+    return wc;
+  }
 }

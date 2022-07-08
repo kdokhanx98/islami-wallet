@@ -5,7 +5,7 @@ class Coin {
   String name = '';
   String symbol = '';
   String type = '';
-  num decimals = 0;
+  int decimals = 0;
   String description = '';
   String? shortDescription;
   String website = '';

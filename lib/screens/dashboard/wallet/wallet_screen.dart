@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../models/coin.dart';
+import '../../../models/wallet_coin.dart';
 import '../../../services/wallets_service.dart';
 import '../../../widgets/asset_item_widget.dart';
 import '../../../widgets/custom_icon_widget.dart';
@@ -81,6 +82,7 @@ class _WalletPageState extends State<WalletPage> {
   List<Coin> coins = [];
   late WalletsService service;
   WalletInfo? wallet;
+  String walletName = '';
 
   @override
   void initState() {
@@ -137,7 +139,12 @@ class _WalletPageState extends State<WalletPage> {
                             builder: (BuildContext context) {
                               return FractionallySizedBox(
                                   heightFactor: 0.90, child: addAssetsMethod());
-                            });
+                            }).whenComplete(() {
+                          setState(() {
+                            // redraw
+                          });
+                        });
+                        ;
                       },
                     ),
                   ],
@@ -147,7 +154,7 @@ class _WalletPageState extends State<WalletPage> {
                 ),
                 Center(
                   child: TextWidget(
-                    title: 'Current Balance - ${wallet == null ? '' : wallet!.name}',
+                    title: 'Current Balance - $walletName',
                     fontSize: 15.sp,
                   ),
                 ),
@@ -281,34 +288,74 @@ class _WalletPageState extends State<WalletPage> {
                         ],
                       ),
                       SizedBox(height: 3.h),
-                      MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          physics: const ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return AssetItemWidget(
-                              svgPathName:
-                                  dummyData[index]['svgPathName'] ?? 'N/A',
-                              iconContainerColor: dummyData[index]
-                                      ['iconContainerColor'] ??
-                                  Colors.black,
-                              title: dummyData[index]['title'] ?? 'N/A',
-                              subtitle: dummyData[index]['subtitle'] ?? 'N/A',
-                              subtitlePercentage: dummyData[index]
-                                      ['subtitlePercentage'] ??
-                                  'N/A',
-                              trailingTitle:
-                                  dummyData[index]['trailingTitle'] ?? 'N/A',
-                              trailingSubtitle:
-                                  dummyData[index]['trailingSubtitle'] ?? 'N/A',
-                              index: index,
-                            );
-                          },
-                          itemCount: dummyData.length,
+                      if (wallet == null)
+                        const CircularProgressIndicator.adaptive()
+                      else if (wallet!.coins == null || wallet!.coins!.isEmpty)
+                        Column(
+                          children: [
+                            const TextWidget(
+                                title: "Please select coins to display here."),
+                            TextButton(
+                                onPressed: () {
+                                  showModalBottomSheet<String>(
+                                      isScrollControlled: true,
+                                      useRootNavigator: true,
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return FractionallySizedBox(
+                                            heightFactor: 0.90,
+                                            child: addAssetsMethod());
+                                      }).whenComplete(() {
+                                    setState(() {
+                                      // redraw
+                                    });
+                                  });
+                                },
+                                child: const Text(
+                                  'Start Here !',
+                                  style: TextStyle(color: AppColors.teal),
+                                ))
+                          ],
+                        )
+                      else
+                        MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          child: ListView.builder(
+                            physics: const ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return AssetItemWidget(
+                                svgPathName:
+                                    dummyData[index]['svgPathName'] ?? 'N/A',
+                                iconContainerColor: dummyData[index]
+                                        ['iconContainerColor'] ??
+                                    Colors.black,
+                                title: wallet!.coins![index].name,
+                                // dummyData[index]['title'] ?? 'N/A',
+                                subtitle: wallet!.coins![index].price
+                                    .toStringAsFixed(2),
+                                // dummyData[index]['subtitle'] ?? 'N/A',
+                                subtitlePercentage: wallet!
+                                    .coins![index].priceChangePercentage24h
+                                    .toStringAsFixed(2),
+                                //  dummyData[index]
+                                //         ['subtitlePercentage'] ??
+                                //     'N/A',
+                                trailingTitle:
+                                    '${wallet!.coins![index].tokens} ${wallet!.coins![index].symbol}',
+                                // dummyData[index]['trailingTitle'] ?? 'N/A',
+                                trailingSubtitle:
+                                    getBalance(wallet!.coins![index]),
+                                // dummyData[index]['trailingSubtitle'] ?? 'N/A',
+                                index: index,
+                              );
+                            },
+                            itemCount:
+                                wallet!.coins!.length, // dummyData.length,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ))),
@@ -603,20 +650,24 @@ class _WalletPageState extends State<WalletPage> {
                                 ],
                               ),
                               value: () {
-                                switch (index) {
-                                  case 0:
-                                    return addIslam;
-                                  case 1:
-                                    return addEtherum;
-                                  case 2:
-                                    return addBircoin;
-                                  case 3:
-                                    return addCaizcoin;
-                                  default:
-                                    return false;
-                                }
+                                // return if wallet coin matches
+                                return walletHasCoin(coins[index]);
+                                // switch (index) {
+                                //   case 0:
+                                //     return addIslam;
+                                //   case 1:
+                                //     return addEtherum;
+                                //   case 2:
+                                //     return addBircoin;
+                                //   case 3:
+                                //     return addCaizcoin;
+                                //   default:
+                                //     return false;
+                                // }
                               }(),
                               onChanged: (bool value) {
+                                // add/remove wallet coins
+                                setWalletCoin(coins[index], value);
                                 setState(() {
                                   switch (index) {
                                     case 0:
@@ -647,7 +698,7 @@ class _WalletPageState extends State<WalletPage> {
     );
   }
 
-  StatefulBuilder reciveAssetsPopup() {
+  StatefulBuilder receiveAssetsPopup() {
     return StatefulBuilder(
       builder: (BuildContext context,
           StateSetter setState /*You can rename this!*/) {
@@ -849,7 +900,7 @@ class _WalletPageState extends State<WalletPage> {
                                           backgroundColor: Colors.transparent,
                                           context: context,
                                           builder: (BuildContext context) {
-                                            return reciveAssetsPopup();
+                                            return receiveAssetsPopup();
                                           }));
                                   break;
                                 case 'send':
@@ -946,6 +997,34 @@ class _WalletPageState extends State<WalletPage> {
 
     setState(() {
       wallet = myWallets.current;
+      walletName = wallet == null ? '' : wallet!.name;
     });
+  }
+
+  bool walletHasCoin(Coin coin) {
+    return wallet?.coins == null
+        ? false
+        : wallet!.coins!
+            .any((x) => x.symbol.toLowerCase() == coin.symbol.toLowerCase());
+  }
+
+  Future<void> setWalletCoin(Coin coin, bool isSelected) async {
+    if (wallet!.coins == null) {
+      wallet!.coins = [];
+    }
+    if (isSelected) {
+      // add
+      WalletCoin walletCoin = WalletCoin.map(coin);
+      wallet!.coins!.add(walletCoin);
+    } else {
+      // remove
+      wallet!.coins!.removeWhere(
+          (x) => x.symbol.toLowerCase() == coin.symbol.toLowerCase());
+    }
+    await service.updateWallet(wallet!);
+  }
+
+  String getBalance(WalletCoin walletCoin) {
+    return '\$0.0';
   }
 }
