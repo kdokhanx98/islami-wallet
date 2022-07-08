@@ -25,33 +25,8 @@ class _IntroPageState extends State<IntroPage> {
     super.initState();
 
     listPagesViewModel.add(PageViewModel(
-      title: "Welcome to ISLAMwallet",
-      body:
-          "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-      image: Center(
-          child: Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColors.gray2,
-        ),
-        padding: EdgeInsets.all(15.w),
-        child: Image.asset(
-          'assets/gifs/onboarding1.gif',
-          width: 175,
-          height: 150,
-        ),
-      )),
-      decoration: PageDecoration(
-        titleTextStyle: TextStyle(
-            color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w800),
-        bodyTextStyle: TextStyle(color: AppColors.gray, fontSize: 14.sp),
-      ),
-    ));
-
-    listPagesViewModel.add(PageViewModel(
-      title: "Secure and Safe",
-      body:
-          "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
+      title: "Private and secure",
+      body: "Private keys never leave your device.",
       image: Center(
           child: Container(
         decoration: const BoxDecoration(
@@ -73,9 +48,32 @@ class _IntroPageState extends State<IntroPage> {
     ));
 
     listPagesViewModel.add(PageViewModel(
-      title: "Islamic Sharia Compliance",
+      title: "All ISLAMIBLOCKCHAIN projects in one place",
+      body: "Access and view all ISLAMIBLOCKCHAIN projects seamlessly.",
+      image: Center(
+          child: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.gray2,
+        ),
+        padding: EdgeInsets.all(15.w),
+        child: Image.asset(
+          'assets/gifs/onboarding1.gif',
+          width: 175,
+          height: 150,
+        ),
+      )),
+      decoration: PageDecoration(
+        titleTextStyle: TextStyle(
+            color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w800),
+        bodyTextStyle: TextStyle(color: AppColors.gray, fontSize: 14.sp),
+      ),
+    ));
+
+    listPagesViewModel.add(PageViewModel(
+      title: "Vote and share your opinion with the team",
       body:
-          "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
+          "Become a decision maker using your locked balance as voting power.",
       image: Center(
           child: Container(
         decoration: const BoxDecoration(

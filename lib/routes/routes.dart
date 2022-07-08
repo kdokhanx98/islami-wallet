@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:islami_wallet/screens/dashboard/bottom_nav.dart';
 import 'package:islami_wallet/screens/dashboard/notifications/notifications_screen.dart';
 import 'package:islami_wallet/screens/dashboard/projects/projects_screen.dart';
+import 'package:islami_wallet/screens/dashboard/settings/notification_screen.dart';
+import 'package:islami_wallet/screens/dashboard/settings/preferences_screen.dart';
+import 'package:islami_wallet/screens/dashboard/settings/security_screen.dart';
 import 'package:islami_wallet/screens/dashboard/settings/settings_screen.dart';
 import 'package:islami_wallet/screens/dashboard/transfers/transfers_screen.dart';
 import 'package:islami_wallet/screens/dashboard/wallet/lock_tokens_screen.dart';
@@ -95,6 +98,24 @@ part 'routes.gr.dart';
                   // initial: true,
                   path: 'wallet-details',
                   name: 'WalletDetailsRoute',
+                ),
+                AutoRoute(
+                  page: SecurityPage,
+                  // initial: true,
+                  path: 'security-page',
+                  name: 'SecurityPageRoute',
+                ),
+                AutoRoute(
+                  page: NotificationSettingsPage,
+                  // initial: true,
+                  path: 'notificationSettings-page',
+                  name: 'NotificationSettingsRoute',
+                ),
+                AutoRoute(
+                  page: PreferencesPage,
+                  // initial: true,
+                  path: 'preferences-page',
+                  name: 'PreferencesRoute',
                 ),
               ]),
           AutoRoute(
