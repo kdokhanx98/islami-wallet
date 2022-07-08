@@ -71,6 +71,7 @@ class _SecurityPageState extends State<SecurityPage> {
                         height: 2.h,
                       ),
                       TextField(
+                        keyboardType: TextInputType.number,
                         style: TextStyle(color: AppColors.gray, fontSize: 2.h),
                         controller: passCode,
                         inputFormatters: <TextInputFormatter>[
@@ -108,6 +109,7 @@ class _SecurityPageState extends State<SecurityPage> {
                         height: 2.h,
                       ),
                       TextField(
+                        keyboardType: TextInputType.number,
                         style: TextStyle(color: AppColors.gray, fontSize: 2.h),
                         controller: confirmPassCode,
                         inputFormatters: <TextInputFormatter>[
