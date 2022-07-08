@@ -1,7 +1,8 @@
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:islami_wallet/models/wallet_info.dart';
 
 class MyWallets {
-WalletInfo? current;
+  WalletInfo? current;
   List<WalletInfo> all = [];
 
   MyWallets() {}
@@ -28,5 +29,11 @@ WalletInfo? current;
     if (!exists(wallet.mnemonic)) {
       all.add(wallet);
     }
+  }
+
+  HDWallet? getTrustWallet() {
+    if (current == null) return null;
+    var trustWallet = HDWallet.createWithMnemonic(current!.mnemonic);
+    return trustWallet;
   }
 }

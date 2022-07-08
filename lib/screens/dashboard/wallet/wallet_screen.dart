@@ -1,8 +1,13 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
+import 'package:islami_wallet/config/constants.dart';
+import 'package:islami_wallet/models/my_wallets.dart';
 import 'package:islami_wallet/models/wallet_info.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/services/coins_service.dart';
@@ -17,6 +22,7 @@ import 'package:intl/intl.dart';
 import '../../../models/coin.dart';
 import '../../../models/wallet_coin.dart';
 import '../../../services/coinmarketcap_service.dart';
+import '../../../services/moralis_service.dart';
 import '../../../services/wallets_service.dart';
 import '../../../widgets/asset_item_widget.dart';
 import '../../../widgets/custom_icon_widget.dart';
@@ -38,6 +44,7 @@ class _WalletPageState extends State<WalletPage> {
   bool addEtherum = false;
   bool addBircoin = false;
   bool addCaizcoin = false;
+  late IMoralisService moralis;
 
   // List<Map<String, dynamic>> dummyData = [
   //   {
@@ -84,6 +91,7 @@ class _WalletPageState extends State<WalletPage> {
   List<Coin> coins = [];
   late WalletsService service;
   WalletInfo? wallet;
+  HDWallet? trustWallet;
   String walletName = '';
 
   bool isLoading = true;
@@ -94,6 +102,7 @@ class _WalletPageState extends State<WalletPage> {
     super.initState();
     service = Provider.of<WalletsService>(context, listen: false);
     formatter = new NumberFormat("#,##0.00", "en_US");
+    moralis = MoralisService();
 
     loadCoins();
     loadCurrentWallet();
@@ -171,7 +180,7 @@ class _WalletPageState extends State<WalletPage> {
                 ),
                 Center(
                   child: TextWidget(
-                    title: '\$0.00',
+                    title: getTotalBalance(),
                     fontSize: 35.sp,
                     textColor: Colors.white,
                     fontWeight: FontWeight.w800,
@@ -371,7 +380,7 @@ class _WalletPageState extends State<WalletPage> {
                                     //         ['subtitlePercentage'] ??
                                     //     'N/A',
                                     trailingTitle:
-                                        '${formatter.format(wallet!.coins![index].tokens)} ${wallet!.coins![index].symbol}',
+                                        '${formatTokens(wallet!.coins![index].tokens)} ${wallet!.coins![index].symbol}',
                                     // dummyData[index]['trailingTitle'] ?? 'N/A',
                                     trailingSubtitle:
                                         getBalance(wallet!.coins![index]),
@@ -1037,16 +1046,37 @@ class _WalletPageState extends State<WalletPage> {
   Future<void> syncWalletPrices() async {
     var myWallets = await service.load();
     wallet = myWallets.current;
+    trustWallet = myWallets.getTrustWallet();
+
     var symbols = wallet!.coins == null
         ? ""
         : wallet!.coins!.map((e) => e.symbol.toUpperCase()).join(",");
     var coinMarketCapCoins = await CoinMarketCap.getCoins(symbols: symbols);
-    if (wallet!.coins != null) {
+    if (wallet!.coins != null && coinMarketCapCoins.isNotEmpty) {
       for (var c in wallet!.coins!) {
         var cmc = coinMarketCapCoins.firstWhere(
             (e) => e.symbol.toLowerCase() == c.symbol.toLowerCase());
         c.price = cmc.price;
         c.priceChangePercentage24h = cmc.priceChangePercentage24h;
+        var chain = c.getChain(test: Constants.IS_TESTING);
+
+        // var address = '0xD6F88E70D479f5247B51E219638B7c144F1A9747';
+        var address =
+            trustWallet!.getAddressForCoin(TWCoinType.TWCoinTypeEthereum);
+
+        // var address = trustWallet!.getExtendedPublicKey(purpose, coinType, twHdVersion)
+        if (c.network == "coin") {
+          var balance = await moralis.getNativeBalance(chain, address);
+          c.tokens = balance.getInWei.toDouble() / math.pow(10, c.decimals!);
+        } else {
+          var tokenBalances = await moralis
+              .getTokenBalance(chain, address, <String>[c.contractAddress!]);
+          c.tokens = tokenBalances.isEmpty
+              ? 0
+              : tokenBalances.single.balance.getInWei.toDouble() /
+                  math.pow(10, c.decimals!);
+        }
+        // print(c.tokens);
       }
     }
     setState(() {
@@ -1077,8 +1107,30 @@ class _WalletPageState extends State<WalletPage> {
     await service.updateWallet(wallet!);
   }
 
-  String getBalance(WalletCoin walletCoin) {
-    return '\$ ${formatter.format(0)}';
+  String getBalance(WalletCoin coin) {
+    var total = coin.price * coin.tokens;
+
+    if (total > 1000) {
+      return '\$ ${formatter.format(total)}';
+    } else {
+      return '\$ ${total.toStringAsFixed(coin.getResolution())}';
+    }
+  }
+
+  String getTotalBalance() {
+    var total = 0.0;
+
+    if (wallet != null && wallet!.coins != null) {
+      for (var coin in wallet!.coins!) {
+        total += coin.price * coin.tokens;
+      }
+    }
+    if (total > 1000) {
+      return '\$ ${formatter.format(total)}';
+    } else {
+      var resolution = getResolution(total);
+      return '\$ ${total.toStringAsFixed(resolution)}';
+    }
   }
 
   String formatPrice(WalletCoin coin) {
@@ -1087,5 +1139,30 @@ class _WalletPageState extends State<WalletPage> {
     } else {
       return coin.price.toStringAsFixed(coin.getResolution());
     }
+  }
+
+  formatTokens(double tokens) {
+    if (tokens > 1000) {
+      return formatter.format(tokens);
+    } else {
+      var resolution = getResolution(tokens);
+      return tokens.toStringAsFixed(resolution);
+    }
+  }
+
+  int getResolution(double value) {
+    var resolution = 4;
+    if (value <= 100 && value > 1) {
+      resolution = 4;
+    } else if (value <= 1 && value > 0.01) {
+      resolution = 6;
+    } else if (value <= 0.01 && value > 0.0001) {
+      resolution = 8;
+    } else if (value <= 0.0001 && value > 0.0) {
+      resolution = 12;
+    } else if (value == 0.0) {
+      resolution = 1;
+    }
+    return resolution;
   }
 }

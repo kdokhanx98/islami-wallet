@@ -6,6 +6,7 @@ import 'package:web3dart/web3dart.dart';
 
 import '../config/constants.dart';
 import '../models/moralis_token.dart';
+import '../models/moralis_token_balance.dart';
 
 abstract class IMoralisService {
   Future<List<MoralisToken>> getMetadataBySymbol(String chain, String symbol);
@@ -16,8 +17,7 @@ abstract class IMoralisService {
   // {
   //   "balance": "10000000000000000"
   // }
-  Future<EtherAmount> getNativeBalance(
-      String chain, EthereumAddress walletAddress);
+  Future<EtherAmount> getNativeBalance(String chain, String walletAddress);
 
   // https://deep-index.moralis.io/api/v2/0x057Ec652A4F150f7FF94f089A38008f49a0DF88e/erc20?chain=eth&token_addresses=0x9c891326Fd8b1a713974f73bb604677E1E63396D
   // https://deep-index.moralis.io/api/v2/0xd6f88e70d479f5247b51e219638b7c144f1a9747/erc20?chain=bsc%20testnet&token_addresses=0x784cb74865fde16039aca9f42bf998cf3c15319d
@@ -33,14 +33,12 @@ abstract class IMoralisService {
 //     "balance": "999895998999990000000000"
 //   }
 // ]
-  Future<EtherAmount> getTokenBalance(String chain,
-      EthereumAddress walletAddress, List<EthereumAddress> contractAddresses);
+  Future<List<MoralisTokenBalance>> getTokenBalance(
+      String chain, String walletAddress, List<String> contractAddresses);
 
-  Future<dynamic> getWalletTransactions(
-      String chain, EthereumAddress walletAddress);
+  Future<dynamic> getWalletTransactions(String chain, String walletAddress);
 
-  Future<dynamic> getNativeTransactions(
-      String chain, EthereumAddress walletAddress);
+  Future<dynamic> getNativeTransactions(String chain, String walletAddress);
 }
 
 class MoralisService implements IMoralisService {
@@ -49,7 +47,8 @@ class MoralisService implements IMoralisService {
   // 	Returns metadata (name, symbol, decimals, logo) for a given token contract address.
 
   @override
-  Future<List<MoralisToken>> getMetadataBySymbol(String chain, String symbol) async {
+  Future<List<MoralisToken>> getMetadataBySymbol(
+      String chain, String symbol) async {
     // https://deep-index.moralis.io/api/v2/erc20/metadata/symbols?chain=bsc%20testnet&symbols=BTK
     // [
 //   {
@@ -64,11 +63,11 @@ class MoralisService implements IMoralisService {
 //     "validated": "string"
 //   }
 // ]
-    List<MoralisToken> result = <MoralisToken>[];    
+    List<MoralisToken> result = <MoralisToken>[];
     try {
       var url =
           '${Constants.API_BASE_URL}/erc20/metadata/symbols?chain=$chain&symbols=$symbol';
-      
+
       var response = await get(Uri.parse(url), headers: {
         'accept': 'application/json',
         'X-API-Key': Constants.API_KEY,
@@ -80,7 +79,7 @@ class MoralisService implements IMoralisService {
       List<dynamic> tokens = jsonDecode(response.body);
 
       result = tokens.map((value) => MoralisToken.fromJson(value)).toList();
-      
+
       // print(result);
     } catch (e) {
       print(e);
@@ -91,14 +90,15 @@ class MoralisService implements IMoralisService {
   }
 
   @override
-  Future<List<MoralisToken>> getMetadataByAddress(String chain, String address) async {
+  Future<List<MoralisToken>> getMetadataByAddress(
+      String chain, String address) async {
     // https://deep-index.moralis.io/api/v2/erc20/metadata?chain=bsc%20testnet&addresses=0x784cb74865fde16039aca9f42bf998cf3c15319d
 
- List<MoralisToken> result = <MoralisToken>[];    
+    List<MoralisToken> result = <MoralisToken>[];
     try {
       var url =
           '${Constants.API_BASE_URL}/erc20/metadata?chain=$chain&addresses=$address';
-      
+
       var response = await get(Uri.parse(url), headers: {
         'accept': 'application/json',
         'X-API-Key': Constants.API_KEY,
@@ -110,7 +110,7 @@ class MoralisService implements IMoralisService {
       List<dynamic> tokens = jsonDecode(response.body);
 
       result = tokens.map((value) => MoralisToken.fromJson(value)).toList();
-      
+
       // print(result);
     } catch (e) {
       print(e);
@@ -121,21 +121,83 @@ class MoralisService implements IMoralisService {
   }
 
   @override
-  Future<EtherAmount> getNativeBalance(
-      String chain, EthereumAddress walletAddress) {
-    // TODO: implement getNativeBalance
-    throw UnimplementedError();
+  Future<EtherAmount> getNativeBalance(String chain, String address) async {
+    // https://deep-index.moralis.io/api/v2/0xD6F88E70D479f5247B51E219638B7c144F1A9747/balance?chain=mumbai
+
+    try {
+      var url = '${Constants.API_BASE_URL}/$address/balance?chain=$chain';
+
+      var response = await get(Uri.parse(url), headers: {
+        'accept': 'application/json',
+        'X-API-Key': Constants.API_KEY,
+      });
+      if (response.statusCode != 200) {
+        throw Exception("API error");
+      }
+      // {
+      //   "balance": "10000000000000000"
+      // }
+      dynamic data = jsonDecode(response.body);
+      BigInt number = BigInt.from(double.parse(data["balance"]));
+      EtherAmount amount = EtherAmount.fromUnitAndValue(EtherUnit.wei, number);
+      return amount;
+      // print(result);
+    } catch (e) {
+      print(e);
+    } finally {
+      // client.close();
+    }
+    return EtherAmount.zero();
   }
 
   @override
-  Future<EtherAmount> getTokenBalance(String chain,
-      EthereumAddress walletAddress, List<EthereumAddress> contractAddresses) {
-    // TODO: implement getTokenBalance
-    throw UnimplementedError();
+  Future<List<MoralisTokenBalance>> getTokenBalance(String chain,
+      String walletAddress, List<String> contractAddresses) async {
+    // https://deep-index.moralis.io/api/v2/0x057Ec652A4F150f7FF94f089A38008f49a0DF88e/erc20?chain=eth&token_addresses=0x9c891326Fd8b1a713974f73bb604677E1E63396D
+    // https://deep-index.moralis.io/api/v2/0xd6f88e70d479f5247b51e219638b7c144f1a9747/erc20?chain=bsc%20testnet&token_addresses=0x784cb74865fde16039aca9f42bf998cf3c15319d
+    try {
+      var addresses = contractAddresses
+          .map((address) => '&token_addresses=$address')
+          .join();
+      var url =
+          '${Constants.API_BASE_URL}/$walletAddress/erc20?chain=$chain$addresses';
+
+      var response = await get(Uri.parse(url), headers: {
+        'accept': 'application/json',
+        'X-API-Key': Constants.API_KEY,
+      });
+      if (response.statusCode != 200) {
+        throw Exception("API error");
+      }
+      // Response body
+      // [
+      //   {
+      //     "token_address": "0x784cb74865fde16039aca9f42bf998cf3c15319d",
+      //     "name": "BitKanz",
+      //     "symbol": "BTK",
+      //     "logo": null,
+      //     "thumbnail": null,
+      //     "decimals": 18,
+      //     "balance": "999895998999990000000000"
+      //   }
+      // ]
+      dynamic data = jsonDecode(response.body);
+      var result = <MoralisTokenBalance>[];
+      data.forEach((x) {      
+        result.add(MoralisTokenBalance.fromJson(x));
+      });      
+      return result;
+      // print(result);
+    } catch (e) {
+      print(e);
+    } finally {
+      // client.close();
+    }
+    return <MoralisTokenBalance>[];
   }
 
   @override
-  Future getWalletTransactions(String chain, EthereumAddress walletAddress) {
+  Future getWalletTransactions(String chain, String walletAddress) {
     // TODO: implement getWalletTransactions
     // https://deep-index.moralis.io/api/v2/0xd6f88e70d479f5247b51e219638b7c144f1a9747/erc20/transfers?chain=bsc%20testnet
     // {
@@ -165,7 +227,7 @@ class MoralisService implements IMoralisService {
   }
 
   @override
-  Future getNativeTransactions(String chain, EthereumAddress walletAddress) {
+  Future getNativeTransactions(String chain, String walletAddress) {
     // TODO: implement getNativeTransactions
     // https://deep-index.moralis.io/api/v2/0xd6f88e70d479f5247b51e219638b7c144f1a9747?chain=bsc%20testnet
     // {

@@ -65,7 +65,7 @@ class AssetItemWidget extends StatelessWidget {
           ),
           subtitle: RichText(
             textAlign: TextAlign.start,
-            // maxLines: 1,
+            maxLines: 1,
             text: TextSpan(
               children: [
                 TextSpan(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:islami_wallet/models/my_wallets.dart';
+import 'package:islami_wallet/models/wallet_coin.dart';
 import 'package:islami_wallet/models/wallet_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -90,4 +91,6 @@ class WalletsService {
 
     await save(myWallets);
   }
+
+  
 }

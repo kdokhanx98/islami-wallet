@@ -1,4 +1,6 @@
 class Constants {
+  static bool IS_TESTING = false;
+
   static const String CONTRACT_ADDRESS =
       "0x9c891326Fd8b1a713974f73bb604677E1E63396D";
   static const String SYMBOL = "ISLAMI";
