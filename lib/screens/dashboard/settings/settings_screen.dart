@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/models/wallet_info.dart';
 import 'package:islami_wallet/screens/dashboard/settings/preferences_screen.dart';
@@ -203,16 +204,18 @@ class __SettingsPageState extends State<SettingsPage> {
                 subtitle: _packageInfo.version,
                 isArrowShown: false,
               ),
-              // SizedBox(
-              //   height: 1.5.h,
-              // ),
-              // SettingsItem(
-              //   svgIconName: 'ic_fail',
-              //   title: 'Demo Wallet',
-              //   // subtitle: '1.1',
-              //   isArrowShown: false,
-              //   onTap: () => context.router.push(const DemoWalletRoute()),
-              // ),
+              if (kDebugMode)
+                SizedBox(
+                  height: 1.5.h,
+                ),
+              if (kDebugMode)
+                SettingsItem(
+                  svgIconName: 'ic_fail',
+                  title: 'Demo Wallet',
+                  // subtitle: '1.1',
+                  isArrowShown: false,
+                  onTap: () => context.router.push(const DemoWalletRoute()),
+                ),
               SizedBox(
                 height: 4.h,
               ),

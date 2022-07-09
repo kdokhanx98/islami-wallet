@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/protobuf/Ethereum.pb.dart';
+import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'base_example.dart';
 
 class EthereumExample extends BaseExample {
@@ -21,6 +23,7 @@ class _EthereumExampleState extends BaseExampleState<EthereumExample> {
     logger.d("address ${widget.wallet.getAddressForCoin(60)}");
     logger.d("mnemonic = ${widget.wallet.mnemonic()}");
     print(widget.wallet.mnemonic());
+    PrivateKey privateKey = widget.wallet.getKeyForCoin(60);
     String privateKeyhex = hex.encode(widget.wallet.getKeyForCoin(60).data());
     // String privateKey0 = hex.encode(widget.wallet.getDerivedKey(60,0,0,0).data());
     // String privateKey1 = hex.encode(widget.wallet.getDerivedKey(60,0,0,1).data());
@@ -28,12 +31,15 @@ class _EthereumExampleState extends BaseExampleState<EthereumExample> {
     // logger.d("privateKeyhex0 = $privateKey0");
     // logger.d("privateKeyhex1 = $privateKey1");
     logger.d("seed = ${hex.encode(widget.wallet.seed())}");
-    final a = StoredKey.importPrivateKey(widget.wallet.getKeyForCoin(60).data(), "", "123", 60);
+    final a = StoredKey.importPrivateKey(
+        widget.wallet.getKeyForCoin(60).data(), "", "123", 60);
     logger.d("keystore a = ${a?.exportJson()}");
 
-    final publicKey = widget.wallet.getKeyForCoin(60).getPublicKeySecp256k1(false);
+    final publicKey =
+        widget.wallet.getKeyForCoin(60).getPublicKeySecp256k1(false);
     final anyAddress = AnyAddress.createWithPublicKey(publicKey, 60);
 
+    var receiverAddress = "0xfaC5482fffe86d33c3b8ADB24F839F5e60aF99d4";
     // logger.d("1 = ${AnyAddress.isValid("0xfaC5482fffe86d33c3b8ADB24F839F5e60aF99d4", DartTWCoinType.TWCoinTypeEthereum)}");
     // logger.d("2 = ${AnyAddress.isValid("0xfaC5482fffe86d33c3b8ADB24F839F5e60af99d4", DartTWCoinType.TWCoinTypeEthereum)}");
     // logger.d("3 = ${AnyAddress.isValid("faC5482fffe86d33c3b8ADB24F839F5e60af99d4", DartTWCoinType.TWCoinTypeEthereum)}");
@@ -42,5 +48,30 @@ class _EthereumExampleState extends BaseExampleState<EthereumExample> {
     final address = AnyAddress.createWithPublicKey(publicKey1, 0);
 
     logger.d("keystore a = ${address.description()}");
+
+    final input = SigningInput(
+      privateKey: privateKey.data(),
+      chainId: hex.decode('0539'), // 1337 for ganache
+      nonce: hex.decode('01'),
+      gasPrice: hex.decode('04a817c800'), // 20000000000
+      gasLimit: hex.decode('5208'), // 21000
+      toAddress: receiverAddress,
+      transaction: Transaction(
+        transfer: Transaction_Transfer(
+          amount: hex.decode('0de0b6b3a7640000'), // 1 ETH
+        ),
+      ),
+    );
+
+    final signed = AnySigner.sign(
+      input.writeToBuffer(),
+      TWCoinType.TWCoinTypeEthereum,
+    );
+
+    final output = SigningOutput.fromBuffer(signed);
+
+// Now you can submit the encoded output to the network
+
+    logger.d("ethereum signed  = ${output.encoded}");
   }
 }

@@ -270,7 +270,7 @@ class ReceiveAssets extends StatelessWidget {
                   color: Colors.white,
                 ),
                 leftButtonFn: () {
-                  if (amount.isNotEmpty) {
+                  if (amount.isNotEmpty && !amount.contains('.')) {
                     setState2(() {
                       amount = '$amount.';
                     });

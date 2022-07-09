@@ -125,7 +125,10 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                 height: 4.h,
               ),
               InkWell(
-                  onTap: (() => context.router.push(const QRScanningRoute())),
+                  onTap: (() => context.router
+                          .push(QRScanningRoute(onScanned: (scannedAddress) {
+                        _mnemonicController.text = scannedAddress.toString();
+                      }))),
                   child: Center(
                     child: TextWidget(
                       title: 'Or scan the QR code',
@@ -170,7 +173,7 @@ class _HaveWalletPageState extends State<HaveWalletPage> {
                     final service =
                         Provider.of<WalletsService>(context, listen: false);
                     var myWallets = await service.load();
-                    
+
                     if (myWallets.exists(wallet.mnemonic())) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

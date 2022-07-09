@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
@@ -6,6 +9,7 @@ import 'package:islami_wallet/models/my_wallets.dart';
 import 'package:islami_wallet/models/wallet_coin.dart';
 import 'package:islami_wallet/models/wallet_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web3dart/web3dart.dart';
 
 class WalletsService {
   // Load coins from this path:
@@ -139,5 +143,43 @@ class WalletsService {
     }
 
     return TWCoinType.TWCoinTypeEthereum;
+  }
+
+  Future<bool> transfer(
+      WalletCoin coin, String toAddress, double amount) async {
+    final completer = Completer<bool>();
+
+    var myWallets = await load();
+    var wallet = myWallets.current;
+    var trustWallet = HDWallet.createWithMnemonic(wallet!.mnemonic);
+    var coinType = getCoinType(coin);
+    var fromAddress = trustWallet.getAddressForCoin(coinType);
+    final privateKey = trustWallet.getKeyForCoin(coinType);
+    final network = coin.network;
+
+    BigInt bigAmount = BigInt.from(amount * math.pow(10, coin.decimals!));
+
+    try {
+      // await _contractLocator.getInstance(network).send(
+      //   privateKey,
+      //   EthereumAddress.fromHex(toAddress),
+      //   bigAmount,
+      //   onTransfer: (from, to, value) {
+      //     if (!completer.isCompleted) {
+      //       completer.complete(true);
+      //     }
+      //   },
+      //   onError: (ex) {
+
+      //     completer.complete(false);
+      //   },
+      // );
+    } catch (ex) {
+      log(ex.toString());
+
+      completer.complete(false);
+    }
+    // }
+    return completer.future;
   }
 }

@@ -142,12 +142,17 @@ class _WalletPageState extends State<WalletPage> {
               // mainAxisSize: MainAxisSize.max,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomIconWidget(
-                      svgName: 'ic_qr_scanner',
-                      onTap: () => context.router.push(const QRScanningRoute()),
-                    ),
+                    // CustomIconWidget(
+                    //   svgName: 'ic_qr_scanner',
+                    //   onTap: () => context.router
+                    //       .push(QRScanningRoute(onScanned: (scannedAddress) {
+                    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //         content: Text(
+                    //             'QR Scanned: ${scannedAddress.toString()}')));
+                    //   })),
+                    // ),
                     CustomIconWidget(
                       svgName: 'ic_add_assets',
                       onTap: () {

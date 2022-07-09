@@ -1,16 +1,17 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/services.dart';
 import 'package:islami_wallet/routes/routes.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
+import 'package:islami_wallet/widgets/text_form.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../models/wallet_coin.dart';
-import '../../../services/wallets_service.dart';
 
 class SendAssetsPage extends StatefulWidget {
   final WalletCoin coin;
@@ -22,20 +23,7 @@ class SendAssetsPage extends StatefulWidget {
 }
 
 class _SendAssetsPageState extends State<SendAssetsPage> {
-  late WalletsService service;
-  String publicAddress = '';
-
-  @override
-  void initState() {
-    // clickedItem = dummyData[widget.index];
-    super.initState();
-    service = Provider.of<WalletsService>(context, listen: false);
-    loadPublicAddress();
-  }
-
-  Future<void> loadPublicAddress() async {
-    publicAddress = await service.getPublicAddress(widget.coin) ?? '';
-  }
+  final _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -115,16 +103,54 @@ class _SendAssetsPageState extends State<SendAssetsPage> {
                           RoundedContainer(
                             border: Border.all(color: AppColors.gray4),
                             containerColor: AppColors.primaryColor,
-                            padding: EdgeInsets.all(4.w),
+                            padding: EdgeInsets.all(1.w),
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const TextWidget(title: 'Recipient Address'),
-                                  SvgPicture.asset(
-                                    'assets/svg/ic_qr_scanner.svg',
-                                    color: AppColors.teal,
-                                  ),
+                                  Expanded(
+                                      child: TextForm(
+                                    title: 'Recipient Address',
+                                    controller: _addressController,
+                                  )),
+                                  // SvgPicture.asset(
+                                  //   'assets/svg/ic_qr_scanner.svg',
+                                  //   color: AppColors.teal,
+                                  // ),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                          onTap: () async {
+                                            final clipboard =
+                                                await Clipboard.getData(
+                                                    "text/plain");
+                                            if (clipboard != null &&
+                                                clipboard.text != null) {
+                                              _addressController.text =
+                                                  clipboard.text.toString();
+                                            }
+                                          },
+                                          child: TextWidget(
+                                            title: 'Paste',
+                                            textColor: AppColors.teal,
+                                            fontSize: 12.sp,
+                                          )),
+                                      SizedBox(
+                                        width: 1.w,
+                                      ),
+                                      CustomIconWidget(
+                                        svgName: 'ic_qr_scanner',
+                                        iconColor: AppColors.teal,
+                                        onTap: () => context.router.push(
+                                            QRScanningRoute(
+                                                onScanned: (scannedAddress) {
+                                          _addressController.text =
+                                              scannedAddress.toString();
+                                          log(_addressController.text);
+                                        })),
+                                      ),
+                                    ],
+                                  )
                                 ]),
                           ),
                           SizedBox(
@@ -145,134 +171,135 @@ class _SendAssetsPageState extends State<SendAssetsPage> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  TextWidget(
-                    title: 'Recent',
-                    textColor: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  RoundedContainer(
-                    radius: 20,
-                    containerColor: AppColors.gray3,
-                    padding: EdgeInsets.all(4.w),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/svg/ic_account_name.svg'),
-                              SizedBox(
-                                width: 4.w,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    title: 'Account Name',
-                                    textAlign: TextAlign.start,
-                                    textColor: Colors.white,
-                                    fontSize: 16.sp,
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  TextWidget(
-                                    textAlign: TextAlign.start,
-                                    title: '15rGLE…hsMKYP',
-                                    fontSize: 12.sp,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              const TextWidget(
-                                title: 'ISLAMI 1000',
-                                textColor: Colors.white,
-                                textAlign: TextAlign.end,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              TextWidget(
-                                textAlign: TextAlign.end,
-                                title: '\$25.17216',
-                                fontSize: 12.sp,
-                              )
-                            ],
-                          ),
-                        ]),
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  RoundedContainer(
-                    radius: 20,
-                    containerColor: AppColors.gray3,
-                    padding: EdgeInsets.all(4.w),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/svg/ic_account_name.svg'),
-                              SizedBox(
-                                width: 4.w,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    title: 'Account Name',
-                                    textAlign: TextAlign.start,
-                                    textColor: Colors.white,
-                                    fontSize: 16.sp,
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  TextWidget(
-                                    textAlign: TextAlign.start,
-                                    title: '15rGLE…hsMKYP',
-                                    fontSize: 12.sp,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              const TextWidget(
-                                title: 'ISLAMI 1000',
-                                textColor: Colors.white,
-                                textAlign: TextAlign.end,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              TextWidget(
-                                textAlign: TextAlign.end,
-                                title: '\$25.17216',
-                                fontSize: 12.sp,
-                              )
-                            ],
-                          ),
-                        ]),
-                  ),
+                  // TextWidget(
+                  //   title: 'Recent',
+                  //   textColor: Colors.white,
+                  //   fontSize: 16.sp,
+                  //   fontWeight: FontWeight.bold,
+                  // ),
+                  // SizedBox(
+                  //   height: 2.h,
+                  // ),
+                  // RoundedContainer(
+                  //   radius: 20,
+                  //   containerColor: AppColors.gray3,
+                  //   padding: EdgeInsets.all(4.w),
+                  //   child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //                 'assets/svg/ic_account_name.svg'),
+                  //             SizedBox(
+                  //               width: 4.w,
+                  //             ),
+                  //             Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 TextWidget(
+                  //                   title: 'Account Name',
+                  //                   textAlign: TextAlign.start,
+                  //                   textColor: Colors.white,
+                  //                   fontSize: 16.sp,
+                  //                 ),
+                  //                 SizedBox(
+                  //                   height: 1.h,
+                  //                 ),
+                  //                 TextWidget(
+                  //                   textAlign: TextAlign.start,
+                  //                   title: '15rGLE…hsMKYP',
+                  //                   fontSize: 12.sp,
+                  //                 )
+                  //               ],
+                  //             )
+                  //           ],
+                  //         ),
+                  //         Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.end,
+                  //           children: [
+                  //             const TextWidget(
+                  //               title: 'ISLAMI 1000',
+                  //               textColor: Colors.white,
+                  //               textAlign: TextAlign.end,
+                  //               fontWeight: FontWeight.bold,
+                  //             ),
+                  //             SizedBox(
+                  //               height: 1.h,
+                  //             ),
+                  //             TextWidget(
+                  //               textAlign: TextAlign.end,
+                  //               title: '\$25.17216',
+                  //               fontSize: 12.sp,
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ]),
+                  // ),
+                  // SizedBox(
+                  //   height: 2.h,
+                  // ),
+                  // RoundedContainer(
+                  //   radius: 20,
+                  //   containerColor: AppColors.gray3,
+                  //   padding: EdgeInsets.all(4.w),
+                  //   child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //                 'assets/svg/ic_account_name.svg'),
+                  //             SizedBox(
+                  //               width: 4.w,
+                  //             ),
+                  //             Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 TextWidget(
+                  //                   title: 'Account Name',
+                  //                   textAlign: TextAlign.start,
+                  //                   textColor: Colors.white,
+                  //                   fontSize: 16.sp,
+                  //                 ),
+                  //                 SizedBox(
+                  //                   height: 1.h,
+                  //                 ),
+                  //                 TextWidget(
+                  //                   textAlign: TextAlign.start,
+                  //                   title: '15rGLE…hsMKYP',
+                  //                   fontSize: 12.sp,
+                  //                 )
+                  //               ],
+                  //             )
+                  //           ],
+                  //         ),
+                  //         Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.end,
+                  //           children: [
+                  //             const TextWidget(
+                  //               title: 'ISLAMI 1000',
+                  //               textColor: Colors.white,
+                  //               textAlign: TextAlign.end,
+                  //               fontWeight: FontWeight.bold,
+                  //             ),
+                  //             SizedBox(
+                  //               height: 1.h,
+                  //             ),
+                  //             TextWidget(
+                  //               textAlign: TextAlign.end,
+                  //               title: '\$25.17216',
+                  //               fontSize: 12.sp,
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ]),
+                  // ),
                   const Spacer(),
                   RoundedContainer(
-                    onTap: () =>
-                        context.router.push(const SendEnterAmountRoute()),
+                    onTap: () => context.router.push(SendEnterAmountRoute(
+                        recepientAddress: _addressController.text.toString(),
+                        coin: widget.coin)),
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,
                     border: Border.all(

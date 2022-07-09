@@ -60,8 +60,14 @@ class _$AppRouter extends RootStackRouter {
           child: VerifyRecoveryPage(key: args.key, mnemonic: args.mnemonic));
     },
     QRScanningRoute.name: (routeData) {
+      final args = routeData.argsAs<QRScanningRouteArgs>(
+          orElse: () => const QRScanningRouteArgs());
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const QRScanningPage());
+          routeData: routeData,
+          child: QRScanningPage(
+              key: args.key,
+              onScanned: args.onScanned,
+              closeWhenScanned: args.closeWhenScanned));
     },
     TransferFillRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -72,8 +78,13 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData, child: const EnterAmountPage());
     },
     SendEnterAmountRoute.name: (routeData) {
+      final args = routeData.argsAs<SendEnterAmountRouteArgs>();
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const SendEnterAmountPage());
+          routeData: routeData,
+          child: SendEnterAmountPage(
+              key: args.key,
+              coin: args.coin,
+              recepientAddress: args.recepientAddress));
     },
     SendAssetsRoute.name: (routeData) {
       final args = routeData.argsAs<SendAssetsRouteArgs>();
@@ -82,8 +93,14 @@ class _$AppRouter extends RootStackRouter {
           child: SendAssetsPage(key: args.key, coin: args.coin));
     },
     SendAssetsConfirmRoute.name: (routeData) {
+      final args = routeData.argsAs<SendAssetsConfirmRouteArgs>();
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const SendAssetsConfirmPage());
+          routeData: routeData,
+          child: SendAssetsConfirmPage(
+              key: args.key,
+              coin: args.coin,
+              recepientAddress: args.recepientAddress,
+              amount: args.amount));
     },
     NetworkFeeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -305,11 +322,35 @@ class VerifyRecoveryRouteArgs {
 
 /// generated route for
 /// [QRScanningPage]
-class QRScanningRoute extends PageRouteInfo<void> {
-  const QRScanningRoute()
-      : super(QRScanningRoute.name, path: 'qr-scanning-page');
+class QRScanningRoute extends PageRouteInfo<QRScanningRouteArgs> {
+  QRScanningRoute(
+      {Key? key,
+      void Function(String?)? onScanned,
+      bool closeWhenScanned = true})
+      : super(QRScanningRoute.name,
+            path: 'qr-scanning-page',
+            args: QRScanningRouteArgs(
+                key: key,
+                onScanned: onScanned,
+                closeWhenScanned: closeWhenScanned));
 
   static const String name = 'QRScanningRoute';
+}
+
+class QRScanningRouteArgs {
+  const QRScanningRouteArgs(
+      {this.key, this.onScanned, this.closeWhenScanned = true});
+
+  final Key? key;
+
+  final void Function(String?)? onScanned;
+
+  final bool closeWhenScanned;
+
+  @override
+  String toString() {
+    return 'QRScanningRouteArgs{key: $key, onScanned: $onScanned, closeWhenScanned: $closeWhenScanned}';
+  }
 }
 
 /// generated route for
@@ -332,11 +373,31 @@ class EnterAmountRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SendEnterAmountPage]
-class SendEnterAmountRoute extends PageRouteInfo<void> {
-  const SendEnterAmountRoute()
-      : super(SendEnterAmountRoute.name, path: 'send-enter-amount-page');
+class SendEnterAmountRoute extends PageRouteInfo<SendEnterAmountRouteArgs> {
+  SendEnterAmountRoute(
+      {Key? key, required WalletCoin coin, required String recepientAddress})
+      : super(SendEnterAmountRoute.name,
+            path: 'send-enter-amount-page',
+            args: SendEnterAmountRouteArgs(
+                key: key, coin: coin, recepientAddress: recepientAddress));
 
   static const String name = 'SendEnterAmountRoute';
+}
+
+class SendEnterAmountRouteArgs {
+  const SendEnterAmountRouteArgs(
+      {this.key, required this.coin, required this.recepientAddress});
+
+  final Key? key;
+
+  final WalletCoin coin;
+
+  final String recepientAddress;
+
+  @override
+  String toString() {
+    return 'SendEnterAmountRouteArgs{key: $key, coin: $coin, recepientAddress: $recepientAddress}';
+  }
 }
 
 /// generated route for
@@ -365,11 +426,42 @@ class SendAssetsRouteArgs {
 
 /// generated route for
 /// [SendAssetsConfirmPage]
-class SendAssetsConfirmRoute extends PageRouteInfo<void> {
-  const SendAssetsConfirmRoute()
-      : super(SendAssetsConfirmRoute.name, path: 'send-assets-confirm-page');
+class SendAssetsConfirmRoute extends PageRouteInfo<SendAssetsConfirmRouteArgs> {
+  SendAssetsConfirmRoute(
+      {Key? key,
+      required WalletCoin coin,
+      required String recepientAddress,
+      required double amount})
+      : super(SendAssetsConfirmRoute.name,
+            path: 'send-assets-confirm-page',
+            args: SendAssetsConfirmRouteArgs(
+                key: key,
+                coin: coin,
+                recepientAddress: recepientAddress,
+                amount: amount));
 
   static const String name = 'SendAssetsConfirmRoute';
+}
+
+class SendAssetsConfirmRouteArgs {
+  const SendAssetsConfirmRouteArgs(
+      {this.key,
+      required this.coin,
+      required this.recepientAddress,
+      required this.amount});
+
+  final Key? key;
+
+  final WalletCoin coin;
+
+  final String recepientAddress;
+
+  final double amount;
+
+  @override
+  String toString() {
+    return 'SendAssetsConfirmRouteArgs{key: $key, coin: $coin, recepientAddress: $recepientAddress, amount: $amount}';
+  }
 }
 
 /// generated route for

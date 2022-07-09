@@ -9,24 +9,42 @@ import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../models/wallet_coin.dart';
+import '../../../services/utilities.dart';
 import '../../../theme/colors.dart';
+import '../../../widgets/coin_image.dart';
 import '../../../widgets/rounded_container.dart';
 
 class SendEnterAmountPage extends StatefulWidget {
-  const SendEnterAmountPage({Key? key}) : super(key: key);
+  final String recepientAddress;
+  final WalletCoin coin;
+  const SendEnterAmountPage(
+      {Key? key, required this.coin, required this.recepientAddress})
+      : super(key: key);
 
   @override
   State<SendEnterAmountPage> createState() => _SendEnterAmountPageState();
 }
 
 class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
-  String text = '';
+  String amount = '0';
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
 
   _onKeyboardTap(String value) {
+    var temp = '';
+    if (amount == '0') {
+      temp = value;
+    } else {
+      temp = amount + value;
+    }
+    if (double.parse(temp) > widget.coin.tokens) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Cannot exceed ${widget.coin.displayTokens()} !')));
+      return;
+    }
     setState(() {
-      text = text + value;
+      amount = temp;
     });
-    log('text $text');
   }
 
   @override
@@ -43,9 +61,7 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const CustomIconWidget(svgName: 'ic_back'),
-                  SizedBox(
-                    height: 4.h,
-                  ),
+                  const Spacer(),
                   RoundedContainer(
                       radius: 30,
                       width: double.infinity,
@@ -56,20 +72,33 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                String tokens = widget.coin.tokens
+                                    .toString()
+                                    .replaceAll(regex, '');
+                                setState(() {
+                                  amount = tokens;
+                                });
+                              },
                               child: SvgPicture.asset('assets/svg/ic_max.svg')),
                           Column(
                             children: [
-                              TextWidget(
-                                title: '0 ISLAMI',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.sp,
-                                textColor: AppColors.gray7,
-                              ),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width - 200,
+                                  child: TextWidget(
+                                    title:
+                                        '${Utilities.format(double.parse(amount))}  ${widget.coin.symbol.toUpperCase()}',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.sp,
+                                    textColor: AppColors.gray7,
+                                  )),
                               SizedBox(
                                 height: 0.5.h,
                               ),
-                              const TextWidget(title: '\$ 0.00'),
+                              TextWidget(
+                                  title:
+                                      '\$ ${Utilities.format(double.parse(amount) * widget.coin.price)}'),
                             ],
                           ),
                           GestureDetector(
@@ -78,9 +107,7 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                                   SvgPicture.asset('assets/svg/ic_change.svg')),
                         ],
                       )),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  const Spacer(),
                   const Center(child: TextWidget(title: 'My Balance')),
                   SizedBox(
                     height: 1.h,
@@ -90,7 +117,7 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                       width: double.infinity,
                       containerColor: AppColors.gray3,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.w),
+                          EdgeInsets.symmetric(horizontal: 3.w, vertical: 4.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -99,18 +126,19 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                               RoundedContainer(
                                   width: 30,
                                   height: 30,
-                                  containerColor: AppColors.orange,
+                                  containerColor: AppColors.gray3,
                                   child: Padding(
                                     padding: EdgeInsets.all(1.w),
-                                    child: SvgPicture.asset(
-                                      'assets/svg/ic_islami.svg',
-                                    ),
+                                    child: CoinImage(image: widget.coin.logo),
+                                    // SvgPicture.asset(
+                                    //   'assets/svg/ic_islami.svg',
+                                    // ),
                                   )),
-                              SizedBox(
-                                width: 4.w,
-                              ),
-                              const TextWidget(
-                                title: 'IslamiCoin',
+                              // SizedBox(
+                              //   width: 2.w,
+                              // ),
+                              TextWidget(
+                                title: widget.coin.name,
                                 textColor: Colors.white,
                               ),
                             ],
@@ -118,8 +146,8 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              const TextWidget(
-                                title: '12060 ISLAMI',
+                              TextWidget(
+                                title: widget.coin.displayTokens(),
                                 textColor: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 textAlign: TextAlign.end,
@@ -127,8 +155,8 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                               SizedBox(
                                 height: 1.h,
                               ),
-                              const TextWidget(
-                                title: '\$28.17216',
+                              TextWidget(
+                                title: widget.coin.getBalance(),
                                 textAlign: TextAlign.end,
                               )
                             ],
@@ -140,11 +168,16 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                     onKeyboardTap: _onKeyboardTap,
                     textColor: Colors.white,
                     rightButtonFn: () {
-                      if (text.isNotEmpty) {
+                      if (amount.isNotEmpty && amount != '0') {
                         setState(() {
-                          text = text.substring(0, text.length - 1);
+                          amount = amount.substring(0, amount.length - 1);
+                          if (amount.isEmpty) {
+                            amount = '0';
+                          }
+                          if (amount.endsWith('.')) {
+                            amount = amount.substring(0, amount.length - 1);
+                          }
                         });
-                        log('after delete text ');
                       }
                     },
                     rightIcon: const Icon(
@@ -152,7 +185,11 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                       color: Colors.white,
                     ),
                     leftButtonFn: () {
-                      log('left button clicked');
+                      if (amount.isNotEmpty && !amount.contains('.')) {
+                        setState(() {
+                          amount = '$amount.';
+                        });
+                      }
                     },
                     leftIcon: Icon(
                       Icons.circle,
@@ -162,8 +199,19 @@ class _SendEnterAmountPageState extends State<SendEnterAmountPage> {
                   ),
                   const Spacer(),
                   RoundedContainer(
-                    onTap: () =>
-                        context.router.push(const SendAssetsConfirmRoute()),
+                    onTap: () {
+                      var sentAmount = double.parse(amount);
+                      if (sentAmount == 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Please enter amount !')));
+                        return;
+                      }
+                      context.router.push(SendAssetsConfirmRoute(
+                          recepientAddress: widget.recepientAddress,
+                          coin: widget.coin,
+                          amount: sentAmount));
+                    },
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,
                     border: Border.all(
