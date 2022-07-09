@@ -6,10 +6,36 @@ import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/custom_icon_widget.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class SendAssetsPage extends StatelessWidget {
-  const SendAssetsPage({Key? key}) : super(key: key);
+import '../../../models/wallet_coin.dart';
+import '../../../services/wallets_service.dart';
+
+class SendAssetsPage extends StatefulWidget {
+  final WalletCoin coin;
+
+  const SendAssetsPage({Key? key, required this.coin}) : super(key: key);
+
+  @override
+  State<SendAssetsPage> createState() => _SendAssetsPageState();
+}
+
+class _SendAssetsPageState extends State<SendAssetsPage> {
+  late WalletsService service;
+  String publicAddress = '';
+
+  @override
+  void initState() {
+    // clickedItem = dummyData[widget.index];
+    super.initState();
+    service = Provider.of<WalletsService>(context, listen: false);
+    loadPublicAddress();
+  }
+
+  Future<void> loadPublicAddress() async {
+    publicAddress = await service.getPublicAddress(widget.coin) ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +57,7 @@ class SendAssetsPage extends StatelessWidget {
                         const CustomIconWidget(svgName: 'ic_back'),
                         const Spacer(),
                         TextWidget(
-                          title: 'Send Assets',
+                          title: 'Send ${widget.coin.symbol}',
                           textColor: Colors.white,
                           fontSize: 16.sp,
                         )
@@ -41,36 +67,36 @@ class SendAssetsPage extends StatelessWidget {
                   SizedBox(
                     height: 4.h,
                   ),
-                  RoundedContainer(
-                    radius: 20,
-                    containerColor: AppColors.gray3,
-                    padding: EdgeInsets.all(4.w),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/svg/ic_account_name.svg'),
-                              SizedBox(
-                                width: 4.w,
-                              ),
-                              TextWidget(
-                                title: 'Account Name',
-                                textColor: Colors.white,
-                                fontSize: 16.sp,
-                              )
-                            ],
-                          ),
-                          const Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: Colors.white,
-                          )
-                        ]),
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
+                  // RoundedContainer(
+                  //   radius: 20,
+                  //   containerColor: AppColors.gray3,
+                  //   padding: EdgeInsets.all(4.w),
+                  //   child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //                 'assets/svg/ic_account_name.svg'),
+                  //             SizedBox(
+                  //               width: 4.w,
+                  //             ),
+                  //             TextWidget(
+                  //               title: 'Account Name',
+                  //               textColor: Colors.white,
+                  //               fontSize: 16.sp,
+                  //             )
+                  //           ],
+                  //         ),
+                  //         const Icon(
+                  //           Icons.keyboard_arrow_down_rounded,
+                  //           color: Colors.white,
+                  //         )
+                  //       ]),
+                  // ),
+                  // SizedBox(
+                  //   height: 2.h,
+                  // ),
                   RoundedContainer(
                       radius: 20,
                       width: double.infinity,

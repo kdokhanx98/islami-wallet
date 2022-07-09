@@ -76,8 +76,10 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData, child: const SendEnterAmountPage());
     },
     SendAssetsRoute.name: (routeData) {
+      final args = routeData.argsAs<SendAssetsRouteArgs>();
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const SendAssetsPage());
+          routeData: routeData,
+          child: SendAssetsPage(key: args.key, coin: args.coin));
     },
     SendAssetsConfirmRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -339,11 +341,26 @@ class SendEnterAmountRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SendAssetsPage]
-class SendAssetsRoute extends PageRouteInfo<void> {
-  const SendAssetsRoute()
-      : super(SendAssetsRoute.name, path: 'send-assets-page');
+class SendAssetsRoute extends PageRouteInfo<SendAssetsRouteArgs> {
+  SendAssetsRoute({Key? key, required WalletCoin coin})
+      : super(SendAssetsRoute.name,
+            path: 'send-assets-page',
+            args: SendAssetsRouteArgs(key: key, coin: coin));
 
   static const String name = 'SendAssetsRoute';
+}
+
+class SendAssetsRouteArgs {
+  const SendAssetsRouteArgs({this.key, required this.coin});
+
+  final Key? key;
+
+  final WalletCoin coin;
+
+  @override
+  String toString() {
+    return 'SendAssetsRouteArgs{key: $key, coin: $coin}';
+  }
 }
 
 /// generated route for
