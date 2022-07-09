@@ -13,6 +13,7 @@ class SettingsItem extends StatelessWidget {
   final Color? containerColor;
   final Color? iconColor;
   final bool isArrowShown;
+  final double? textWidth;
   final void Function()? onTap;
   const SettingsItem(
       {Key? key,
@@ -22,7 +23,8 @@ class SettingsItem extends StatelessWidget {
       this.isArrowShown = true,
       this.onTap,
       this.containerColor = AppColors.gray3,
-      this.iconColor})
+      this.iconColor,
+      this.textWidth})
       : super(key: key);
 
   @override
@@ -55,12 +57,21 @@ class SettingsItem extends StatelessWidget {
           ),
           Row(
             children: [
-              TextWidget(
-                title: subtitle,
-              ),
-              SizedBox(
-                width: 2.w,
-              ),
+              if (subtitle.isNotEmpty)
+                SizedBox(
+                  width: textWidth,
+                  child: TextWidget(
+                    minFontSize: 12.sp,
+                    maxLines: 1,
+                    title: subtitle,
+                    textAlign: TextAlign.end,
+                    overFlow: TextOverflow.ellipsis,
+                  ),
+                ),
+              if (isArrowShown)
+                SizedBox(
+                  width: 2.w,
+                ),
               if (isArrowShown)
                 const Icon(
                   Icons.arrow_forward_ios_rounded,

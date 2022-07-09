@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:islami_wallet/models/wallet_info.dart';
-import 'package:islami_wallet/screens/dashboard/settings/preferences_screen.dart';
 import 'package:islami_wallet/widgets/settings_item.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -87,6 +86,7 @@ class __SettingsPageState extends State<SettingsPage> {
               SettingsItem(
                   svgIconName: 'ic_settings_wallet',
                   title: 'Wallets',
+                  textWidth: 30.w,
                   subtitle: wallet == null ? '' : wallet!.name,
                   onTap: () {
                     // print('going to wallets !');

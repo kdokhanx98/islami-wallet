@@ -14,6 +14,7 @@ class TextWidget extends StatelessWidget {
   final double? height;
   final String? fontfamily;
   final TextOverflow? overFlow;
+  final double? minFontSize;
   const TextWidget(
       {Key? key,
       required this.title,
@@ -25,22 +26,25 @@ class TextWidget extends StatelessWidget {
       this.decoration,
       this.maxLines,
       this.overFlow,
-      this.fontfamily})
+      this.fontfamily,
+      this.minFontSize})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
       title,
+      minFontSize: minFontSize ?? 12,
       maxLines: maxLines,
       style: TextStyle(
-          fontSize: fontSize ?? 14.sp,
-          color: textColor,
-          fontWeight: fontWeight,
-          decoration: decoration,
-          overflow: overFlow,
-          fontFamily: fontfamily,
-          height: height),
+        fontSize: fontSize ?? 14.sp,
+        color: textColor,
+        fontWeight: fontWeight,
+        decoration: decoration,
+        overflow: overFlow,
+        fontFamily: fontfamily,
+        height: height,
+      ),
       textAlign: textAlign,
     );
   }
