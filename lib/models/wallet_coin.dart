@@ -1,6 +1,8 @@
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:islami_wallet/models/coin.dart';
 
+import '../services/utilities.dart';
+
 class WalletCoin {
   late String symbol;
   late String name;
@@ -74,18 +76,18 @@ class WalletCoin {
     return wc;
   }
 
-  int getResolution() {
-    if (price <= 100 && price > 1) {
-      return 2;
-    } else if (price <= 1 && price > 0.01) {
-      return 4;
-    } else if (price <= 0.01 && price > 0.0001) {
-      return 6;
-    } else if (price <= 0.0001 && price > 0.0) {
-      return decimals ?? 10;
-    }
-    return 1;
-  }
+  // int getResolution() {
+  //   if (price <= 100 && price > 1) {
+  //     return 2;
+  //   } else if (price <= 1 && price > 0.01) {
+  //     return 4;
+  //   } else if (price <= 0.01 && price > 0.0001) {
+  //     return 6;
+  //   } else if (price <= 0.0001 && price > 0.0) {
+  //     return decimals ?? 10;
+  //   }
+  //   return 1;
+  // }
 
   getChain({test = false}) {
     var chain = "bsc";
@@ -97,5 +99,40 @@ class WalletCoin {
       chain = test ? "mumbai" : "polygon";
     }
     return chain;
+  }
+
+  displayTokens() {
+    return '${_formatTokens(tokens)} $symbol';
+  }
+
+  String getBalance() {
+    var total = price * tokens;
+
+    if (total > 1000) {
+      return '\$ ${Utilities.formatter.format(total)}';
+    } else {
+      var resolution = Utilities.getResolution(total);
+      return '\$ ${total.toStringAsFixed(resolution)}';
+    }
+  }
+
+  String formatPrice() {
+    var formatted = '\$0.0';
+    if (price > 1000) {
+      formatted = '\$' + Utilities.formatter.format(price);
+    } else {
+      var resolution = Utilities.getResolution(price);
+      formatted = '\$' + price.toStringAsFixed(resolution);
+    }
+    return formatted;
+  }
+
+  _formatTokens(double value) {
+    if (value > 1000) {
+      return Utilities.formatter.format(value);
+    } else {
+      var resolution = Utilities.getResolution(value);
+      return value.toStringAsFixed(resolution);
+    }
   }
 }

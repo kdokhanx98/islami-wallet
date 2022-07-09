@@ -65,6 +65,8 @@ dependencies:
   flag: ^6.0.0
   url_launcher: ^6.1.4
   package_info_plus: ^1.4.2
+  share_plus: ^4.0.10
+  cached_network_image: ^3.2.1
 
 dev_dependencies:
   integration_test:

@@ -50,7 +50,7 @@ class _WalletDetailsPageState extends State<WalletDetailsPage> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                         const CustomIconWidget(
+                          const CustomIconWidget(
                             svgName: 'ic_back',
                             // onTap: () => context.router.pop<bool>(true),
                           ),
@@ -177,7 +177,7 @@ class _WalletDetailsPageState extends State<WalletDetailsPage> {
 
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('✓   Copied to Clipboard')));
+                                content: Text('✓ Copied to Clipboard')));
                       },
                       child: Center(
                           child: TextWidget(

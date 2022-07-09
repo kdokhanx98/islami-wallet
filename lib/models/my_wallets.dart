@@ -30,10 +30,4 @@ class MyWallets {
       all.add(wallet);
     }
   }
-
-  HDWallet? getTrustWallet() {
-    if (current == null) return null;
-    var trustWallet = HDWallet.createWithMnemonic(current!.mnemonic);
-    return trustWallet;
-  }
 }

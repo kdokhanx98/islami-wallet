@@ -119,7 +119,8 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<ViewCoinRouteArgs>();
       return MaterialPageX<dynamic>(
           routeData: routeData,
-          child: ViewCoinPage(key: args.key, index: args.index));
+          child:
+              ViewCoinPage(key: args.key, index: args.index, coin: args.coin));
     },
     SettingsPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -426,23 +427,26 @@ class WalletPageRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [ViewCoinPage]
 class ViewCoinRoute extends PageRouteInfo<ViewCoinRouteArgs> {
-  ViewCoinRoute({Key? key, required int index})
+  ViewCoinRoute({Key? key, required int index, required WalletCoin coin})
       : super(ViewCoinRoute.name,
-            path: 'view-coin', args: ViewCoinRouteArgs(key: key, index: index));
+            path: 'view-coin',
+            args: ViewCoinRouteArgs(key: key, index: index, coin: coin));
 
   static const String name = 'ViewCoinRoute';
 }
 
 class ViewCoinRouteArgs {
-  const ViewCoinRouteArgs({this.key, required this.index});
+  const ViewCoinRouteArgs({this.key, required this.index, required this.coin});
 
   final Key? key;
 
   final int index;
 
+  final WalletCoin coin;
+
   @override
   String toString() {
-    return 'ViewCoinRouteArgs{key: $key, index: $index}';
+    return 'ViewCoinRouteArgs{key: $key, index: $index, coin: $coin}';
   }
 }
 

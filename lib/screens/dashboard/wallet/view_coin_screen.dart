@@ -2,16 +2,28 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polls/flutter_polls.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:islami_wallet/screens/dashboard/wallet/polls.dart';
 import 'package:islami_wallet/theme/colors.dart';
 import 'package:islami_wallet/widgets/rounded_container.dart';
 import 'package:islami_wallet/widgets/text_widget.dart';
+import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+import '../../../models/wallet_coin.dart';
 import '../../../routes/routes.dart';
+import '../../../services/utilities.dart';
+import '../../../services/wallets_service.dart';
+import '../../../widgets/coin_image.dart';
 import '../../../widgets/custom_icon_widget.dart';
+import '../../../widgets/text_limited_widget.dart';
 import '../../../widgets/tranaction_item_widget.dart';
 
 enum TransactionStatus { sent, received }
@@ -20,7 +32,10 @@ enum TransactionResult { conirmed, failed, pending }
 
 class ViewCoinPage extends StatefulWidget {
   final int index;
-  const ViewCoinPage({Key? key, required this.index}) : super(key: key);
+  final WalletCoin coin;
+
+  const ViewCoinPage({Key? key, required this.index, required this.coin})
+      : super(key: key);
 
   @override
   State<ViewCoinPage> createState() => _WalletPageState();
@@ -29,50 +44,9 @@ class ViewCoinPage extends StatefulWidget {
 class _WalletPageState extends State<ViewCoinPage> {
   bool isFirstTime = true;
   bool isVoteSubmitEnabled = false;
-  final _searchTextController = TextEditingController();
+  late WalletsService service;
 
-  List<Map<String, dynamic>> dummyData = [
-    {
-      'title': 'IslamiCoin',
-      'subtitle': '\$0.002336',
-      'subtitlePercentage': '(-14.38%)',
-      'trailingTitle': '12060 ISLAMI',
-      'trailingSubtitle': '\$28.17216',
-      'svgPathName': 'ic_islami',
-      'iconContainerColor': AppColors.orange,
-      'iconCode': 'ISLAMI',
-    },
-    {
-      'title': 'Ethereum',
-      'subtitle': '\$1,983.71',
-      'subtitlePercentage': '(-0.70%)',
-      'trailingTitle': '1.56 ETH',
-      'trailingSubtitle': '\$3094.5876',
-      'svgPathName': 'ic_ethereum',
-      'iconContainerColor': Colors.black,
-      'iconCode': 'ETH',
-    },
-    {
-      'title': 'Bitcoin',
-      'subtitle': '\$29,777.21',
-      'subtitlePercentage': '(+1.37%)',
-      'trailingTitle': '0.0123 BTC',
-      'trailingSubtitle': '\$366.26',
-      'svgPathName': 'ic_bitcoin',
-      'iconContainerColor': AppColors.orange2,
-      'iconCode': 'BTC',
-    },
-    {
-      'title': 'CAIZCOIN',
-      'subtitle': '\$2.7663',
-      'subtitlePercentage': '(-3.03%)',
-      'trailingTitle': '219 CAZ',
-      'trailingSubtitle': '\$605.82',
-      'svgPathName': 'ic_caizcoin',
-      'iconContainerColor': AppColors.darkGreen2,
-      'iconCode': 'CAZ',
-    },
-  ];
+  var transactionHistory = [];
   List<Map<String, dynamic>> transactionDummyData = [
     {
       'status': TransactionStatus.sent,
@@ -92,12 +66,22 @@ class _WalletPageState extends State<ViewCoinPage> {
     },
   ];
 
-  late Map<String, dynamic> clickedItem;
+  String publicAddress = '';
+  String amount = '0';
+  String extra = '';
+
+  // late Map<String, dynamic> clickedItem;
 
   @override
   void initState() {
-    clickedItem = dummyData[widget.index];
+    // clickedItem = dummyData[widget.index];
     super.initState();
+    service = Provider.of<WalletsService>(context, listen: false);
+    loadPublicAddress();
+  }
+
+  Future<void> loadPublicAddress() async {
+    publicAddress = await service.getPublicAddress(widget.coin) ?? '';
   }
 
   @override
@@ -135,14 +119,17 @@ class _WalletPageState extends State<ViewCoinPage> {
                           ),
                           Container(
                             padding: EdgeInsets.all(3.w),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: clickedItem['iconContainerColor']),
-                            child: SvgPicture.asset(
-                              'assets/svg/${clickedItem['svgPathName']}.svg',
-                              width: 8.w,
-                              height: 8.w,
-                            ),
+                                color: AppColors
+                                    .gray3 //clickedItem['iconContainerColor']
+                                ),
+                            child: CoinImage(image: widget.coin.logo),
+                            // SvgPicture.asset(
+                            //   'assets/svg/${clickedItem['svgPathName']}.svg',
+                            //   width: 8.w,
+                            //   height: 8.w,
+                            // ),
                           ),
                           CustomIconWidget(
                             svgName: 'ic_chart_view',
@@ -166,7 +153,7 @@ class _WalletPageState extends State<ViewCoinPage> {
                       ),
                       Center(
                         child: TextWidget(
-                          title: clickedItem['title'],
+                          title: widget.coin.name, // clickedItem['title'],
                           fontSize: 15.sp,
                         ),
                       ),
@@ -175,8 +162,9 @@ class _WalletPageState extends State<ViewCoinPage> {
                       ),
                       Center(
                         child: TextWidget(
-                          title: clickedItem['trailingSubtitle'],
-                          fontSize: 35.sp,
+                          title: widget.coin
+                              .displayTokens(), // clickedItem['trailingSubtitle'],
+                          fontSize: 24.sp,
                           textColor: Colors.white,
                           fontWeight: FontWeight.w800,
                         ),
@@ -191,17 +179,20 @@ class _WalletPageState extends State<ViewCoinPage> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                  text: clickedItem['trailingTitle'],
+                                  text: widget.coin
+                                      .formatPrice(), //clickedItem['trailingTitle'],
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,
                                   )),
                               TextSpan(
-                                text: clickedItem['subtitlePercentage'],
+                                text:
+                                    ' (${widget.coin.priceChangePercentage24h.toStringAsFixed(2)})',
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   color: () {
-                                    if (clickedItem['subtitlePercentage']
+                                    if (widget.coin.priceChangePercentage24h
+                                        .toString()
                                         .contains('-')) {
                                       return AppColors.red2;
                                     } else {
@@ -226,13 +217,13 @@ class _WalletPageState extends State<ViewCoinPage> {
                               onTap: () {
                                 context.router.push(const SendAssetsRoute());
                               }),
-                          walletAction(
-                            svgIconName: 'ic_add_teal',
-                            title: 'Buy',
-                            onTap: () {
-                              log('buy clicked');
-                            },
-                          ),
+                          // walletAction(
+                          //   svgIconName: 'ic_add_teal',
+                          //   title: 'Buy',
+                          //   onTap: () {
+                          //     log('buy clicked');
+                          //   },
+                          // ),
                           walletAction(
                               svgIconName: 'ic_receive',
                               title: 'Receive',
@@ -245,7 +236,7 @@ class _WalletPageState extends State<ViewCoinPage> {
                                     builder: (BuildContext context) {
                                       return FractionallySizedBox(
                                           heightFactor: 0.90,
-                                          child: selectAssetsMethod('receive'));
+                                          child: receiveAssetsPopup());
                                     });
                               }),
                           walletAction(
@@ -301,23 +292,30 @@ class _WalletPageState extends State<ViewCoinPage> {
                               ],
                             ),
                             SizedBox(height: 3.h),
-                            MediaQuery.removePadding(
-                              context: context,
-                              removeTop: true,
-                              child: ListView.builder(
-                                physics: const ClampingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return TransactionItemWidget(
-                                    status: transactionDummyData[index]
-                                        ['status'],
-                                    result: transactionDummyData[index]
-                                        ['result'],
-                                  );
-                                },
-                                itemCount: transactionDummyData.length,
-                              ),
-                            ),
+                            transactionHistory.isEmpty
+                                ? Column(
+                                    children: [
+                                      const TextWidget(
+                                          title: 'No transactions yet !')
+                                    ],
+                                  )
+                                : MediaQuery.removePadding(
+                                    context: context,
+                                    removeTop: true,
+                                    child: ListView.builder(
+                                      physics: const ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return TransactionItemWidget(
+                                          status: transactionDummyData[index]
+                                              ['status'],
+                                          result: transactionDummyData[index]
+                                              ['result'],
+                                        );
+                                      },
+                                      itemCount: transactionDummyData.length,
+                                    ),
+                                  ),
                             SizedBox(
                               height: 10.h,
                             ),
@@ -422,14 +420,14 @@ class _WalletPageState extends State<ViewCoinPage> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  const TextWidget(
-                    title: 'IslamiCoin',
+                  TextWidget(
+                    title: widget.coin.name,
                   ),
                   SizedBox(
                     height: 2.h,
                   ),
                   TextWidget(
-                    title: '\$0.002336',
+                    title: widget.coin.formatPrice(),
                     fontSize: 35.sp,
                     textColor: Colors.white,
                     fontWeight: FontWeight.w800,
@@ -437,9 +435,18 @@ class _WalletPageState extends State<ViewCoinPage> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  const TextWidget(
-                    title: '(-14.38%)',
-                    textColor: AppColors.red2,
+                  TextWidget(
+                    title:
+                        '(${widget.coin.priceChangePercentage24h.toStringAsFixed(2)})',
+                    textColor: () {
+                      if (widget.coin.priceChangePercentage24h
+                          .toString()
+                          .contains('-')) {
+                        return AppColors.red2;
+                      } else {
+                        return AppColors.green2;
+                      }
+                    }(),
                   ),
                   SizedBox(
                     height: 2.h,
@@ -727,147 +734,14 @@ class _WalletPageState extends State<ViewCoinPage> {
     );
   }
 
-  StatefulBuilder selectAssetsMethod(String method) {
-    return StatefulBuilder(
-      builder: (BuildContext context,
-          StateSetter setState /*You can rename this!*/) {
-        return Container(
-          decoration: const BoxDecoration(
-              color: AppColors.gray3,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(
-                    height: 1.h,
-                  ),
-                  RoundedContainer(
-                    width: 12.w,
-                    height: 1.w,
-                    containerColor: AppColors.gray5,
-                    radius: 20,
-                  ),
-                  SizedBox(
-                    height: 4.h,
-                  ),
-                  TextWidget(
-                    title: 'Select Asset',
-                    textColor: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 18.sp,
-                  ),
-                  SizedBox(
-                    height: 4.h,
-                  ),
-                  RoundedContainer(
-                    radius: 20,
-                    containerColor: AppColors.primaryColor,
-                    padding: EdgeInsets.all(4.w),
-                    child: Row(children: [
-                      SvgPicture.asset('assets/svg/ic_search.svg'),
-                      SizedBox(
-                        width: 4.w,
-                      ),
-                      SizedBox(
-                        width: 70.w,
-                        child: TextField(
-                          style: const TextStyle(color: Colors.white),
-                          controller: _searchTextController,
-                          cursorColor: Colors.white,
-                          autocorrect: false,
-                          decoration: const InputDecoration.collapsed(
-                            hintText: 'Search Assets',
-                            hintStyle: TextStyle(
-                                color: AppColors.gray,
-                                fontWeight: FontWeight.w300),
-                          ),
-                        ),
-                      ),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: 4.h,
-                  ),
-                  SizedBox(
-                    height: 60.h,
-                    child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            onTap: () {
-                              switch (method) {
-                                case 'receive':
-                                  context.router.pop().then(
-                                      (value) => showModalBottomSheet<String>(
-                                          isScrollControlled: true,
-                                          useRootNavigator: true,
-                                          backgroundColor: Colors.transparent,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return reciveAssetsPopup();
-                                          }));
-                                  break;
-                                case 'send':
-                                  log('from send');
-                                  break;
-                              }
-                            },
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 2.h),
-                            dense: true,
-                            title: Row(
-                              children: [
-                                Container(
-                                  width: 48,
-                                  height: 48,
-                                  padding: EdgeInsets.all(3.w),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: dummyData[index]
-                                          ['iconContainerColor']),
-                                  child: SvgPicture.asset(
-                                    'assets/svg/${dummyData[index]['svgPathName']}.svg',
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 8.w,
-                                ),
-                                TextWidget(
-                                  textAlign: TextAlign.start,
-                                  title: dummyData[index]['title'],
-                                  fontSize: 15.sp,
-                                  textColor: Colors.white,
-                                ),
-                              ],
-                            ),
-                            trailing: TextWidget(
-                              title: (dummyData[index]['iconCode'] ?? 'N/A'),
-                              textColor: Colors.white,
-                            ),
-                          );
-                        },
-                        itemCount: dummyData.length,
-                        shrinkWrap: true),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  StatefulBuilder receiveAssetsPopup() {
+    final mediaQuery = MediaQuery.of(context);
 
-  StatefulBuilder reciveAssetsPopup() {
     return StatefulBuilder(
       builder: (BuildContext context,
           StateSetter setState /*You can rename this!*/) {
-        return Container(
+        return Scaffold(
+            body: Container(
           decoration: const BoxDecoration(
               color: AppColors.gray3,
               borderRadius: BorderRadius.only(
@@ -891,7 +765,7 @@ class _WalletPageState extends State<ViewCoinPage> {
                     height: 3.h,
                   ),
                   TextWidget(
-                    title: 'Receive Assets',
+                    title: 'Receive ${widget.coin.name}',
                     textColor: Colors.white,
                     fontWeight: FontWeight.w800,
                     fontSize: 18.sp,
@@ -899,19 +773,29 @@ class _WalletPageState extends State<ViewCoinPage> {
                   SizedBox(
                     height: 3.h,
                   ),
-                  Image.asset(
-                    'assets/images/qr.png',
-                    width: 200,
-                    height: 200,
-                  ),
+                  if (publicAddress != null &&
+                      (mediaQuery.orientation == Orientation.portrait ||
+                          kIsWeb))
+                    QrImage(
+                      data: publicAddress + extra,
+                      size: 150.0,
+                      backgroundColor: Colors.white,
+                    ),
+                  // Image.asset(
+                  //   'assets/images/qr.png',
+                  //   width: 200,
+                  //   height: 200,
+                  // ),
                   SizedBox(
                     height: 3.h,
                   ),
                   SizedBox(
                     width: 70.w,
-                    child: const TextWidget(
-                        title:
-                            'Far far away, behind the word mountains, far from the countries'),
+                    child: TextWidget(
+                      title:
+                          'Send only ${widget.coin.name} (${widget.coin.symbol.toUpperCase()}) to this address. Sending any other coins may result in permenant loss.',
+                      fontSize: 12.sp,
+                    ),
                   ),
                   SizedBox(
                     height: 3.h,
@@ -922,9 +806,15 @@ class _WalletPageState extends State<ViewCoinPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         RoundedContainer(
-                          onTap: () {
+                          onTap: () async {
+                            await Clipboard.setData(
+                                ClipboardData(text: publicAddress));
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('✓ Copied to Clipboard')));
                             // copy the wallet.
-                            log('walled was copied');
+                            log('wallet public address was copied');
                           },
                           radius: 50,
                           containerColor: AppColors.primaryColor,
@@ -934,10 +824,12 @@ class _WalletPageState extends State<ViewCoinPage> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const TextWidget(
-                                title: 'https://islami…24jq',
-                                textColor: Colors.white,
-                              ),
+                              SizedBox(
+                                  width: 40.w,
+                                  child: TextLimitedWidget(
+                                    title: publicAddress,
+                                    textColor: Colors.white,
+                                  )),
                               SizedBox(
                                 width: 4.w,
                               ),
@@ -948,7 +840,17 @@ class _WalletPageState extends State<ViewCoinPage> {
                             ],
                           ),
                         ),
-                        SvgPicture.asset('assets/svg/ic_share.svg')
+                        InkWell(
+                          onTap: () async {
+                            // print('$publicAddress shared !');
+                            await Share.share(
+                              publicAddress,
+                              subject: 'My Public Address to Receive',
+                              // sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size
+                            );
+                          },
+                          child: SvgPicture.asset('assets/svg/ic_share.svg'),
+                        )
                       ],
                     ),
                   ),
@@ -957,8 +859,22 @@ class _WalletPageState extends State<ViewCoinPage> {
                   ),
                   RoundedContainer(
                     onTap: () {
-                      context.router.pop().then((value) =>
-                          context.router.push(const EnterAmountRoute()));
+                      showModalBottomSheet<String>(
+                          isScrollControlled: true,
+                          useRootNavigator: true,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return FractionallySizedBox(
+                                heightFactor: 0.7,
+                                child: enterReceiveAmountMethod());
+                          }).whenComplete(() {
+                        setState(() {
+                          if (amount != '0') {
+                            extra = '?amount=$amount';
+                          }
+                        });
+                      });
                     },
                     padding: EdgeInsets.symmetric(vertical: 1.5.h),
                     radius: 50,
@@ -980,8 +896,130 @@ class _WalletPageState extends State<ViewCoinPage> {
               ),
             ),
           ),
-        );
+        ));
       },
     );
+  }
+
+  Widget enterReceiveAmountMethod() {
+    return StatefulBuilder(builder:
+        (BuildContext context, StateSetter setState2 /*You can rename this!*/) {
+      return Container(
+          decoration: const BoxDecoration(
+              color: AppColors.gray3,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RoundedContainer(
+                radius: 20,
+                containerColor: AppColors.gray3,
+                padding: EdgeInsets.all(6.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 50.w,
+                          child: TextWidget(
+                            title: amount,
+                            textAlign: TextAlign.start,
+                            fontSize: 20.sp,
+                            maxLines: 1,
+                          ),
+                        ),
+                        TextWidget(
+                          title: widget.coin.symbol.toUpperCase(),
+                          textColor: Colors.white,
+                          fontSize: 20.sp,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    TextWidget(
+                      title:
+                          '\$ ${Utilities.format(widget.coin.price * double.parse(amount))}',
+                      textColor: AppColors.gray7,
+                    )
+                  ],
+                ),
+              ),
+              const Spacer(),
+              NumericKeyboard(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                onKeyboardTap: (String value) {
+                  setState2(() {
+                    if (amount == '0') {
+                      amount = value;
+                    } else {
+                      amount = amount + value;
+                    }
+                  });
+                },
+                textColor: Colors.white,
+                rightButtonFn: () {
+                  if (amount.isNotEmpty && amount != '0') {
+                    setState2(() {
+                      amount = amount.substring(0, amount.length - 1);
+                      if (amount.isEmpty) {
+                        amount = '0';
+                      }
+                    });
+                  }
+                },
+                rightIcon: const Icon(
+                  Icons.backspace_outlined,
+                  color: Colors.white,
+                ),
+                leftButtonFn: () {
+                  if (amount.isNotEmpty) {
+                    setState2(() {
+                      amount = '$amount.';
+                    });
+                  }
+                },
+                leftIcon: Icon(
+                  Icons.circle,
+                  size: 1.w,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 3.h,
+              ),
+              RoundedContainer(
+                onTap: () {
+                  context.router.pop();
+                  // showModalBottomSheet<String>(
+                  //     isScrollControlled: true,
+                  //     useRootNavigator: true,
+                  //     backgroundColor: Colors.transparent,
+                  //     context: context,
+                  //     builder: (BuildContext context) {
+                  //       return sendLinkMethod();
+                  //     });
+                },
+                padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                radius: 50,
+                border: Border.all(
+                  color: AppColors.teal,
+                ),
+                child: Center(
+                  child: TextWidget(
+                    title: 'Confirm',
+                    textColor: AppColors.teal,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            ],
+          ));
+    });
   }
 }

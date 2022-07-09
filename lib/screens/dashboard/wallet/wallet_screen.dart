@@ -23,6 +23,7 @@ import '../../../models/coin.dart';
 import '../../../models/wallet_coin.dart';
 import '../../../services/coinmarketcap_service.dart';
 import '../../../services/moralis_service.dart';
+import '../../../services/utilities.dart';
 import '../../../services/wallets_service.dart';
 import '../../../widgets/asset_item_widget.dart';
 import '../../../widgets/custom_icon_widget.dart';
@@ -91,17 +92,14 @@ class _WalletPageState extends State<WalletPage> {
   List<Coin> coins = [];
   late WalletsService service;
   WalletInfo? wallet;
-  HDWallet? trustWallet;
   String walletName = '';
 
   bool isLoading = true;
-  late NumberFormat formatter;
 
   @override
   void initState() {
     super.initState();
     service = Provider.of<WalletsService>(context, listen: false);
-    formatter = new NumberFormat("#,##0.00", "en_US");
     moralis = MoralisService();
 
     loadCoins();
@@ -235,13 +233,13 @@ class _WalletPageState extends State<WalletPage> {
                                     child: selectAssetsMethod('send'));
                               });
                         }),
-                    walletAction(
-                        svgIconName: 'ic_add',
-                        title: 'Buy',
-                        onTap: () {
-                          log('buy clicked');
-                        },
-                        containerColor: AppColors.teal),
+                    // walletAction(
+                    //     svgIconName: 'ic_add',
+                    //     title: 'Buy',
+                    //     onTap: () {
+                    //       log('buy clicked');
+                    //     },
+                    //     containerColor: AppColors.teal),
                     walletAction(
                         svgIconName: 'ic_receive',
                         title: 'Receive',
@@ -361,32 +359,32 @@ class _WalletPageState extends State<WalletPage> {
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   return AssetItemWidget(
-                                    itemImage: wallet!.coins![index].logo,
-                                    svgPathName: 'N/A',
-                                    // dummyData[index]['svgPathName'] ?? 'N/A',
-                                    iconContainerColor:
-                                        // dummyData[index]
-                                        //         ['iconContainerColor'] ??
-                                        AppColors.gray3,
-                                    title: wallet!.coins![index].name,
-                                    // dummyData[index]['title'] ?? 'N/A',
-                                    subtitle:
-                                        '\$${formatPrice(wallet!.coins![index])}',
-                                    // dummyData[index]['subtitle'] ?? 'N/A',
-                                    subtitlePercentage: wallet!
-                                        .coins![index].priceChangePercentage24h
-                                        .toStringAsFixed(2),
-                                    //  dummyData[index]
-                                    //         ['subtitlePercentage'] ??
-                                    //     'N/A',
-                                    trailingTitle:
-                                        '${formatTokens(wallet!.coins![index].tokens)} ${wallet!.coins![index].symbol}',
-                                    // dummyData[index]['trailingTitle'] ?? 'N/A',
-                                    trailingSubtitle:
-                                        getBalance(wallet!.coins![index]),
-                                    // dummyData[index]['trailingSubtitle'] ?? 'N/A',
-                                    index: index,
-                                  );
+                                      itemImage: wallet!.coins![index].logo,
+                                      svgPathName: 'N/A',
+                                      // dummyData[index]['svgPathName'] ?? 'N/A',
+                                      iconContainerColor:
+                                          // dummyData[index]
+                                          //         ['iconContainerColor'] ??
+                                          AppColors.gray3,
+                                      title: wallet!.coins![index].name,
+                                      // dummyData[index]['title'] ?? 'N/A',
+                                      subtitle:
+                                          wallet!.coins![index].formatPrice(),
+                                      // dummyData[index]['subtitle'] ?? 'N/A',
+                                      subtitlePercentage: wallet!.coins![index]
+                                          .priceChangePercentage24h
+                                          .toStringAsFixed(2),
+                                      //  dummyData[index]
+                                      //         ['subtitlePercentage'] ??
+                                      //     'N/A',
+                                      trailingTitle:
+                                          '${wallet!.coins![index].displayTokens()}',
+                                      // dummyData[index]['trailingTitle'] ?? 'N/A',
+                                      trailingSubtitle:
+                                          wallet!.coins![index].getBalance(),
+                                      // dummyData[index]['trailingSubtitle'] ?? 'N/A',
+                                      index: index,
+                                      coin: wallet!.coins![index]);
                                 },
                                 itemCount:
                                     wallet!.coins!.length, // dummyData.length,
@@ -1046,42 +1044,51 @@ class _WalletPageState extends State<WalletPage> {
   Future<void> syncWalletPrices() async {
     var myWallets = await service.load();
     wallet = myWallets.current;
-    trustWallet = myWallets.getTrustWallet();
 
     var symbols = wallet!.coins == null
         ? ""
         : wallet!.coins!.map((e) => e.symbol.toUpperCase()).join(",");
-    var coinMarketCapCoins = await CoinMarketCap.getCoins(symbols: symbols);
-    if (wallet!.coins != null && coinMarketCapCoins.isNotEmpty) {
-      for (var c in wallet!.coins!) {
-        var cmc = coinMarketCapCoins.firstWhere(
-            (e) => e.symbol.toLowerCase() == c.symbol.toLowerCase());
-        c.price = cmc.price;
-        c.priceChangePercentage24h = cmc.priceChangePercentage24h;
-        var chain = c.getChain(test: Constants.IS_TESTING);
+    try {
+      var coinMarketCapCoins = await CoinMarketCap.getCoins(symbols: symbols);
+      if (wallet!.coins != null && coinMarketCapCoins.isNotEmpty) {
+        for (var c in wallet!.coins!) {
+          var cmc = coinMarketCapCoins.firstWhere(
+              (e) => e.symbol.toLowerCase() == c.symbol.toLowerCase());
+          c.price = cmc.price;
+          c.priceChangePercentage24h = cmc.priceChangePercentage24h;
+          var chain = c.getChain(test: Constants.IS_TESTING);
 
-        // var address = '0xD6F88E70D479f5247B51E219638B7c144F1A9747';
-        var address =
-            trustWallet!.getAddressForCoin(TWCoinType.TWCoinTypeEthereum);
+          // var address = '0xD6F88E70D479f5247B51E219638B7c144F1A9747';
+          var address = await service.getPublicAddressOfWallet(c, wallet!);
 
-        // var address = trustWallet!.getExtendedPublicKey(purpose, coinType, twHdVersion)
-        if (c.network == "coin") {
-          var balance = await moralis.getNativeBalance(chain, address);
-          c.tokens = balance.getInWei.toDouble() / math.pow(10, c.decimals!);
-        } else {
-          var tokenBalances = await moralis
-              .getTokenBalance(chain, address, <String>[c.contractAddress!]);
-          c.tokens = tokenBalances.isEmpty
-              ? 0
-              : tokenBalances.single.balance.getInWei.toDouble() /
-                  math.pow(10, c.decimals!);
+          // var address = trustWallet!.getExtendedPublicKey(purpose, coinType, twHdVersion)
+          if (address == null) {
+            return;
+          }
+          if (c.network == "coin") {
+            var balance = await moralis.getNativeBalance(chain, address);
+            c.tokens = balance.getInWei.toDouble() / math.pow(10, c.decimals!);
+          } else {
+            var tokenBalances = await moralis
+                .getTokenBalance(chain, address, <String>[c.contractAddress!]);
+            c.tokens = tokenBalances.isEmpty
+                ? 0
+                : tokenBalances.single.balance.getInWei.toDouble() /
+                    math.pow(10, c.decimals!);
+          }
+          // print(c.tokens);
         }
-        // print(c.tokens);
       }
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'X An error occured, please check your connection and retry. If the problem persists, contact technical support !')));
+      // copy the wallet.
+      log('An error occured, please check your connection and retry');
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   bool walletHasCoin(Coin coin) {
@@ -1107,16 +1114,6 @@ class _WalletPageState extends State<WalletPage> {
     await service.updateWallet(wallet!);
   }
 
-  String getBalance(WalletCoin coin) {
-    var total = coin.price * coin.tokens;
-
-    if (total > 1000) {
-      return '\$ ${formatter.format(total)}';
-    } else {
-      return '\$ ${total.toStringAsFixed(coin.getResolution())}';
-    }
-  }
-
   String getTotalBalance() {
     var total = 0.0;
 
@@ -1126,43 +1123,10 @@ class _WalletPageState extends State<WalletPage> {
       }
     }
     if (total > 1000) {
-      return '\$ ${formatter.format(total)}';
+      return '\$ ${Utilities.formatter.format(total)}';
     } else {
-      var resolution = getResolution(total);
+      var resolution = Utilities.getResolution(total);
       return '\$ ${total.toStringAsFixed(resolution)}';
     }
-  }
-
-  String formatPrice(WalletCoin coin) {
-    if (coin.price > 1000) {
-      return formatter.format(coin.price);
-    } else {
-      return coin.price.toStringAsFixed(coin.getResolution());
-    }
-  }
-
-  formatTokens(double tokens) {
-    if (tokens > 1000) {
-      return formatter.format(tokens);
-    } else {
-      var resolution = getResolution(tokens);
-      return tokens.toStringAsFixed(resolution);
-    }
-  }
-
-  int getResolution(double value) {
-    var resolution = 4;
-    if (value <= 100 && value > 1) {
-      resolution = 4;
-    } else if (value <= 1 && value > 0.01) {
-      resolution = 6;
-    } else if (value <= 0.01 && value > 0.0001) {
-      resolution = 8;
-    } else if (value <= 0.0001 && value > 0.0) {
-      resolution = 12;
-    } else if (value == 0.0) {
-      resolution = 1;
-    }
-    return resolution;
   }
 }

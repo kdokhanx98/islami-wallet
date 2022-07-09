@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CoinImage extends StatelessWidget {
@@ -25,7 +28,14 @@ class CoinImage extends StatelessWidget {
                   image: (image == null || image == '')
                       ? null
                       : DecorationImage(
-                          image: NetworkImage(image!), scale: 0.1))),
+                          image: CachedNetworkImageProvider(
+                            image!,
+                            errorListener: () {
+                              //this is never called when running on the web!
+                              log("CachedNetworkImageProvider: Image failed to load!");
+                            },
+                          ),
+                          scale: 0.1))),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'package:islami_wallet/models/my_wallets.dart';
 import 'package:islami_wallet/models/wallet_coin.dart';
 import 'package:islami_wallet/models/wallet_info.dart';
@@ -67,6 +69,11 @@ class WalletsService {
     await save(myWallets);
   }
 
+  Future<WalletInfo?> getCurrent() async {
+    var myWallets = await load();
+    return myWallets.current;
+  }
+
   Future<void> delete(WalletInfo wallet) async {
     var myWallets = await load();
 
@@ -92,5 +99,45 @@ class WalletsService {
     await save(myWallets);
   }
 
-  
+  Future<String?> getPublicAddress(WalletCoin coin) async {
+    var current = await getCurrent();
+    if (current == null) return null;
+    return getPublicAddressOfWallet(coin, current);
+  }
+
+  String? getPublicAddressOfWallet(WalletCoin coin, WalletInfo wallet) {
+    var trustWallet = HDWallet.createWithMnemonic(wallet.mnemonic);
+    var coinType = getCoinType(coin);
+    var address = trustWallet.getAddressForCoin(coinType);
+    return address;
+  }
+
+  int getCoinType(WalletCoin coin) {
+    var symbol = coin.symbol.toLowerCase();
+    var network = coin.network?.toLowerCase();
+
+    if (symbol == "btc") {
+      return TWCoinType.TWCoinTypeBitcoin;
+    } else if (symbol == "eth" ||
+        symbol == "islami" ||
+        symbol == "matic" ||
+        (symbol == "usdc" && network == "polygon") ||
+        (symbol == "usdt" && network == "polygon") ||
+        symbol == "islami" ||
+        symbol == "wmatic") {
+      return TWCoinType.TWCoinTypeEthereum;
+    } else if (symbol == "sol") {
+      return TWCoinType.TWCoinTypeSolana;
+    } else if (symbol == "atom") {
+      return TWCoinType.TWCoinTypeCosmos;
+    } else if (symbol == "dot") {
+      return TWCoinType.TWCoinTypePolkadot;
+    } else if (symbol == "avax") {
+      return TWCoinType.TWCoinTypeAvalancheCChain;
+    } else if (symbol == "doge") {
+      return TWCoinType.TWCoinTypeDogecoin;
+    }
+
+    return TWCoinType.TWCoinTypeEthereum;
+  }
 }

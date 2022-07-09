@@ -25,6 +25,7 @@ import 'package:islami_wallet/screens/onboarding/new_wallet_screens/passcode_scr
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/re_enter_passcode_screen.dart';
 import 'package:islami_wallet/screens/onboarding/new_wallet_screens/verify_recovery_screen.dart';
 
+import '../models/wallet_coin.dart';
 import '../models/wallet_info.dart';
 import '../screens/dashboard/transfers/transfer_fill_screen.dart';
 import '../screens/dashboard/wallet/enter_amount_screen.dart';
